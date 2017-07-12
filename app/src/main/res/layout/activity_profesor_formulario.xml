@@ -114,5 +114,16 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"/>
 
+        <Button
+            android:id="@+id/buttonEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/buttonGuardar"
+            android:layout_alignBottom="@+id/buttonGuardar"
+            android:layout_toEndOf="@+id/textViewUser"
+            android:layout_toRightOf="@+id/textViewUser"
+            android:onClick="btn_eliminarProfesor"
+            android:text="Eliminar" />
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

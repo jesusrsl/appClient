@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.BuscarProfesor">
+    tools:context="com.example.jesus.appcliente.interfaces.ListarAlumnos">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -25,38 +24,22 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar por:" />
-
-        <Spinner
-            android:id="@+id/spinnerProfesorParametros"
-            android:layout_width="match_parent"
-            android:entries="@+array/atributos_profesor"
-            android:layout_height="wrap_content" />
-
         <EditText
-            android:id="@+id/editTextDato"
-            android:layout_width="match_parent"
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:ems="10"
             android:inputType="textPersonName"
-            android:defaultFocusHighlightEnabled="false"
-            android:focusedByDefault="false"
-            android:hint="patrón a buscar" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="btn_buscarProfe"
-            android:text="Buscar" />
+            android:text="Listado de alumnos" />
 
         <ListView
-            android:id="@+id/listViewProfesores"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/editText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

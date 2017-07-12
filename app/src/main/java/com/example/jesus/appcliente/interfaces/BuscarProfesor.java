@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.clases.HttpRequest;
 import com.example.jesus.appcliente.clases.ProfesorAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
 
@@ -40,15 +40,6 @@ public class BuscarProfesor extends AppCompatActivity {
 
         inicializar(parametros);
     }
-
-
-
-    /*public void btn_buscarProfe(View view){
-        Intent intent = new Intent(BuscarProfesor.this, BuscarProfesor.class);
-        startActivity(intent);
-
-
-    }*/
 
 
     public void inicializar(Bundle param){
@@ -162,6 +153,17 @@ public class BuscarProfesor extends AppCompatActivity {
                 if(profesores_aux.size() != 0){
                     ProfesorAdapter adapter = new ProfesorAdapter(BuscarProfesor.this, profesores_aux);
                     listviewProfesor.setAdapter(adapter);
+                    listviewProfesor.setOnItemClickListener( new AdapterView.OnItemClickListener()
+                    {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent , View view , int position ,long arg3)
+                        {
+                            Intent i = new Intent(BuscarProfesor.this, ProfesorFormulario.class);
+                            i.putExtra("operacion", "actualizar");
+                            i.putExtra("idProfesor", ((ProfesorUser) parent.getAdapter().getItem(position)).getId());
+                            startActivity(i);
+                        }
+                    });
                 }
                 else{
                     Toast.makeText(BuscarProfesor.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
@@ -172,4 +174,5 @@ public class BuscarProfesor extends AppCompatActivity {
 
 
     }
+
 }

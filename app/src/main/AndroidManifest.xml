@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".interfaces.BuscarProfesor" />
-        <activity android:name=".interfaces.ProfesorFormulario"></activity>
+        <activity android:name=".interfaces.ProfesorFormulario" />
+        <activity android:name=".interfaces.ListarAlumnos"></activity>
     </application>
 
 </manifest>
