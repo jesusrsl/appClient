@@ -1,7 +1,9 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +16,7 @@ import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.ProfesorAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -31,15 +31,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.http.client.HttpClient;
-
 
 public class ProfesorFormulario extends AppCompatActivity {
 
-    EditText nombre, apellidos, user, correo;
-    ProfesorUser profesor;
-    int idProfesor;
-    String operacion;
+    private EditText nombre, apellidos, user, correo;
+    private ProfesorUser profesor;
+    private int idProfesor;
+    private String operacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +109,10 @@ public class ProfesorFormulario extends AppCompatActivity {
         public Boolean doInBackground(Void... var1) {
 
             try {
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(ProfesorFormulario.this);
+                String token = settings.getString("auth_token", ""/*default value*/);
 
                 URL url = new URL("http://192.168.200.137:8000/api/profesores/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -119,6 +121,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 urlConnection.setDoInput(true);
                 urlConnection.setUseCaches(false);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
                 //urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestMethod("POST");
 
@@ -224,6 +227,11 @@ public class ProfesorFormulario extends AppCompatActivity {
         public Boolean doInBackground(Void... var1) {
             try {
 
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(ProfesorFormulario.this);
+                String token = settings.getString("auth_token", ""/*default value*/);
+
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -232,6 +240,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 urlConnection.setUseCaches(false);
                 urlConnection.setRequestMethod("PUT");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("first_name", profesor.getFirst_name());
@@ -304,9 +313,16 @@ public class ProfesorFormulario extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
 
             try{
+
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(ProfesorFormulario.this);
+                String token = settings.getString("auth_token", ""/*default value*/);
+
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
 
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -368,12 +384,18 @@ public class ProfesorFormulario extends AppCompatActivity {
 
             try {
 
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(ProfesorFormulario.this);
+                String token = settings.getString("auth_token", ""/*default value*/);
+
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 urlConnection.setRequestMethod("DELETE");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
 
                 urlConnection.connect();
 

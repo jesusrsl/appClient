@@ -1,11 +1,62 @@
 <resources>
-    <string name="app_name">AppCliente</string>
+    <string name="app_name">aNota</string>
+    <string name="domain">http://192.168.200.137:8000/</string>
+    <!-- Strings related to login -->
+    <string name="prompt_usuario">Usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_login">Entrar</string>
+    <string name="action_recordar">Recordar</string>
+    <string name="error_invalid_usuario">El nombre de usuario es inválido</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es obligatorio</string>
 
-    <string-array name="atributos_profesor">
-        <item>Listar todo</item>
-        <item>Nombre</item>
-        <item>Apellidos</item>
-        <item>Nombre de usuario</item>
-        <item>E-mail</item>
-    </string-array>
+    <string name="title_activity_login">Entrar</string>
+
+    <!--Strings related to drawer-->
+    <string name="drawer_header_text">Menú</string>
+    <string name="nav_item_mis_asignaturas">Mis asignaturas</string>
+    <string name="nav_item_tutoria">Tutoría</string>
+    <string name="nav_sub_menu">Centro</string>
+    <string name="nav_sub_menu_profesorado">Profesorado</string>
+    <string name="nav_sub_menu_grupos">Grupos</string>
+    <string name="nav_sub_menu_asignaturas">Asignaturas</string>
+
+
+
+
+
+
+
+
+
+
+    <string name="action_settings">Preferencias</string>
+    <string name="accion_mostrar">Mostrar Lugares</string>
+    <string name="accion_preferencias">Preferencias</string>
+    <string name="accion_buscar">Buscar</string>
+    <string name="accion_acercade">Acerca de ...</string>
+    <string name="accion_acerca_de">Acerca de </string>
+    <string name="accion_salir">Salir</string>
+    <string name="titulo_nombre">Nombre:</string>
+    <string name="hint_nombre">algo que identifique el lugar</string>
+    <string name="titulo_tipo">Tipo:</string>
+    <string name="titulo_direccion">Dirección:</string>
+    <string name="hint_direccion">dirección del lugar</string>
+    <string name="titulo_telefono">Telefono:</string>
+    <string name="hint_telefono">teléfono para contactar</string>
+    <string name="titulo_url">Url:</string>
+    <string name="hint_url">página web</string>
+    <string name="titulo_comentario">Comentario:</string>
+    <string name="hint_comentario">introduce tus notas</string>
+    <string name="acercade">Aplicación móvil para valorar el trabajo de clase del alumnado de un centro educativo.</string>
+    <string name="title_activity_preferencias">Preferencias</string>
+
+
+
+    <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
+    <string name="title_activity_second">SecondActivity</string>
+
+
+
 </resources>

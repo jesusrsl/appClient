@@ -18,7 +18,7 @@ public class Alumno implements Serializable{
     private String nombre;
     private String apellido1;
     private String apellido2;
-    private Date fecha_nacimiento;
+    private String fecha_nacimiento;
     private String email;
     private String foto;
 
@@ -58,11 +58,11 @@ public class Alumno implements Serializable{
         this.apellido2 = apellido2;
     }
 
-    public Date getFecha_nacimiento() {
+    public String getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(String fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
@@ -85,8 +85,6 @@ public class Alumno implements Serializable{
     public static ArrayList<Alumno> obtenerAlumnos(String json){
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Alumno>>(){}.getType();
-        /*ArrayList<ProfesorUser> lista = gson.fromJson(json,type);
-        return lista;*/
         return gson.fromJson(json, type);
     }
 }

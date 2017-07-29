@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.ListarAlumnos">
+    tools:context="com.example.jesus.appcliente.interfaces.ListarAlumnadoAsignatura">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -25,21 +25,44 @@
         android:layout_marginRight="8dp">
 
         <TextView
-            android:id="@+id/textViewListarAlumnos"
+            android:id="@+id/textViewAsignatura"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:text="Asignatura"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <TextView
+            android:id="@+id/textViewGrupo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_toEndOf="@+id/textViewAsignatura"
+            android:layout_toRightOf="@+id/textViewAsignatura"
+            android:text="Grupo"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <TextView
+            android:id="@+id/textViewListado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewGrupo"
             android:ems="10"
             android:text="Listado de alumnos" />
 
         <ListView
-            android:id="@+id/listViewAlumnos"
+            android:id="@+id/listViewAlumnadoAsignatura"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/textViewListarAlumnos"
+            android:layout_below="@+id/textViewListado"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

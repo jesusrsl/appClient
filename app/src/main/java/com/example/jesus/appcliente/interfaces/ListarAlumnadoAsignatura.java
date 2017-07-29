@@ -1,19 +1,17 @@
 package com.example.jesus.appcliente.interfaces;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.clases.Alumno;
+import com.example.jesus.appcliente.clases.AlumnadoAsignatura;
 import com.example.jesus.appcliente.clases.AlumnoAdapter;
 
 import java.io.BufferedInputStream;
@@ -22,27 +20,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class ListarAlumnos extends AppCompatActivity {
+public class ListarAlumnadoAsignatura extends AppCompatActivity {
 
-    private ListView listviewAlumnos;
+    private TextView textViewAsignatura;
+    private TextView textViewGrupo;
+    private ListView listviewAlumnadoAsignatura;
+    private int idAsignatura;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_alumnos);
+        setContentView(R.layout.activity_listar_alumnado_asignatura);
+
         inicializar();
 
-        new GetAlumnos().execute("http://192.168.200.137:8000/api/alumnos/");
+        Bundle param = getIntent().getExtras();
+        this.idAsignatura = param.getInt("idAsignatura");
+
+        new ListarAlumnadoAsignatura.GetAlumnado().execute("http://192.168.200.137:8000/api/alumnado/" + Integer.toString(idAsignatura));
     }
 
     public void inicializar(){
-        this.listviewAlumnos = (ListView) findViewById(R.id.listViewAlumnos);
+        this.textViewAsignatura = (TextView) findViewById(R.id.textViewAsignatura);
+        this.textViewGrupo = (TextView) findViewById(R.id.textViewGrupo);
+        this.listviewAlumnadoAsignatura = (ListView) findViewById(R.id.listViewAlumnadoAsignatura);
     }
 
     //Get profesores
-    private class GetAlumnos extends AsyncTask<String, Void, String> {
+    private class GetAlumnado extends AsyncTask<String, Void, String> {
 
         HttpURLConnection urlConnection;
 
@@ -53,7 +59,7 @@ public class ListarAlumnos extends AppCompatActivity {
             try{
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
-                        .getDefaultSharedPreferences(ListarAlumnos.this);
+                        .getDefaultSharedPreferences(ListarAlumnadoAsignatura.this);
                 String token = settings.getString("auth_token", ""/*default value*/);
 
 
@@ -92,15 +98,18 @@ public class ListarAlumnos extends AppCompatActivity {
         public void onPostExecute(String result){
 
             if(result.isEmpty()){
-                Toast.makeText(ListarAlumnos.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListarAlumnadoAsignatura.this,"No hay alumnado matriculado", Toast.LENGTH_LONG).show();
 
             }
             else{
-                ArrayList<Alumno> alumnos = Alumno.obtenerAlumnos(result);
+                AlumnadoAsignatura alumnado = AlumnadoAsignatura.obtenerAlumnadoAsignatura(result);
 
-                if(alumnos.size() != 0){
-                    AlumnoAdapter adapter = new AlumnoAdapter(ListarAlumnos.this, alumnos);
-                    listviewAlumnos.setAdapter(adapter);
+                textViewAsignatura.setText(alumnado.getNombre());
+                textViewGrupo.setText(alumnado.getGrupoText());
+
+                if(alumnado.getAlumnos() != null) {
+                    AlumnoAdapter adapter = new AlumnoAdapter(ListarAlumnadoAsignatura.this, alumnado.getAlumnos());
+                    listviewAlumnadoAsignatura.setAdapter(adapter);
                     /*listviewAlumnos.setOnItemClickListener( new AdapterView.OnItemClickListener()
                     {
                         @Override
@@ -114,7 +123,7 @@ public class ListarAlumnos extends AppCompatActivity {
                     });*/
                 }
                 else{
-                    Toast.makeText(ListarAlumnos.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ListarAlumnadoAsignatura.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
                 }
             }
         }

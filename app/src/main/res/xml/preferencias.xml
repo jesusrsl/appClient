@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="preferencias_principal" >
+    <CheckBoxPreference
+        android:key="notificaciones"
+        android:title="Mandar notificaciones"
+        android:summary="Notificar si estamos cerca de un lugar"/>
+
+    <EditTextPreference
+        android:key="maximo"
+        android:title="Distancia para notificar"
+        android:summary="Distancia máxima (Km) para notificar"
+        android:defaultValue="12"/>
+    <ListPreference
+        android:key="orden"
+        android:title="Criterio de ordenación"
+        android:summary="Que lugares quieres que aparezcan antes"
+        android:entries="@array/tiposOrden"
+        android:entryValues="@array/tiposOrdenValores"
+        android:defaultValue="1"/>
+    <!--o tambien PreferenceScreen TRUCO: poner el título en minúscula-->
+    <PreferenceCategory android:title="NOTIFICACIONES POR CORREO">
+        <CheckBoxPreference
+            android:key="notificaciones_correo"
+            android:title="Recibir correos"
+            android:summary="Recibir correos con información de lugares"/>
+        <EditTextPreference
+            android:key="email"
+            android:title="Dirección de correo"
+            android:summary="Cuenta donde se mandarán las notificaciones" />
+        <ListPreference
+            android:key="tipoCorreo"
+            android:title="Tipos de notificaciones"
+            android:summary="Que tipos de correos quieres recibir"
+            android:entries="@array/tiposTipoCorreo"
+            android:entryValues="@array/tiposTipoCorreoValores"
+            android:defaultValue="2"/>
+    </PreferenceCategory>
+</PreferenceScreen>

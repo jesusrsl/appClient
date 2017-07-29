@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="@string/nav_sub_menu">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/navigation_item_profesorado"
+                        android:title="@string/nav_sub_menu_profesorado" />
+                    <item
+                        android:id="@+id/navigation_item_grupos"
+                        android:title="@string/nav_sub_menu_grupos" />
+                    <item
+                        android:id="@+id/navigation_item_asignaturas"
+                        android:title="@string/nav_sub_menu_asignaturas" />
+                </group>
+            </menu>
+        </item>
+
+
+
+        <item
+            android:id="@+id/navigation_item_mis_asignaturas"
+            android:checked="true"
+            android:title="@string/nav_item_mis_asignaturas" />
+        <item
+            android:id="@+id/navigation_item_tutoria"
+            android:title="@string/nav_item_tutoria" />
+    </group>
+
+
+</menu>

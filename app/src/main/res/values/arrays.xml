@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tiposOrden">
+        <item>Creación</item>
+        <item>Valoración</item>
+        <item>Distancia</item>
+    </string-array>
+    <string-array name="tiposOrdenValores">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="tiposTipoCorreo">
+        <item>Nuevos lugares</item>
+        <item>Cerca de mí</item>
+        <item>Mejor valorados</item>
+    </string-array>
+    <string-array name="tiposTipoCorreoValores">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="atributos_profesor">
+        <item>Listar todo</item>
+        <item>Nombre</item>
+        <item>Apellidos</item>
+        <item>Nombre de usuario</item>
+        <item>E-mail</item>
+    </string-array>
+</resources>

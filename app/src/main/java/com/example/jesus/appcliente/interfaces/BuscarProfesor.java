@@ -1,7 +1,9 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +29,9 @@ import java.util.ArrayList;
 
 public class BuscarProfesor extends AppCompatActivity {
 
-    Spinner spinnerParametro;
-    EditText dato;
-    ListView listviewProfesor;
+    private Spinner spinnerParametro;
+    private EditText dato;
+    private ListView listviewProfesor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,16 @@ public class BuscarProfesor extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
 
             try{
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(BuscarProfesor.this);
+                String token = settings.getString("auth_token", ""/*default value*/);
+
+
                 URL url = new URL(var1[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
 
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));

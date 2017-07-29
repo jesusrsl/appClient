@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewPkAlumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Id" />
+
+
+    <TextView
+        android:id="@+id/textViewNombreAlumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewPkAlumno"
+        android:text="Nombre" />
+
+    <TextView
+        android:id="@+id/textViewAp1Alumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewNombreAlumno"
+        android:text="Primer apellido" />
+
+    <TextView
+        android:id="@+id/textViewAp2Alumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewAp1Alumno"
+        android:text="Segundo apellido" />
+
+    <TextView
+        android:id="@+id/textViewFechaNacAlumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewAp2Alumno"
+        android:text="Fecha de nacimiento" />
+
+    <TextView
+        android:id="@+id/textViewEmailAlumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewFechaNacAlumno"
+        android:text="E-mail" />
+
+    <ImageView
+        android:id="@+id/imageViewAlumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textViewNombreAlumno"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@color/colorPrimary" />
+</RelativeLayout>
