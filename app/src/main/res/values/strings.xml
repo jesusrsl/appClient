@@ -23,12 +23,21 @@
     <string name="nav_sub_menu_asignaturas">Asignaturas</string>
 
 
-
-
-
-
-
-
+    <!--Strings related to lists-->
+    <string name="asignatura_text">Asignatura</string>
+    <string name="profesor_text">Profesor/a</string>
+    <string name="grupo_text">Grupo</string>
+    <string name="last_name_text">Apellidos</string>
+    <string name="first_name_text">Nombre</string>
+    <string name="email_text">E-mail</string>
+    <string name="admin_text">Administrador</string>
+    <string name="apellido1_text">Apellido 1</string>
+    <string name="apellido2_text">Apellido 2</string>
+    <string name="nombre_alumno_text">Nombre</string>
+    <string name="edad_text">Edad</string>
+    <string name="foto_alumno">Fotografía del alumno</string>
+    <string name="impartidas">Asignaturas impartidas:</string>
+    <string name="listado_alumnos">Listado de alumnos</string>
 
 
     <string name="action_settings">Preferencias</string>
@@ -53,10 +62,11 @@
     <string name="title_activity_preferencias">Preferencias</string>
 
 
-
     <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
     <string name="title_activity_second">SecondActivity</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

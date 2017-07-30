@@ -19,6 +19,14 @@ public class Asignatura implements Serializable{
     private String grupoText;
     private int distribucion;
 
+    public Asignatura(int pk, String nombre, String profesorText, String grupoText, int distribucion) {
+        this.pk = pk;
+        this.nombre = nombre;
+        this.profesorText = profesorText;
+        this.grupoText = grupoText;
+        this.distribucion = distribucion;
+    }
+
     public int getPk() {
         return pk;
     }

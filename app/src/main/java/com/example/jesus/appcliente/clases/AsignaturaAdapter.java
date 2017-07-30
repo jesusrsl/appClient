@@ -1,12 +1,11 @@
 package com.example.jesus.appcliente.clases;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jesus.appcliente.R;
@@ -17,63 +16,82 @@ import java.util.ArrayList;
  * Created by jesus on 12/07/17.
  */
 
-public class AsignaturaAdapter extends BaseAdapter {
+public class AsignaturaAdapter extends RecyclerView.Adapter<AsignaturaAdapter.ViewHolder>  {
 
-    Context context;
-    ArrayList<Asignatura> asignaturaArrayList;
+    protected ArrayList<Asignatura> asignaturaArrayList;;           //Lista de asignaturas
+    protected LayoutInflater inflador;   //Crea Layouts a partir del XML
+    protected Context contexto;          //Lo necesitamos para el inflador
+    protected View.OnClickListener onClickListener;
 
-    public AsignaturaAdapter(Context context, ArrayList<Asignatura> asignaturaArrayList) {
-        this.context = context;
+
+    public AsignaturaAdapter(Context contexto, ArrayList<Asignatura> asignaturaArrayList) {
+        this.contexto = contexto;
+        this.asignaturaArrayList = asignaturaArrayList;
+        inflador = (LayoutInflater) contexto
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void actualizar(ArrayList<Asignatura> asignaturaArrayList){
         this.asignaturaArrayList = asignaturaArrayList;
     }
 
+    public void setOnItemClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView nombreAsignatura, profesorAsignatura, grupoAsignatura;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            nombreAsignatura = (TextView) itemView.findViewById(R.id.textViewNombreAsignatura);
+            profesorAsignatura = (TextView) itemView.findViewById(R.id.textViewProfesorAsignatura);
+            grupoAsignatura = (TextView) itemView.findViewById(R.id.textViewGrupoAsignatura);
+
+        }
+    }
+
+
+    // Creamos el ViewHolder con la vista de un elemento sin personalizar
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Inflamos la vista desde el xml
+        View v = inflador.inflate(R.layout.layout_asignatura, parent, false);
+        v.setOnClickListener(onClickListener);
+        return new ViewHolder(v);
+    }
+
+    // Usando como base el ViewHolder y lo personalizamos
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int posicion) {
+        Asignatura asignatura = this.asignaturaArrayList.get(posicion);
+        personalizaVista(holder, asignatura);
+    }
+
+
+    // Personalizamos un ViewHolder a partir de un lugar
+    private void personalizaVista(ViewHolder holder, Asignatura asignatura) {
+            holder.nombreAsignatura.setText(asignatura.getNombre());
+            holder.profesorAsignatura.setText(asignatura.getProfesorText());
+            holder.grupoAsignatura.setText(asignatura.getGrupoText());
+    }
+
+    @Override
+    public int getItemCount() {
         return this.asignaturaArrayList.size();
     }
 
-    @Override
-    public Object getItem(int i) {
-        return this.asignaturaArrayList.get(i);
-    }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int posicion) {
+        return posicion;
     }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        //creación de vista
-        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (view == null){
-            view = layoutInflater.inflate(R.layout.layout_asignatura, viewGroup, false);
-        }
+    public int getItemPk(int posicion){ return this.asignaturaArrayList.get(posicion).getPk();}
 
 
-        //Objeto de formulario
-        TextView pkAsignatura = (TextView) view.findViewById(R.id.textViewPkAsignatura);
-        TextView nombreAsignatura = (TextView) view.findViewById(R.id.textViewNombreAsignatura);
-        TextView profesorAsignatura = (TextView) view.findViewById(R.id.textViewProfesorAsignatura);
-        TextView grupoAsignatura = (TextView) view.findViewById(R.id.textViewGrupoAsignatura);
-        TextView distribucion = (TextView) view.findViewById(R.id.textViewDistribucion);
 
 
-        Asignatura asignatura = this.asignaturaArrayList.get(i);
-
-        if (asignatura != null){
-            pkAsignatura.setText("Identificador: "+ asignatura.getIdToString());
-            nombreAsignatura.setText("Nombre: "+ asignatura.getNombre());
-            profesorAsignatura.setText("Profesor/a: "+ asignatura.getProfesorText());
-            grupoAsignatura.setText("Grupo: "+ asignatura.getGrupoText());
-            distribucion.setText("Distribución: "+ Integer.toString(asignatura.getDistribucion()));
-        }
-
-        return view;
-    }
-
-    @Override
-    public CharSequence[] getAutofillOptions() {
-        return new CharSequence[0];
-    }
 }

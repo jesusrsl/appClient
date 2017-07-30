@@ -8,19 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.clases.ProfesorAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
+import com.example.jesus.appcliente.old.ListarProfesores;
 
 
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -29,7 +27,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 
 public class ProfesorFormulario extends AppCompatActivity {
@@ -75,7 +72,7 @@ public class ProfesorFormulario extends AppCompatActivity {
         if(this.operacion.equals("actualizar")){
             new ActualizarProfesor().execute();
             //vuelta al listado de todos los profesores
-            Intent intent = new Intent(ProfesorFormulario.this, BuscarProfesor.class);
+            Intent intent = new Intent(ProfesorFormulario.this, ListarProfesores.class);
             startActivity(intent);
         }
         if(this.operacion.equals("insertar")){
@@ -91,7 +88,7 @@ public class ProfesorFormulario extends AppCompatActivity {
         if (idProfesor > 0 ) {
             new EliminarProfesor().execute();
             //vuelta al listado de todos los profesores
-            Intent intent = new Intent(ProfesorFormulario.this, BuscarProfesor.class);
+            Intent intent = new Intent(ProfesorFormulario.this, ListarProfesores.class);
             startActivity(intent);
         }
         else{

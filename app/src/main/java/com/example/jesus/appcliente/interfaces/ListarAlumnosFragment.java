@@ -1,15 +1,18 @@
 package com.example.jesus.appcliente.interfaces;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
@@ -24,40 +27,71 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ListarAlumnos extends AppCompatActivity {
+public class ListarAlumnosFragment extends Fragment {
 
-    private ListView listviewAlumnos;
+    private RecyclerView recyclerViewAlumnos;
+    private RecyclerView.LayoutManager layoutManager;
+    private AlumnoAdapter adaptador;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_alumnos);
-        inicializar();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        new GetAlumnos().execute("http://192.168.200.137:8000/api/alumnos/");
+        //visibilidad de los fragments
+        MainActivity.isMainShown=false;
+        MainActivity.isOtherFragmentShown=true;
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_listar_alumnos, container, false);
+        this.recyclerViewAlumnos = (RecyclerView) view.findViewById(R.id.recycler_view_alumnos);
+        return view;
     }
 
-    public void inicializar(){
-        this.listviewAlumnos = (ListView) findViewById(R.id.listViewAlumnos);
+    @Override
+    public void onActivityCreated(Bundle state) {
+        super.onActivityCreated(state);
+
+        ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+        adaptador = new AlumnoAdapter(getContext(), alumnos);
+        recyclerViewAlumnos.setAdapter(adaptador);
+        this.layoutManager = new LinearLayoutManager(getContext());
+        recyclerViewAlumnos.setLayoutManager(layoutManager);
+        recyclerViewAlumnos.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        /*adaptador.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ListarAlumnos.this, EditarAlumno.class);
+                int posicion = (int) recyclerViewAlumnos.getChildAdapterPosition(v);
+                i.putExtra("idAlumno", adaptador.getItemPk(posicion));
+                startActivity(i);
+            }
+        });*/
+
+        new ListarAlumnosFragment.GetAlumnos().execute();
     }
+
 
     //Get profesores
-    private class GetAlumnos extends AsyncTask<String, Void, String> {
+    private class GetAlumnos extends AsyncTask<Void, Void, String> {
 
         HttpURLConnection urlConnection;
 
-        public String doInBackground(String... var1){
+        public String doInBackground(Void... var1){
 
             StringBuilder result = new StringBuilder();
 
             try{
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
-                        .getDefaultSharedPreferences(ListarAlumnos.this);
+                        .getDefaultSharedPreferences(getActivity());
                 String token = settings.getString("auth_token", ""/*default value*/);
 
 
-                URL url = new URL(var1[0]);
+                //Creando la conexión
+                String domain = getResources().getString(R.string.domain);
+                URL url = new URL(domain + "api/alumnos/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
@@ -92,16 +126,21 @@ public class ListarAlumnos extends AppCompatActivity {
         public void onPostExecute(String result){
 
             if(result.isEmpty()){
-                Toast.makeText(ListarAlumnos.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"No se generaron resultados", Toast.LENGTH_LONG).show();
 
             }
             else{
                 ArrayList<Alumno> alumnos = Alumno.obtenerAlumnos(result);
 
+
                 if(alumnos.size() != 0){
-                    AlumnoAdapter adapter = new AlumnoAdapter(ListarAlumnos.this, alumnos);
+
+                    adaptador.actualizar(alumnos);
+                    recyclerViewAlumnos.getAdapter().notifyDataSetChanged();
+
+                    /*AlumnoAdapter adapter = new AlumnoAdapter(ListarAlumnos.this, alumnos);
                     listviewAlumnos.setAdapter(adapter);
-                    /*listviewAlumnos.setOnItemClickListener( new AdapterView.OnItemClickListener()
+                    listviewAlumnos.setOnItemClickListener( new AdapterView.OnItemClickListener()
                     {
                         @Override
                         public void onItemClick(AdapterView<?> parent , View view , int position , long arg3)
@@ -114,7 +153,7 @@ public class ListarAlumnos extends AppCompatActivity {
                     });*/
                 }
                 else{
-                    Toast.makeText(ListarAlumnos.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"No se generaron resultados", Toast.LENGTH_LONG).show();
                 }
             }
         }

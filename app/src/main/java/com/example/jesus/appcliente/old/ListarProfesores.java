@@ -1,4 +1,4 @@
-package com.example.jesus.appcliente.interfaces;
+package com.example.jesus.appcliente.old;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,17 +6,19 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.clases.ProfesorAdapter;
+import com.example.jesus.appcliente.clases.ProfesorUserAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
+import com.example.jesus.appcliente.interfaces.ProfesorFormulario;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -27,16 +29,18 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 
-public class BuscarProfesor extends AppCompatActivity {
+public class ListarProfesores extends AppCompatActivity {
 
     private Spinner spinnerParametro;
     private EditText dato;
-    private ListView listviewProfesor;
+    private RecyclerView recyclerViewProfesores;
+    private RecyclerView.LayoutManager layoutManager;
+    private ProfesorUserAdapter adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buscar_profesor);
+        setContentView(R.layout.activity_listar_profesores);
 
         Bundle parametros = getIntent().getExtras();
 
@@ -47,7 +51,29 @@ public class BuscarProfesor extends AppCompatActivity {
     public void inicializar(Bundle param){
         this.spinnerParametro = (Spinner) findViewById(R.id.spinnerProfesorParametros);
         this.dato = (EditText) findViewById(R.id.editTextDato);
-        this.listviewProfesor = (ListView) findViewById(R.id.listViewProfesores);
+
+
+        this.recyclerViewProfesores = (RecyclerView) findViewById(R.id.recycler_view_profesores);
+        ArrayList<ProfesorUser> profesores = new ArrayList<ProfesorUser>();
+        adaptador = new ProfesorUserAdapter(ListarProfesores.this, profesores);
+        recyclerViewProfesores.setAdapter(adaptador);
+        this.layoutManager = new LinearLayoutManager(this);
+        recyclerViewProfesores.setLayoutManager(layoutManager);
+        recyclerViewProfesores.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        adaptador.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ListarProfesores.this, ProfesorFormulario.class);
+                i.putExtra("operacion", "actualizar");
+                int posicion = (int) recyclerViewProfesores.getChildAdapterPosition(v);
+                i.putExtra("idProfesor", adaptador.getItemPk(posicion));
+                startActivity(i);
+            }
+        });
+
+
 
         if (param != null){
             this.spinnerParametro.setSelection((int)param.getLong("spinner"));
@@ -55,22 +81,22 @@ public class BuscarProfesor extends AppCompatActivity {
 
         }
 
-        new GetProfesores().execute("http://192.168.200.137:8000/api/profesores/");
+        new ListarProfesores.GetProfesores().execute();
     }
 
     public void btn_buscarProfe(View view){
-        Intent intent = new Intent(this, BuscarProfesor.class);
+        Intent intent = new Intent(this, ListarProfesores.class);
         intent.putExtra("spinner", spinnerParametro.getSelectedItemId());
         intent.putExtra("dato", dato.getText().toString().trim());
         startActivity(intent);
     }
 
     //Get profesores
-    private class GetProfesores extends AsyncTask<String, Void, String> {
+    private class GetProfesores extends AsyncTask<Void, Void, String> {
 
         HttpURLConnection urlConnection;
 
-        public String doInBackground(String... var1){
+        public String doInBackground(Void... var1){
             /*try{
                 return HttpRequest.get(var1[0]).accept("application/json").body();
             }
@@ -83,11 +109,13 @@ public class BuscarProfesor extends AppCompatActivity {
             try{
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
-                        .getDefaultSharedPreferences(BuscarProfesor.this);
+                        .getDefaultSharedPreferences(ListarProfesores.this);
                 String token = settings.getString("auth_token", ""/*default value*/);
 
 
-                URL url = new URL(var1[0]);
+                //Creando la conexión
+                String domain = getResources().getString(R.string.domain);
+                URL url = new URL(domain + "api/profesores/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
@@ -99,6 +127,7 @@ public class BuscarProfesor extends AppCompatActivity {
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
+                Log.d("JSON", result.toString());
             }
             catch (java.net.MalformedURLException e){
                 return "";
@@ -120,7 +149,7 @@ public class BuscarProfesor extends AppCompatActivity {
         public void onPostExecute(String result){
 
             if(result.isEmpty()){
-                Toast.makeText(BuscarProfesor.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListarProfesores.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
 
             }
             else{
@@ -160,22 +189,25 @@ public class BuscarProfesor extends AppCompatActivity {
                 }
 
                 if(profesores_aux.size() != 0){
-                    ProfesorAdapter adapter = new ProfesorAdapter(BuscarProfesor.this, profesores_aux);
+                    /*ProfesorUserAdapter adapter = new ProfesorUserAdapter(ListarProfesores.this, profesores_aux);
                     listviewProfesor.setAdapter(adapter);
                     listviewProfesor.setOnItemClickListener( new AdapterView.OnItemClickListener()
                     {
                         @Override
                         public void onItemClick(AdapterView<?> parent , View view , int position ,long arg3)
                         {
-                            Intent i = new Intent(BuscarProfesor.this, ProfesorFormulario.class);
+                            Intent i = new Intent(ListarProfesores.this, ProfesorFormulario.class);
                             i.putExtra("operacion", "actualizar");
-                            i.putExtra("idProfesor", ((ProfesorUser) parent.getAdapter().getItem(position)).getId());
+                            i.putExtra("idProfesor", ((ProfesorUser) parent.getAdapter().getItem(position)).getPk());
                             startActivity(i);
                         }
-                    });
+                    });*/
+
+                    adaptador.actualizar(profesores_aux);
+                    recyclerViewProfesores.getAdapter().notifyDataSetChanged();
                 }
                 else{
-                    Toast.makeText(BuscarProfesor.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ListarProfesores.this,"No se generaron resultados", Toast.LENGTH_LONG).show();
                 }
 
             }

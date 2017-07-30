@@ -1,69 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/textViewPkAlumno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <ImageView
+        android:id="@+id/imageViewAlumno"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/sinfoto"
+
+        android:contentDescription="@string/foto_alumno" />
+
+    <TextView
+        android:id="@+id/textViewAp1Alumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/apellido1_text"
         android:layout_alignParentTop="true"
-        android:text="Id" />
+        android:layout_toRightOf="@+id/imageViewAlumno"
+        android:layout_toEndOf="@+id/imageViewAlumno"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textViewAp2Alumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/apellido2_text"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textViewAp1Alumno"
+        android:layout_toEndOf="@+id/textViewAp1Alumno"
+        android:layout_marginLeft="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textViewSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/textViewAp2Alumno"
+        android:layout_toEndOf="@id/textViewAp2Alumno"
+        android:text=", "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"/>
 
 
     <TextView
         android:id="@+id/textViewNombreAlumno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textViewPkAlumno"
-        android:text="Nombre" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/textViewSeparator"
+        android:layout_toEndOf="@id/textViewSeparator"
+        android:text="@string/nombre_alumno_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/textViewAp1Alumno"
+        android:id="@+id/textViewGrupoAlumno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textViewNombreAlumno"
-        android:text="Primer apellido" />
-
-    <TextView
-        android:id="@+id/textViewAp2Alumno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_toRightOf="@+id/imageViewAlumno"
+        android:layout_toEndOf="@+id/imageViewAlumno"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_below="@+id/textViewAp1Alumno"
-        android:text="Segundo apellido" />
+        android:layout_marginTop="1dp"
+        android:text="@string/grupo_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
     <TextView
-        android:id="@+id/textViewFechaNacAlumno"
+        android:id="@+id/textViewEdadAlumno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textViewAp2Alumno"
-        android:text="Fecha de nacimiento" />
+        android:layout_toRightOf="@id/textViewGrupoAlumno"
+        android:layout_toEndOf="@id/textViewGrupoAlumno"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textViewAp1Alumno"
+        android:layout_marginTop="1dp"
+        android:text="@string/edad_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
     <TextView
         android:id="@+id/textViewEmailAlumno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textViewFechaNacAlumno"
-        android:text="E-mail" />
+        android:layout_toRightOf="@+id/imageViewAlumno"
+        android:layout_toEndOf="@+id/imageViewAlumno"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textViewGrupoAlumno"
+        android:layout_marginTop="1dp"
+        android:text="@string/email_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
-    <ImageView
-        android:id="@+id/imageViewAlumno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textViewNombreAlumno"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@color/colorPrimary" />
 </RelativeLayout>

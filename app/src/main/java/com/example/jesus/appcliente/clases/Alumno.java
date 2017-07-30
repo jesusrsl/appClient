@@ -21,6 +21,7 @@ public class Alumno implements Serializable{
     private String fecha_nacimiento;
     private String email;
     private String foto;
+    private String grupo;
 
     public int getPk() {
         return pk;
@@ -80,6 +81,14 @@ public class Alumno implements Serializable{
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 
     public static ArrayList<Alumno> obtenerAlumnos(String json){

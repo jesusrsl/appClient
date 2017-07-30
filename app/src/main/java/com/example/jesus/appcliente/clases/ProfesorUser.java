@@ -20,8 +20,10 @@ public class ProfesorUser implements Serializable{
     private String last_name;
     private String username;
     private String email;
+    private Boolean is_superuser;
+    private ArrayList<String> grupo_set;
 
-    public int getId() {
+    public int getPk() {
         return pk;
     }
 
@@ -29,7 +31,7 @@ public class ProfesorUser implements Serializable{
         return Integer.toString(pk);
     }
 
-    public void setId(int id) {
+    public void setPk(int id) {
         this.pk = id;
     }
 
@@ -63,6 +65,22 @@ public class ProfesorUser implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getIs_superuser() {
+        return is_superuser;
+    }
+
+    public void setIs_superuser(Boolean is_superuser) {
+        this.is_superuser = is_superuser;
+    }
+
+    public ArrayList<String> getGrupo_set() {
+        return grupo_set;
+    }
+
+    public void setGrupo_set(ArrayList<String> grupo_set) {
+        this.grupo_set = grupo_set;
     }
 
     public static ArrayList<ProfesorUser> obtenerProfesores(String json){

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.ListarAsignaturas">
+    tools:context="com.example.jesus.appcliente.old.ListarAsignaturas">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -41,6 +41,16 @@
             android:layout_below="@+id/textViewListarAsignaturas"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+
     </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout-->
+
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recycler_view_asignaturas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />

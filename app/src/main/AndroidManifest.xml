@@ -38,11 +38,11 @@
             android:label="@string/accion_acercade"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <activity android:name=".interfaces.BuscarProfesor" />
+        <activity android:name=".old.ListarProfesores" />
         <activity android:name=".interfaces.ProfesorFormulario" />
-        <activity android:name=".interfaces.ListarAlumnos" />
-        <activity android:name=".interfaces.ListarAsignaturas" />
-        <activity android:name=".interfaces.ListarAlumnadoAsignatura" />
+        <activity android:name=".old.ListarAlumnos" />
+        <activity android:name=".old.ListarAsignaturas" />
+        <activity android:name=".old.ListarAlumnadoAsignatura" />
 
 
     </application>

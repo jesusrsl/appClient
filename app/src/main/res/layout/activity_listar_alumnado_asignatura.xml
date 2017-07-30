@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.ListarAlumnadoAsignatura">
+    tools:context="com.example.jesus.appcliente.old.ListarAlumnadoAsignatura">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -31,20 +31,24 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Asignatura"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:text="@string/asignatura_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
 
         <TextView
             android:id="@+id/textViewGrupo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/textViewAsignatura"
             android:layout_toRightOf="@+id/textViewAsignatura"
-            android:text="Grupo"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:text="@string/grupo_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
 
         <TextView
             android:id="@+id/textViewListado"
@@ -52,17 +56,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textViewGrupo"
-            android:ems="10"
-            android:text="Listado de alumnos" />
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:layout_below="@+id/textViewAsignatura"
+            android:text="@string/listado_alumnos" />
 
-        <ListView
-            android:id="@+id/listViewAlumnadoAsignatura"
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/recycler_view_alumnado_asignatura"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/textViewListado"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginTop="5dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
