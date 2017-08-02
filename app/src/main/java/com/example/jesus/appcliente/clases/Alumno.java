@@ -22,6 +22,7 @@ public class Alumno implements Serializable{
     private String email;
     private String foto;
     private String grupo;
+    private ArrayList<String> asignaturas;
 
     public int getPk() {
         return pk;
@@ -89,6 +90,20 @@ public class Alumno implements Serializable{
 
     public void setGrupo(String grupo) {
         this.grupo = grupo;
+    }
+
+    public ArrayList<String> getAsignaturas() {
+        return asignaturas;
+    }
+
+    public void setAsignaturas(ArrayList<String> asignaturas) {
+        this.asignaturas = asignaturas;
+    }
+
+    public static Alumno obtenerAlumno(String json){
+        Gson gson = new Gson();
+        Type type = new TypeToken<Alumno>(){}.getType();
+        return gson.fromJson(json, type);
     }
 
     public static ArrayList<Alumno> obtenerAlumnos(String json){

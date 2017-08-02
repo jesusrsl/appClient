@@ -6,6 +6,8 @@
     <string name="prompt_password">Contraseña</string>
     <string name="action_login">Entrar</string>
     <string name="action_recordar">Recordar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_cancel">Cancelar</string>
     <string name="error_invalid_usuario">El nombre de usuario es inválido</string>
     <string name="error_invalid_password">La contraseña es demasiado corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
@@ -25,6 +27,7 @@
 
     <!--Strings related to lists-->
     <string name="asignatura_text">Asignatura</string>
+    <string name="tutoria_text">Tutoría</string>
     <string name="profesor_text">Profesor/a</string>
     <string name="grupo_text">Grupo</string>
     <string name="last_name_text">Apellidos</string>
@@ -33,11 +36,21 @@
     <string name="admin_text">Administrador</string>
     <string name="apellido1_text">Apellido 1</string>
     <string name="apellido2_text">Apellido 2</string>
+    <string name="ap1_text">Primer apellido</string>
+    <string name="ap2_text">Segundo apellido</string>
     <string name="nombre_alumno_text">Nombre</string>
+    <string name="fecha_nac">Fecha de nacimiento</string>
     <string name="edad_text">Edad</string>
     <string name="foto_alumno">Fotografía del alumno</string>
     <string name="impartidas">Asignaturas impartidas:</string>
-    <string name="listado_alumnos">Listado de alumnos</string>
+    <string name="matriculadas">Asignaturas matriculadas:</string>
+    <string name="listado_alumnos">Listado de alumnos/as</string>
+    <string name="curso_text">Curso</string>
+    <string name="unidad_text">Unidad</string>
+    <string name="tutor_text">Tutor/a:</string>
+    <string name="num_alumnos">alumnos/as</string>
+    <string name="num_alumnos_value">"0"</string>
+
 
 
     <string name="action_settings">Preferencias</string>
@@ -65,8 +78,6 @@
     <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
     <string name="title_activity_second">SecondActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

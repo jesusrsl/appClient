@@ -2,6 +2,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="preferencias_principal" >
+    <!--
     <CheckBoxPreference
         android:key="notificaciones"
         android:title="Mandar notificaciones"
@@ -19,7 +20,7 @@
         android:entries="@array/tiposOrden"
         android:entryValues="@array/tiposOrdenValores"
         android:defaultValue="1"/>
-    <!--o tambien PreferenceScreen TRUCO: poner el título en minúscula-->
+    o tambien PreferenceScreen TRUCO: poner el título en minúscula
     <PreferenceCategory android:title="NOTIFICACIONES POR CORREO">
         <CheckBoxPreference
             android:key="notificaciones_correo"
@@ -37,4 +38,5 @@
             android:entryValues="@array/tiposTipoCorreoValores"
             android:defaultValue="2"/>
     </PreferenceCategory>
+    -->
 </PreferenceScreen>

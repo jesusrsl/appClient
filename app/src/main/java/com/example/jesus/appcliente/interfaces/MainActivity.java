@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
+                    case R.id.navigation_item_grupos:
+                        ListarGruposFragment fragmentGrupos = new ListarGruposFragment();
+                        transaction.replace(R.id.container, fragmentGrupos);
+                        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        transaction.addToBackStack(null).commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                        return true;
                     case R.id.navigation_item_asignaturas:
                         ListarAsignaturasFragment fragmentAsignaturas = new ListarAsignaturasFragment();
                         transaction.replace(R.id.container, fragmentAsignaturas);
@@ -85,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_item_mis_asignaturas:
                         ListarAlumnosFragment fragmentAlumnos = new ListarAlumnosFragment();
                         transaction.replace(R.id.container, fragmentAlumnos);
+                        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        transaction.addToBackStack(null).commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                        return true;
+                    case R.id.navigation_item_tutoria:
+                        ListarAlumnadoTutoriaFragment fragmentAlumadoTutoria = new ListarAlumnadoTutoriaFragment();
+                        transaction.replace(R.id.container, fragmentAlumadoTutoria);
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
