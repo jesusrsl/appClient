@@ -52,46 +52,118 @@
         android:text="@string/nombre_alumno_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <ImageView
-        android:id="@+id/imageViewAlumnoDetail"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/textViewAp1AlumnoDetail"
-        android:layout_marginTop="10dp"
+    <FrameLayout
+        android:id="@+id/frameFotografia"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/sinfoto"
-        android:contentDescription="@string/foto_alumno" />
+        android:layout_below="@id/textViewAp1AlumnoDetail">
+        <ImageView
+            android:id="@+id/imageViewAlumnoDetail"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/sinfoto"
+            android:contentDescription="@string/foto_alumno" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end" >
+            <ImageView
+                android:id="@+id/camara"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo_camara"
+                android:src="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:id="@+id/gallery"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/logo_galeria"
+                android:src="@android:drawable/ic_menu_gallery" />
+            <ImageView
+                android:id="@+id/delFoto"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/eliminar_foto"
+                android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textViewGrupoPromptDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frameFotografia"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/grupo_promt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewGrupoAlumnoDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageViewAlumnoDetail"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/frameFotografia"
+        android:layout_alignBaseline="@+id/textViewGrupoPromptDetail"
+        android:layout_toRightOf="@+id/textViewGrupoPromptDetail"
+        android:layout_toEndOf="@+id/textViewGrupoPromptDetail"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
         android:text="@string/grupo_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+    <TextView
+        android:id="@+id/textViewNacPromptDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textViewGrupoPromptDetail"
+        android:layout_marginTop="5dp"
+        android:text="@string/fecha_nac_prompt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewNacAlumnoDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/textViewGrupoAlumnoDetail"
-        android:layout_marginTop="5dp"
+        android:layout_alignBaseline="@+id/textViewNacPromptDetail"
+        android:layout_toRightOf="@+id/textViewNacPromptDetail"
+        android:layout_toEndOf="@+id/textViewNacPromptDetail"
+        android:layout_below="@id/textViewGrupoPromptDetail"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:text="@string/fecha_nac"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+    <TextView
+        android:id="@+id/textViewEmailPromptDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewNacPromptDetail"
+        android:layout_marginTop="5dp"
+        android:text="@string/email_prompt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewEmailAlumnoDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textViewNacAlumnoDetail"
-        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/textViewEmailPromptDetail"
+        android:layout_toEndOf="@+id/textViewEmailPromptDetail"
+        android:layout_alignBaseline="@+id/textViewEmailPromptDetail"
+        android:layout_below="@+id/textViewNacPromptDetail"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:text="@string/email_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
@@ -99,20 +171,25 @@
         android:id="@+id/textViewMatriculadas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewEmailAlumnoDetail"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textViewEmailPromptDetail"
+        android:layout_marginTop="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="@string/matriculadas"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"/>
 
     <ListView
         android:id="@+id/listViewAsignaturasMatriculadas"
+        android:layout_below="@+id/textViewMatriculadas"
+        android:paddingLeft="30dp"
+        android:paddingStart="30dp"
+        android:paddingRight="30dp"
+        android:paddingEnd="30dp"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewMatriculadas"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
