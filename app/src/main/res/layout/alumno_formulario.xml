@@ -125,11 +125,11 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_below="@+id/InputEmailAlumno"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:text="@string/action_save"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonCancelar"

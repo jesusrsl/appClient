@@ -52,7 +52,7 @@ public class ListarProfesoresFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_listar_profesores, container, false);
+        View view = inflater.inflate(R.layout.listar_profesores, container, false);
         this.recyclerViewProfesores = (RecyclerView) view.findViewById(R.id.recycler_view_profesores);
         this.spinnerParametro = (Spinner) view.findViewById(R.id.spinnerProfesorParametros);
         this.dato = (EditText) view.findViewById(R.id.editTextDato);

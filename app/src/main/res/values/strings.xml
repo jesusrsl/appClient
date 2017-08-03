@@ -21,6 +21,7 @@
     <string name="drawer_header_text">Menú</string>
     <string name="nav_item_mis_asignaturas">Mis asignaturas</string>
     <string name="nav_item_tutoria">Tutoría</string>
+    <string name="nav_item_exit">Salir</string>
     <string name="nav_sub_menu">Centro</string>
     <string name="nav_sub_menu_profesorado">Profesorado</string>
     <string name="nav_sub_menu_grupos">Grupos</string>
@@ -29,9 +30,13 @@
 
     <!--Strings related to lists-->
     <string name="asignatura_text">Asignatura</string>
+    <string name="asignaturas">Asignaturas</string>
+    <string name="mis_asignaturas">Mis asignaturas</string>
     <string name="tutoria_text">Tutoría</string>
     <string name="profesor_text">Profesor/a</string>
+    <string name="profesorado">Profesorado</string>
     <string name="grupo_text">Grupo</string>
+    <string name="grupos">Grupos</string>
     <string name="grupo_promt">Grupo:</string>
     <string name="last_name_text">Apellidos</string>
     <string name="first_name_text">Nombre</string>

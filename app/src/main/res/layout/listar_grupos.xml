@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.MainFragment">
+    tools:context="com.example.jesus.appcliente.interfaces.ListarGruposFragment">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -26,12 +26,12 @@
         android:layout_marginRight="8dp">
 
         <TextView
-            android:id="@+id/textViewMisAsignaturas"
+            android:id="@+id/textViewGrupos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
-            android:text="@string/mis_asignaturas"
+            android:text="@string/grupos"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
             android:layout_marginBottom="15dp"
@@ -40,7 +40,7 @@
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/recycler_view_misasignaturas"
+            android:id="@+id/recycler_view_grupos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

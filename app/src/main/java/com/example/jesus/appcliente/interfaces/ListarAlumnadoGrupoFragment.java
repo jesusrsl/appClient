@@ -1,13 +1,10 @@
 package com.example.jesus.appcliente.interfaces;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +19,6 @@ import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.AlumnadoGrupo;
 import com.example.jesus.appcliente.clases.Alumno;
 import com.example.jesus.appcliente.clases.AlumnoAdapter;
-
-import org.json.JSONArray;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -53,7 +48,7 @@ public class ListarAlumnadoGrupoFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_listar_alumnado_grupo, container, false);
+        View view = inflater.inflate(R.layout.listar_alumnado_grupo, container, false);
         this.recyclerViewAlumnadoGrupo = (RecyclerView) view.findViewById(R.id.recycler_view_alumnado_grupo);
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
         this.textViewTutor = (TextView) view.findViewById(R.id.textViewTutor);

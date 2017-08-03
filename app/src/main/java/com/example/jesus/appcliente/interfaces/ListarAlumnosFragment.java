@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +41,7 @@ public class ListarAlumnosFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_listar_alumnos, container, false);
+        View view = inflater.inflate(R.layout.listar_alumnos, container, false);
         this.recyclerViewAlumnos = (RecyclerView) view.findViewById(R.id.recycler_view_alumnos);
         return view;
     }

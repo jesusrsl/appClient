@@ -40,7 +40,7 @@ public class ListarProfesores extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_profesores);
+        setContentView(R.layout.listar_profesores);
 
         Bundle parametros = getIntent().getExtras();
 

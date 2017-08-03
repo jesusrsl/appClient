@@ -50,7 +50,7 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_listar_alumnado_tutoria, container, false);
+        View view = inflater.inflate(R.layout.listar_alumnado_tutoria, container, false);
         this.recyclerViewAlumnadoTutoria = (RecyclerView) view.findViewById(R.id.recycler_view_alumnado_tutoria);
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
 

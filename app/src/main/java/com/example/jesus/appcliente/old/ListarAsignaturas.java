@@ -34,7 +34,7 @@ public class ListarAsignaturas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_asignaturas);
+        setContentView(R.layout.listar_asignaturas);
 
         inicializar();
     }

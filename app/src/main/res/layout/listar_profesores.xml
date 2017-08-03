@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.old.ListarProfesores">
+    tools:context="com.example.jesus.appcliente.interfaces.ListarProfesoresFragment">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -24,6 +24,19 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
+
+        <TextView
+            android:id="@+id/textViewProfesorado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:text="@string/profesorado"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorPrimary"/>
+
 
         <TextView
             android:id="@+id/textView"

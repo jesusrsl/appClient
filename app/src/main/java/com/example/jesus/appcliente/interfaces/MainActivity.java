@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //visibilidad de los fragments
     protected static boolean isMainShown = false;
     protected static boolean isOtherFragmentShown = false;
-    protected static NavigationView navigationView;
+    protected NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
                     case R.id.navigation_item_mis_asignaturas:
-                        ListarAlumnosFragment fragmentAlumnos = new ListarAlumnosFragment();
-                        transaction.replace(R.id.container, fragmentAlumnos);
+                        MainFragment fragmentMain = new MainFragment();
+                        transaction.replace(R.id.container, fragmentMain);
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
+                    case R.id.navigation_item_salir:
+                        salir();
 
                 }
 
@@ -149,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
-                return true;
+            /*case R.id.action_settings:
+                return true;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -162,26 +164,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(isMainShown){
             // We're in the MAIN Fragment.
-            new AlertDialog.Builder(this)
-                    .setTitle("Salir de aNota")
-                    .setMessage("¿Está seguro de que desea salir de la aplicación?")
-                    .setPositiveButton("Sí",
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    finish();
-                                }
-                            })
-                    .setNegativeButton("No",
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                }
-                            }).show();
+            salir();
         }
         else{
             if (getFragmentManager().getBackStackEntryCount() > 0) {
@@ -190,6 +173,29 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
+    }
+
+    public void salir(){
+        new AlertDialog.Builder(this)
+                .setTitle("Salir de aNota")
+                .setMessage("¿Está seguro de que desea salir de la aplicación?")
+                .setPositiveButton("Sí",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                finish();
+                            }
+                        })
+                .setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                            }
+                        }).show();
     }
 
 
