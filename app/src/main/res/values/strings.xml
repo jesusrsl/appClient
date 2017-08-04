@@ -64,6 +64,8 @@
     <string name="num_alumnos">alumnos/as</string>
     <string name="num_alumnos_value">"0"</string>
 
+    <string name="fecha">"dd/MM/yyyy"</string>
+
 
 
     <string name="action_settings">Preferencias</string>

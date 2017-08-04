@@ -69,12 +69,13 @@ public class MainFragment extends Fragment {
                 Intent intent = getActivity().getIntent();
                 int posicion = (int) recyclerViewAsignaturasProfesor.getChildAdapterPosition(v);
                 intent.putExtra("idAsignatura", adaptador.getItemPk(posicion));
+                intent.putExtra("fecha", System.currentTimeMillis());
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                ListarAlumnadoAsignaturaFragment fragmentAlumnadoAsignatura = new ListarAlumnadoAsignaturaFragment();
-                fragmentAlumnadoAsignatura.setArguments(intent.getExtras());
-                transaction.replace(R.id.container, fragmentAlumnadoAsignatura);
+                DetalleAsignaturaFragment fragmentDetalleAsignatura = new DetalleAsignaturaFragment();
+                fragmentDetalleAsignatura.setArguments(intent.getExtras());
+                transaction.replace(R.id.container, fragmentDetalleAsignatura);
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.addToBackStack(null).commit();
                 getActivity().getSupportFragmentManager().executePendingTransactions();

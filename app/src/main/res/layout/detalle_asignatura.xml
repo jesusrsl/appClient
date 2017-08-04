@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jesus.appcliente.interfaces.ListarAlumnadoAsignaturaFragment">
+    tools:context="com.example.jesus.appcliente.interfaces.DetalleAsignaturaFragment">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -51,6 +51,20 @@
             />
 
         <TextView
+            android:id="@+id/textViewFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/textViewAsignatura"
+            android:text="@string/fecha"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
+
+        <TextView
             android:id="@+id/textViewListado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +79,7 @@
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/recycler_view_alumnado_asignatura"
+            android:id="@+id/recycler_view_detalle_asignatura"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/textViewListado"
