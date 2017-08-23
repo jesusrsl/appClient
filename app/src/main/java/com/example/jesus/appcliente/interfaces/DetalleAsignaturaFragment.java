@@ -126,7 +126,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
     }
 
 
-    //Get profesores
+    //Get alumado
     private class GetAlumnado extends AsyncTask<Void, Void, String> {
 
         HttpURLConnection urlConnection;

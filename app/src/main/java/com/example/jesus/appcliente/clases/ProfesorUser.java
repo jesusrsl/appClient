@@ -21,7 +21,7 @@ public class ProfesorUser implements Serializable{
     private String username;
     private String email;
     private Boolean is_superuser;
-    private ArrayList<String> grupo_set;
+    private String grupo;
 
     public int getPk() {
         return pk;
@@ -75,12 +75,12 @@ public class ProfesorUser implements Serializable{
         this.is_superuser = is_superuser;
     }
 
-    public ArrayList<String> getGrupo_set() {
-        return grupo_set;
+    public String getGrupo() {
+        return grupo;
     }
 
-    public void setGrupo_set(ArrayList<String> grupo_set) {
-        this.grupo_set = grupo_set;
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 
     public static ArrayList<ProfesorUser> obtenerProfesores(String json){

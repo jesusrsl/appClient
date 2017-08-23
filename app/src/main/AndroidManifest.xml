@@ -38,8 +38,6 @@
             android:label="@string/accion_acercade"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <activity android:name=".interfaces.ProfesorFormulario" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

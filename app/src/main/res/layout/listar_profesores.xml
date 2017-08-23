@@ -25,54 +25,34 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
 
-        <TextView
-            android:id="@+id/textViewProfesorado"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingLeft="20dp"
-            android:text="@string/profesorado"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/colorPrimary"/>
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textViewProfesorado"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
+                android:text="@string/profesorado"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:text="Buscar por:" />
+            <Button
+                android:id="@+id/btnProfesoradoPDF"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_picture_as_pdf_white_24dp"
+                android:backgroundTint="@color/colorPrimary"/>
 
-        <Spinner
-            android:id="@+id/spinnerProfesorParametros"
-            android:layout_width="match_parent"
-            android:entries="@+array/atributos_profesor"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"/>
-
-        <EditText
-            android:id="@+id/editTextDato"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:defaultFocusHighlightEnabled="false"
-            android:focusedByDefault="false"
-            android:hint="patrón a buscar" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar" />
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView

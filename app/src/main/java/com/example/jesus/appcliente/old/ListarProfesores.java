@@ -49,8 +49,8 @@ public class ListarProfesores extends AppCompatActivity {
 
 
     public void inicializar(Bundle param){
-        this.spinnerParametro = (Spinner) findViewById(R.id.spinnerProfesorParametros);
-        this.dato = (EditText) findViewById(R.id.editTextDato);
+        /*this.spinnerParametro = (Spinner) findViewById(R.id.spinnerProfesorParametros);
+        this.dato = (EditText) findViewById(R.id.editTextDato);*/
 
 
         this.recyclerViewProfesores = (RecyclerView) findViewById(R.id.recycler_view_profesores);

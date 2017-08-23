@@ -16,6 +16,7 @@ public class AlumnadoGrupo implements Serializable{
     private int pk;
     private String grupo;
     private String tutor;
+    private int distribucion;
     private ArrayList<Alumno> alumnos;
 
 
@@ -47,6 +48,14 @@ public class AlumnadoGrupo implements Serializable{
 
     public void setTutor(String tutor) {
         this.tutor = tutor;
+    }
+
+    public int getDistribucion() {
+        return distribucion;
+    }
+
+    public void setDistribucion(int distribucion) {
+        this.distribucion = distribucion;
     }
 
     public ArrayList<Alumno> getAlumnos() {

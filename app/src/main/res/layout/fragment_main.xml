@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingLeft="20dp"
-            android:text="@string/mis_asignaturas"
+            android:text="@string/diario_clase"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
             android:layout_marginBottom="15dp"

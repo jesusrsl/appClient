@@ -1,7 +1,6 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
-                    case R.id.navigation_item_mis_asignaturas:
+                    case R.id.navigation_item_diario_clase:
                         MainFragment fragmentMain = new MainFragment();
                         transaction.replace(R.id.container, fragmentMain);
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

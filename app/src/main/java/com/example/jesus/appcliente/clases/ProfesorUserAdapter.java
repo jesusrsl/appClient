@@ -76,11 +76,11 @@ public class ProfesorUserAdapter extends RecyclerView.Adapter<ProfesorUserAdapte
     private void personalizaVista(ViewHolder holder, ProfesorUser profesor) {
         holder.apellidos.setText(profesor.getLast_name());
         holder.nombre.setText(profesor.getFirst_name());
-        if (profesor.getGrupo_set().isEmpty()){
+        if (profesor.getGrupo()==null){
             holder.tutoria.setText("Tutoría: ---");
         }
         else{
-            holder.tutoria.setText("Tutoría: " + profesor.getGrupo_set().get(0));
+            holder.tutoria.setText("Tutoría: " + profesor.getGrupo());
         }
         if (profesor.getEmail().isEmpty()){
             holder.email.setText("E-mail: ---");

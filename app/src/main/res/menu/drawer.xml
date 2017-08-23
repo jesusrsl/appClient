@@ -22,9 +22,9 @@
 
 
         <item
-            android:id="@+id/navigation_item_mis_asignaturas"
+            android:id="@+id/navigation_item_diario_clase"
             android:checked="true"
-            android:title="@string/nav_item_mis_asignaturas" />
+            android:title="@string/diario_clase" />
         <item
             android:id="@+id/navigation_item_tutoria"
             android:title="@string/nav_item_tutoria" />

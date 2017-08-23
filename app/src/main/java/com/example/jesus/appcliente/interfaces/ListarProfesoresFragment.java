@@ -1,13 +1,18 @@
 package com.example.jesus.appcliente.interfaces;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,27 +26,31 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
+import com.example.jesus.appcliente.clases.DownloadPDFTask;
+import com.example.jesus.appcliente.clases.ParametrosPDF;
 import com.example.jesus.appcliente.clases.ProfesorUserAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class ListarProfesoresFragment extends Fragment {
 
-    private Spinner spinnerParametro;
-    private EditText dato;
-    private Button boton;
+    private Button botonPDF;
     private RecyclerView recyclerViewProfesores;
     private RecyclerView.LayoutManager layoutManager;
     private ProfesorUserAdapter adaptador;
-    private Bundle parametros;
+    final static int SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE = 1;
+    private DownloadManager manager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,17 +63,13 @@ public class ListarProfesoresFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.listar_profesores, container, false);
         this.recyclerViewProfesores = (RecyclerView) view.findViewById(R.id.recycler_view_profesores);
-        this.spinnerParametro = (Spinner) view.findViewById(R.id.spinnerProfesorParametros);
-        this.dato = (EditText) view.findViewById(R.id.editTextDato);
-        parametros = getActivity().getIntent().getExtras();
 
-        boton = (Button)view.findViewById(R.id.button3);
-        boton.setOnClickListener( new View.OnClickListener() {
+        botonPDF = (Button)view.findViewById(R.id.btnProfesoradoPDF);
+        botonPDF.setOnClickListener( new View.OnClickListener() {
 
-            public void onClick(View view){
-                btn_buscarProfe(view);
+            public void onClick(View view) {
+                btn_profesorado_PDF(view);
             }
-
         });
 
         return view;
@@ -86,11 +91,6 @@ public class ListarProfesoresFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                /*Intent i = new Intent(getActivity(), ProfesorFormulario.class);
-                i.putExtra("operacion", "actualizar");
-                int posicion = (int) recyclerViewProfesores.getChildAdapterPosition(v);
-                i.putExtra("idProfesor", adaptador.getItemPk(posicion));
-                startActivity(i);*/
                 Intent intent = getActivity().getIntent();
                 int posicion = (int) recyclerViewProfesores.getChildAdapterPosition(v);
                 intent.putExtra("idProfesor", adaptador.getItemPk(posicion));
@@ -107,31 +107,67 @@ public class ListarProfesoresFragment extends Fragment {
             }
         });
 
-
-
-        if (parametros != null){
-            this.spinnerParametro.setSelection((int)parametros.getLong("spinner"));
-            this.dato.setText(parametros.getString("dato"));
-
-        }
-
         new ListarProfesoresFragment.GetProfesores().execute();
+
+        manager = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
+
     }
 
-    public void btn_buscarProfe(View view){
-        Intent intent = getActivity().getIntent();
-        intent.putExtra("spinner", spinnerParametro.getSelectedItemId());
-        intent.putExtra("dato", dato.getText().toString().trim());
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        ListarProfesoresFragment fragmentProfesores = new ListarProfesoresFragment();
-        fragmentProfesores.setArguments(intent.getExtras());
-        transaction.replace(R.id.container, fragmentProfesores);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null).commit();
-        getActivity().getSupportFragmentManager().executePendingTransactions();
+    public void btn_profesorado_PDF(View view){
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            ParametrosPDF parametros = new ParametrosPDF("instituto/profesores/PDF/", "profesorado.pdf", "Listado del profesorado", getContext(), manager);
+            AsyncTask<ParametrosPDF, Void, File> task =new DownloadPDFTask();
+            task.execute(parametros);
+        }
+        else{
+            solicitarPermisoEscribirAlmacenamiento();
+        }
     }
+
+    void solicitarPermisoEscribirAlmacenamiento() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            Snackbar.make(getView(), "Sin el permiso de almacenamiento"
+                    +" no se pueden descargar archivos.", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            requestPermissions(
+                                    new String[]{ Manifest.permission. WRITE_EXTERNAL_STORAGE},
+                                    SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE);
+                        }
+                    })
+                    .show();
+        } else {
+
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+
+        if (requestCode == SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE) {
+
+            if (grantResults.length== 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                btn_profesorado_PDF(null);
+            }
+            else {
+
+                Snackbar.make(getView(), "Sin el permiso, no se pueden almacenar archivos",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     //Get profesores
     private class GetProfesores extends AsyncTask<Void, Void, String> {
@@ -139,12 +175,6 @@ public class ListarProfesoresFragment extends Fragment {
         HttpURLConnection urlConnection;
 
         public String doInBackground(Void... var1){
-            /*try{
-                return HttpRequest.get(var1[0]).accept("application/json").body();
-            }
-            catch(Exception e){
-                return "";
-            }*/
 
             StringBuilder result = new StringBuilder();
 
@@ -169,15 +199,21 @@ public class ListarProfesoresFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
+                in.close();
+                reader.close();
+                urlConnection.disconnect();
                 Log.d("JSON", result.toString());
             }
             catch (java.net.MalformedURLException e){
+                e.printStackTrace();
                 return "";
             }
             catch(java.io.IOException e){
+                e.printStackTrace();
                 return "";
             }
             catch(Exception e){
+                e.printStackTrace();
                 return "";
             }
             finally {
@@ -197,55 +233,9 @@ public class ListarProfesoresFragment extends Fragment {
             else{
                 ArrayList<ProfesorUser> profesores = ProfesorUser.obtenerProfesores(result);
 
+                if(profesores.size() != 0){
 
-                ArrayList<ProfesorUser> profesores_aux = new ArrayList<ProfesorUser>();
-
-                if(spinnerParametro.getSelectedItem().toString().equals("Listar todo")){
-                    profesores_aux = profesores;
-                }
-                else {
-                    for (int i = 0; i < profesores.size(); i++){
-                        switch(spinnerParametro.getSelectedItem().toString()){
-                            case "Nombre":
-                                if (profesores.get(i).getFirst_name().equals(dato.getText().toString().trim())){
-                                    profesores_aux.add(profesores.get(i));
-                                }
-                                break;
-                            case "Apellidos":
-                                if (profesores.get(i).getLast_name().equals(dato.getText().toString().trim())){
-                                    profesores_aux.add(profesores.get(i));
-                                }
-                                break;
-                            case "Nombre de usuario":
-                                if (profesores.get(i).getUsername().equals(dato.getText().toString().trim())){
-                                    profesores_aux.add(profesores.get(i));
-                                }
-                                break;
-                            case "E-mail":
-                                if (profesores.get(i).getEmail().equals(dato.getText().toString().trim())){
-                                    profesores_aux.add(profesores.get(i));
-                                }
-                                break;
-                        }
-                    }
-                }
-
-                if(profesores_aux.size() != 0){
-                    /*ProfesorUserAdapter adapter = new ProfesorUserAdapter(ListarProfesores.this, profesores_aux);
-                    listviewProfesor.setAdapter(adapter);
-                    listviewProfesor.setOnItemClickListener( new AdapterView.OnItemClickListener()
-                    {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent , View view , int position ,long arg3)
-                        {
-                            Intent i = new Intent(ListarProfesores.this, ProfesorFormulario.class);
-                            i.putExtra("operacion", "actualizar");
-                            i.putExtra("idProfesor", ((ProfesorUser) parent.getAdapter().getItem(position)).getPk());
-                            startActivity(i);
-                        }
-                    });*/
-
-                    adaptador.actualizar(profesores_aux);
+                    adaptador.actualizar(profesores);
                     recyclerViewProfesores.getAdapter().notifyDataSetChanged();
                 }
                 else{
@@ -257,5 +247,4 @@ public class ListarProfesoresFragment extends Fragment {
 
 
     }
-
 }

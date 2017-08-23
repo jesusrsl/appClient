@@ -2,6 +2,7 @@ package com.example.jesus.appcliente.clases;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -13,9 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,16 +126,18 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             Anotacion anotacion = alumnoClaseArrayList.get(getAdapterPosition()).getAnotacion();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             String fechaString = formato.format(new Date(fecha));
-            String urlEditar;
+            String urlEditar="api/anotaciones";
 
             String urlPoner = "api/anotacion/nueva/" + Integer.toString(pk) + "/" + Integer.toString(idAsignatura) + "/"+fechaString + "/";
             if (anotacion != null){
-                urlEditar = "api/anotacion/" + Integer.toString(pk) + "/" + Integer.toString(idAsignatura) + "/"+fechaString + "/";
+                urlEditar = "api/anotacion/" + Integer.toString(anotacion.getPk()) + "/editar/";
             }
 
             if (v.getId() == botonFalta.getId()){
                 if (anotacion != null){
-                    Toast.makeText(v.getContext(), "FALTA " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+                    Parametros parametros = new Parametros(urlEditar, "falta", pk, getAdapterPosition(), this);
+                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    task.execute(parametros);
                 }
                 else{
                     Parametros parametros = new Parametros(urlPoner, "falta", pk, getAdapterPosition(), this);
@@ -141,7 +147,9 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             }
             else if (v.getId() == botonTrabaja.getId()){
                 if (anotacion != null){
-                    Toast.makeText(v.getContext(), "TRABAJA " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+                    Parametros parametros = new Parametros(urlEditar, "trabaja", pk, getAdapterPosition(), this);
+                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    task.execute(parametros);
                 }
                 else{
                     Parametros parametros = new Parametros(urlPoner, "trabaja", pk, getAdapterPosition(), this);
@@ -151,7 +159,9 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             }
             else if (v.getId() == botonPositivo.getId()) {
                 if (anotacion != null) {
-                    Toast.makeText(v.getContext(), "POSITIVO " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+                    Parametros parametros = new Parametros(urlEditar, "positivo", pk, getAdapterPosition(), this);
+                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    task.execute(parametros);
                 }
                 else{
                     Parametros parametros = new Parametros(urlPoner, "positivo", pk, getAdapterPosition(), this);
@@ -161,7 +171,9 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             }
             else if (v.getId() == botonNegativo.getId()){
                 if (anotacion != null){
-                    Toast.makeText(v.getContext(), "NEGATIVO " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+                    Parametros parametros = new Parametros(urlEditar, "negativo", pk, getAdapterPosition(), this);
+                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    task.execute(parametros);
                 }
                 else{
                     Parametros parametros = new Parametros(urlPoner, "negativo", pk, getAdapterPosition(), this);
@@ -170,6 +182,8 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                 }
             }
             else if (v.getId() == botonEditar.getId()){
+
+                mostrarDialogAnotaciones(v, anotacion);
                 Toast.makeText(v.getContext(), "EDIT PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
             }
             else {
@@ -177,6 +191,65 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             }
         }
 
+
+        public void mostrarDialogAnotaciones(View v, Anotacion anotacion) {
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
+            View dialogView = inflador.inflate(R.layout.dialogo_anotaciones, null);
+            Switch falta = (Switch) dialogView.findViewById(R.id.switchFalta);
+            Switch trabaja = (Switch) dialogView.findViewById(R.id.switchTrabaja);
+            EditText positivos = (EditText) dialogView.findViewById(R.id.editTextPositivos);
+            EditText negativos = (EditText) dialogView.findViewById(R.id.editTextNegativos);
+
+            if(anotacion != null){
+                if (anotacion.isFalta()){falta.setChecked(true);}else{falta.setChecked(false);}
+                if (anotacion.isTrabaja()){trabaja.setChecked(true);}else{trabaja.setChecked(false);}
+                if (anotacion.getPositivos()>0){
+                    positivos.setText(Integer.toString(anotacion.getPositivos()));
+                }
+                if (anotacion.getNegativos()>0){
+                    negativos.setText(Integer.toString(anotacion.getNegativos()));
+                }
+            }
+
+            dialogBuilder.setView(dialogView);
+            dialogBuilder.setPositiveButton("Guadar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialogBuilder.setNegativeButton("Cancelar", null);
+            AlertDialog alertDialog = dialogBuilder.create();
+            //alertDialog.getWindow().setLayout(100, 100);
+            alertDialog.show();
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(alertDialog.getWindow().getAttributes());
+            lp.width = 750;
+            lp.height = 750;
+            alertDialog.getWindow().setAttributes(lp);
+            ///////////////////////////////////////////////////////////////
+
+        }
+        /*
+        public void lanzarVistaLugar(View view){
+            final EditText entrada = new EditText(this);
+            entrada.setText("0");
+            new AlertDialog.Builder(this)
+                    .setTitle("Selección de lugar")
+                    .setMessage("Indica su id:")
+                    .setView(entrada)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            long id = Long.parseLong(entrada.getText().toString());
+                            Intent i = new Intent(MainActivity.this, VistaLugarActivity.class);
+                            i.putExtra("id", id);
+                            startActivityForResult(i, RESULTADO_VISTA_LUGAR);
+                        }})
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        }*/
 
         //onLongClickListener for view
         @Override
@@ -358,14 +431,14 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                     Anotacion anotacion = Anotacion.obtenerAnotacion(sb.toString());
                     anotacion.setAsignatura(idAsignatura);
                     anotacion.setAlumno(alumnoPk);
-                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                     String fechaString = formato.format(new Date(fecha));
                     anotacion.setFecha(fechaString);
 
                     alumnoClaseArrayList.get(posicion).setAnotacion(anotacion);
                     onBindViewHolder(viewHolder, posicion);
 
-                    Log.d("ACTUALIZADO", Integer.toString(alumnoPk));
+                    Log.d("INSERTADO", Integer.toString(alumnoPk));
 
                     return true;
                 } else {
@@ -394,9 +467,9 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
         public void onPostExecute(Boolean result) {
 
             if (result) {
-                Toast.makeText(contexto, "Anotación insertada correctamente", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Anotación insertada correctamente", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(contexto, "Problemas al insertar la anotación", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Problemas al insertar la anotación", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -433,18 +506,52 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
                 //urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestMethod("PUT");
 
                 //escritura de la anotacion
+                Anotacion anotacion_old = alumnoClaseArrayList.get(posicion).getAnotacion();
                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("alumno", alumnoPk);
+                jsonObject.put("asignatura", idAsignatura);
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaString = formato.format(new Date(fecha));
+                jsonObject.put("fecha", fechaString);
                 switch (valoracion){
-                    case "falta": jsonObject.put("falta", true);
+                    case "falta": if (anotacion_old.isFalta()){
+                                    jsonObject.put("falta", false);
+                                }else{
+                                    jsonObject.put("falta", true);
+                                }
+                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
+                        jsonObject.put("positivos", anotacion_old.getPositivos());
+                        jsonObject.put("negativos", anotacion_old.getNegativos());
                         break;
-                    case "trabaja": jsonObject.put("trabaja", true);
+                    case "trabaja": if (anotacion_old.isTrabaja()){
+                                        jsonObject.put("trabaja", false);
+                                    }else{
+                                        jsonObject.put("trabaja", true);
+                                    }
+                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("positivos", anotacion_old.getPositivos());
+                        jsonObject.put("negativos", anotacion_old.getNegativos());
                         break;
-                    case "positivo": jsonObject.put("positivos", 1);
+                    case "positivo": if (anotacion_old.getPositivos() > 0 ){
+                                        jsonObject.put("positivos", anotacion_old.getPositivos()+1);
+                                    }else{
+                                        jsonObject.put("positivos", 1);
+                                    }
+                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
+                        jsonObject.put("negativos", anotacion_old.getNegativos());
                         break;
-                    case "negativo": jsonObject.put("negativos", 1);
+                    case "negativo": if (anotacion_old.getNegativos() > 0 ){
+                                        jsonObject.put("negativos", anotacion_old.getNegativos()+1);
+                                    }else{
+                                        jsonObject.put("negativos", 1);
+                                    }
+                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
+                        jsonObject.put("positivos", anotacion_old.getPositivos());
                         break;
                 }
 
@@ -459,7 +566,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
 
                 StringBuilder sb = new StringBuilder();
                 int HttpResult = urlConnection.getResponseCode();
-                if (HttpResult == HttpURLConnection.HTTP_CREATED) {
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
                     BufferedReader br = new BufferedReader(
                             new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
                     String line = null;
@@ -467,22 +574,22 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                         sb.append(line + "\n");
                     }
                     br.close();
-                    Log.d("CREATED","" + sb.toString());
-                    Anotacion anotacion = Anotacion.obtenerAnotacion(sb.toString());
-                    anotacion.setAsignatura(idAsignatura);
-                    anotacion.setAlumno(alumnoPk);
-                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                    String fechaString = formato.format(new Date(fecha));
-                    anotacion.setFecha(fechaString);
+                    Log.d("UPDATED","" + sb.toString());
+                    Anotacion anotacion_nueva = Anotacion.obtenerAnotacion(sb.toString());
+                    //anotacion_nueva.setAsignatura(idAsignatura);
+                    //anotacion_nueva.setAlumno(alumnoPk);
+                    //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    //String fechaString = formato.format(new Date(fecha));
+                    //anotacion.setFecha(fechaString);
 
-                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacion);
+                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacion_nueva);
                     onBindViewHolder(viewHolder, posicion);
 
                     Log.d("ACTUALIZADO", Integer.toString(alumnoPk));
 
                     return true;
                 } else {
-                    Log.d("NOTCREATED",urlConnection.getResponseMessage());
+                    Log.d("NOTUPDATED",urlConnection.getResponseMessage());
                     return false;
                 }
 
@@ -507,9 +614,9 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
         public void onPostExecute(Boolean result) {
 
             if (result) {
-                Toast.makeText(contexto, "Anotación insertada correctamente", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Anotación actualizada correctamente", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(contexto, "Problemas al insertar la anotación", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Problemas al actualizar la anotación", Toast.LENGTH_SHORT).show();
             }
 
         }

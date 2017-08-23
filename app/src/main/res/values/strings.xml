@@ -19,7 +19,7 @@
 
     <!--Strings related to drawer-->
     <string name="drawer_header_text">Menú</string>
-    <string name="nav_item_mis_asignaturas">Mis asignaturas</string>
+    <string name="nav_item_diario_clase">Mis asignaturas</string>
     <string name="nav_item_tutoria">Tutoría</string>
     <string name="nav_item_exit">Salir</string>
     <string name="nav_sub_menu">Centro</string>
@@ -29,9 +29,10 @@
 
 
     <!--Strings related to lists-->
+    <string name="busqueda_grupo">Grupo:</string>
     <string name="asignatura_text">Asignatura</string>
     <string name="asignaturas">Asignaturas</string>
-    <string name="mis_asignaturas">Mis asignaturas</string>
+    <string name="diario_clase">Diario de clase</string>
     <string name="tutoria_text">Tutoría</string>
     <string name="profesor_text">Profesor/a</string>
     <string name="profesorado">Profesorado</string>
@@ -65,6 +66,10 @@
     <string name="num_alumnos_value">"0"</string>
 
     <string name="fecha">"dd/MM/yyyy"</string>
+    <string name="switch_falta">Falta:</string>
+    <string name="switch_trabaja">Trabaja:</string>
+    <string name="positivos_text">Positivos:</string>
+    <string name="negativos_text">Negativos:</string>
 
 
 
@@ -88,11 +93,6 @@
     <string name="hint_comentario">introduce tus notas</string>
     <string name="acercade">Aplicación móvil para valorar el trabajo de clase del alumnado de un centro educativo.</string>
     <string name="title_activity_preferencias">Preferencias</string>
-
-
-    <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
-    <string name="title_activity_second">SecondActivity</string>
-
 
 
 </resources>
