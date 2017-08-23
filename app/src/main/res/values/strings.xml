@@ -44,6 +44,7 @@
     <string name="email_text">E-mail</string>
     <string name="email_prompt">E-mail:</string>
     <string name="admin_text">Administrador</string>
+    <string name="alumno">Alumno/a</string>
     <string name="apellido1_text">Apellido 1</string>
     <string name="apellido2_text">Apellido 2</string>
     <string name="ap1_text">Primer apellido</string>

@@ -2,18 +2,17 @@ package com.example.jesus.appcliente.interfaces;
 
 import android.Manifest;
 import android.app.DownloadManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,13 +20,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
+import com.example.jesus.appcliente.clases.AlumnadoGrupo;
+import com.example.jesus.appcliente.clases.Alumno;
+import com.example.jesus.appcliente.clases.AlumnoAdapter;
+import com.example.jesus.appcliente.clases.AlumnoFotoAdapter;
 import com.example.jesus.appcliente.clases.DownloadPDFTask;
-import com.example.jesus.appcliente.clases.Grupo;
-import com.example.jesus.appcliente.clases.GrupoAdapter;
 import com.example.jesus.appcliente.clases.ParametrosPDF;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -40,14 +44,22 @@ import java.util.ArrayList;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
-public class ListarGruposFragment extends Fragment {
+public class ListarAlumnadoOrdenGrupoFragment extends Fragment {
 
-    private RecyclerView recyclerViewGrupos;
-    private RecyclerView.LayoutManager layoutManager;
-    private GrupoAdapter adaptador;
+    private TextView textViewGrupo;
+    private TextView textViewTutor;
+    private int idGrupo;
+    private String nombreGrupo;
+    private int distribucionGrupo;
     private Button botonPDF;
     final static int SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE = 1;
     private DownloadManager manager;
+
+    private RecyclerView recyclerViewAlumnadoGrupo;
+    private RecyclerView.LayoutManager layoutManager;
+    //private AlumnoAdapter adaptador;
+    private AlumnoFotoAdapter adaptador;
+    private Bundle parametros;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,63 +70,70 @@ public class ListarGruposFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.listar_grupos, container, false);
-        this.recyclerViewGrupos = (RecyclerView) view.findViewById(R.id.recycler_view_grupos);
-        botonPDF = (Button)view.findViewById(R.id.btnGruposPDF);
+        View view = inflater.inflate(R.layout.listar_alumnado_grupo, container, false);
+        this.recyclerViewAlumnadoGrupo = (RecyclerView) view.findViewById(R.id.recycler_view_alumnado_grupo);
+        this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
+        this.textViewTutor = (TextView) view.findViewById(R.id.textViewTutor);
+        parametros = getActivity().getIntent().getExtras();
+        this.idGrupo = parametros.getInt("idGrupo");
+        this.distribucionGrupo = parametros.getInt("distribucion");
+
+        botonPDF = (Button)view.findViewById(R.id.btnGrupoPDF);
         botonPDF.setOnClickListener( new View.OnClickListener() {
 
             public void onClick(View view) {
-                btn_grupos_PDF(view);
+                btn_grupo_PDF(view);
             }
         });
+
         return view;
     }
-
 
     @Override
     public void onActivityCreated(Bundle state) {
         super.onActivityCreated(state);
 
-        ArrayList<Grupo> grupos = new ArrayList<Grupo>();
-        adaptador = new GrupoAdapter(getContext(), grupos);
-        recyclerViewGrupos.setAdapter(adaptador);
-        this.layoutManager = new LinearLayoutManager(getContext());
-        recyclerViewGrupos.setLayoutManager(layoutManager);
-        recyclerViewGrupos.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+        //adaptador = new AlumnoAdapter(getContext(), alumnos);
+        adaptador = new AlumnoFotoAdapter(getContext(), alumnos);
+        recyclerViewAlumnadoGrupo.setAdapter(adaptador);
+        //this.layoutManager = new LinearLayoutManager(getContext());
+        this.layoutManager = new GridLayoutManager(getContext(), distribucionGrupo);
+        recyclerViewAlumnadoGrupo.setLayoutManager(layoutManager);
+        //recyclerViewAlumnadoGrupo.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        this.recyclerViewAlumnadoGrupo.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
+                .color(Color.WHITE)
+                .build());
+        this.recyclerViewAlumnadoGrupo.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext())
+                .color(Color.WHITE)
+                .build());
 
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = getActivity().getIntent();
-                int posicion = (int) recyclerViewGrupos.getChildAdapterPosition(v);
-                intent.putExtra("idGrupo", adaptador.getItemPk(posicion));
-                intent.putExtra("distribucion", adaptador.getItemDistribucion(posicion));
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                ListarAlumnadoOrdenGrupoFragment fragmentAlumnadoGrupo = new ListarAlumnadoOrdenGrupoFragment();
-                fragmentAlumnadoGrupo.setArguments(intent.getExtras());
-                transaction.replace(R.id.container, fragmentAlumnadoGrupo);
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                transaction.addToBackStack(null).commit();
-                getActivity().getSupportFragmentManager().executePendingTransactions();
+                int posicion = (int) recyclerViewAlumnadoGrupo.getChildAdapterPosition(v);
+                Toast.makeText(getActivity(),adaptador.getItemAlumno(posicion), Toast.LENGTH_LONG).show();
             }
         });
 
-        new ListarGruposFragment.GetGrupos().execute();
+
+        new ListarAlumnadoOrdenGrupoFragment.GetAlumnado().execute();
 
         manager = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
-
     }
 
-    public void btn_grupos_PDF(View view){
+    public void btn_grupo_PDF(View view){
 
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            ParametrosPDF parametros = new ParametrosPDF("instituto/grupos/PDF/", "grupos.pdf", "Listado de grupos", getContext(), manager);
+            String url = "instituto/grupo/" + Integer.toString(idGrupo) + "/PDF/";
+            String nombre = "grupo-" + nombreGrupo.replace(" ","-") +".pdf";
+            String descripcion = "Listado del alumnado del grupo " + nombreGrupo;
+
+            ParametrosPDF parametros = new ParametrosPDF(url, nombre, descripcion, getContext(), manager);
             AsyncTask<ParametrosPDF, Void, File> task =new DownloadPDFTask();
             task.execute(parametros);
         }
@@ -152,7 +171,7 @@ public class ListarGruposFragment extends Fragment {
 
             if (grantResults.length== 1 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                btn_grupos_PDF(null);
+                btn_grupo_PDF(null);
             }
             else {
 
@@ -163,9 +182,8 @@ public class ListarGruposFragment extends Fragment {
     }
 
 
-
-    //Get asignaturas
-    private class GetGrupos extends AsyncTask<Void, Void, String> {
+    //Get profesores
+    private class GetAlumnado extends AsyncTask<Void, Void, String> {
 
         HttpURLConnection urlConnection;
 
@@ -174,15 +192,14 @@ public class ListarGruposFragment extends Fragment {
             StringBuilder result = new StringBuilder();
 
             try{
-
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
                 String token = settings.getString("auth_token", ""/*default value*/);
 
-                //Creando la conexión
+                // Creando la conexión
                 String domain = getResources().getString(R.string.domain);
-                URL url = new URL(domain + "api/lista/grupos/");
+                URL url = new URL(domain + "api/alumnado/orden/grupos/" + Integer.toString(idGrupo));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
@@ -194,7 +211,6 @@ public class ListarGruposFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
-
                 Log.d("JSON", result.toString());
             }
             catch (java.net.MalformedURLException e){
@@ -221,21 +237,21 @@ public class ListarGruposFragment extends Fragment {
 
             }
             else{
-                ArrayList<Grupo> grupos = Grupo.obtenerGrupos(result);
+                AlumnadoGrupo alumnado = AlumnadoGrupo.obtenerAlumnadoGrupo(result);
 
-                if(grupos.size() != 0){
+                nombreGrupo = alumnado.getGrupo();
+                textViewGrupo.setText(alumnado.getGrupo());
+                textViewTutor.setText(alumnado.getTutor());
 
-                    adaptador.actualizar(grupos);
-                    recyclerViewGrupos.getAdapter().notifyDataSetChanged();
-
-
+                if(!alumnado.getAlumnos().isEmpty()) {
+                    adaptador.actualizar(alumnado.getAlumnos());
+                    recyclerViewAlumnadoGrupo.getAdapter().notifyDataSetChanged();
                 }
                 else{
-                    Toast.makeText(getActivity(),"No se generaron resultados", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"No existe alumnado matriculado en el grupo", Toast.LENGTH_LONG).show();
                 }
             }
         }
 
     }
 }
-

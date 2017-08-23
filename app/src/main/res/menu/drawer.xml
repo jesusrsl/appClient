@@ -29,6 +29,9 @@
             android:id="@+id/navigation_item_tutoria"
             android:title="@string/nav_item_tutoria" />
         <item
+            android:id="@+id/navigation_item_acerca_de"
+            android:title="@string/accion_acercade"/>
+        <item
             android:id="@+id/navigation_item_salir"
             android:title="@string/nav_item_exit" />
     </group>

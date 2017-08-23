@@ -92,6 +92,8 @@ public class GrupoAdapter extends RecyclerView.Adapter<GrupoAdapter.ViewHolder> 
 
     public int getItemPk(int posicion){ return this.grupoArrayList.get(posicion).getPk();}
 
+    public int getItemDistribucion(int posicion){ return this.grupoArrayList.get(posicion).getDistribucion();}
+
 
 
 

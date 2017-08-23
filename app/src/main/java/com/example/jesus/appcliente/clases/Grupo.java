@@ -17,13 +17,15 @@ public class Grupo implements Serializable{
     private String curso;
     private String unidad;
     private String tutor;
+    private int distribucion;
     private int num_alumnos;
 
-    public Grupo(int pk, String curso, String unidad, String tutor, int num_alumnos) {
+    public Grupo(int pk, String curso, String unidad, String tutor, int distribucion, int num_alumnos) {
         this.pk = pk;
         this.curso = curso;
         this.unidad = unidad;
         this.tutor = tutor;
+        this.distribucion = distribucion;
         this.num_alumnos = num_alumnos;
     }
 
@@ -57,6 +59,14 @@ public class Grupo implements Serializable{
 
     public void setTutor(String tutor) {
         this.tutor = tutor;
+    }
+
+    public int getDistribucion() {
+        return distribucion;
+    }
+
+    public void setDistribucion(int distribucion) {
+        this.distribucion = distribucion;
     }
 
     public int getNum_alumnos() {

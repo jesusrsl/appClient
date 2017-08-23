@@ -10,7 +10,7 @@
     <item
         android:id="@+id/accion_editar"
         android:title="@string/action_edit"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_mode_edit_white_24dp"
         android:orderInCategory="10"
         app:showAsAction="ifRoom"/>
 

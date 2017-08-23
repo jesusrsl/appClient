@@ -33,10 +33,10 @@
             </intent-filter></activity>
 
 
-        <activity
+        <!--activity
             android:name=".interfaces.AcercaDeActivity"
             android:label="@string/accion_acercade"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" /-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"

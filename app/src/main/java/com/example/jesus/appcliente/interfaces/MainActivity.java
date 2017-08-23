@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -39,14 +40,24 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Fragment por defecto
         fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        MainFragment mainFragment = new MainFragment();
-        transaction.replace(R.id.container, mainFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null).commit();
-        getSupportFragmentManager().executePendingTransactions();
+        if (savedInstanceState == null) {
+            //Create global configuration and initialize ImageLoader with this config --> se inicializa la primera vez
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+            ImageLoader.getInstance().init(config);
+
+
+            //Fragment por defecto
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            MainFragment mainFragment = new MainFragment();
+            transaction.replace(R.id.container, mainFragment);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.addToBackStack(null).commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }
+
+
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -101,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
+                    case R.id.navigation_item_acerca_de:
+                        acercade();
+                        return true;
                     case R.id.navigation_item_salir:
                         salir();
 
@@ -122,11 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
             }
         });
-
-
-        //Create global configuration and initialize ImageLoader with this config
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
-        ImageLoader.getInstance().init(config);
 
 
     }
@@ -171,6 +180,14 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
+    }
+
+
+    public void acercade(){
+        new AlertDialog.Builder(this)
+                .setTitle("aNota")
+                .setMessage(getResources().getString(R.string.acercade))
+                .show();
     }
 
     public void salir(){

@@ -7,7 +7,7 @@ tools:context=".MainActivity">
     android:orderInCategory="5"
     android:title="@string/action_settings"
     android:icon="@android:drawable/ic_menu_preferences"
-    app:showAsAction="never" /-->
+    app:showAsAction="never">
 
 <item android:title="@string/accion_acercade"
     android:id="@+id/acercaDe"
@@ -19,6 +19,6 @@ tools:context=".MainActivity">
     android:id="@+id/menu_buscar"
     android:icon="@android:drawable/ic_menu_search"
     android:orderInCategory="30"
-    app:showAsAction="always|collapseActionView"/>
+    app:showAsAction="always|collapseActionView"/-->
 </menu>
 
