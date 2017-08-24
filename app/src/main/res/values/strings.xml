@@ -9,6 +9,7 @@
     <string name="action_save">Guardar</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_edit">Editar</string>
+    <string name="action_move">Mover</string>
     <string name="action_share">Compartir</string>
     <string name="error_invalid_usuario">El nombre de usuario es inválido</string>
     <string name="error_invalid_password">La contraseña es demasiado corta</string>
@@ -59,10 +60,12 @@
     <string name="eliminar_foto">Eliminar foto</string>
     <string name="impartidas">Asignaturas impartidas:</string>
     <string name="matriculadas">Asignaturas matriculadas:</string>
-    <string name="listado_alumnos">Listado de alumnos/as</string>
+    <string name="listado_alumnos">Listado de alumnos/as:</string>
+    <string name="disposicion_alumnos">Disposición del alumnado en el aula:</string>
     <string name="curso_text">Curso</string>
     <string name="unidad_text">Unidad</string>
     <string name="tutor_text">Tutor/a:</string>
+    <string name="distribucion">Distribución:</string>
     <string name="num_alumnos">alumnos/as</string>
     <string name="num_alumnos_value">"0"</string>
 
@@ -95,5 +98,17 @@
     <string name="acercade">Aplicación móvil para valorar el trabajo de clase del alumnado de un centro educativo.</string>
     <string name="title_activity_preferencias">Preferencias</string>
 
+    <array name="dummy_items">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+        <item>Six</item>
+        <item>Seven</item>
+        <item>Eight</item>
+        <item>Nine</item>
+        <item>Ten</item>
+    </array>
 
 </resources>

@@ -11,9 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +24,6 @@ import android.widget.Toast;
 import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.AlumnadoGrupo;
 import com.example.jesus.appcliente.clases.Alumno;
-import com.example.jesus.appcliente.clases.AlumnoAdapter;
 import com.example.jesus.appcliente.clases.AlumnoFotoAdapter;
 import com.example.jesus.appcliente.clases.DownloadPDFTask;
 import com.example.jesus.appcliente.clases.ParametrosPDF;
@@ -46,8 +43,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class ListarAlumnadoOrdenGrupoFragment extends Fragment {
 
-    private TextView textViewGrupo;
-    private TextView textViewTutor;
+    private TextView textViewGrupo, textViewTutor, textViewListado;
     private int idGrupo;
     private String nombreGrupo;
     private int distribucionGrupo;
@@ -72,6 +68,8 @@ public class ListarAlumnadoOrdenGrupoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.listar_alumnado_grupo, container, false);
         this.recyclerViewAlumnadoGrupo = (RecyclerView) view.findViewById(R.id.recycler_view_alumnado_grupo);
+        this.textViewListado = (TextView) view.findViewById(R.id.textViewListado);
+        textViewListado.setText(getActivity().getResources().getText(R.string.disposicion_alumnos));
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
         this.textViewTutor = (TextView) view.findViewById(R.id.textViewTutor);
         parametros = getActivity().getIntent().getExtras();
@@ -182,7 +180,7 @@ public class ListarAlumnadoOrdenGrupoFragment extends Fragment {
     }
 
 
-    //Get profesores
+    //Get alumnado
     private class GetAlumnado extends AsyncTask<Void, Void, String> {
 
         HttpURLConnection urlConnection;

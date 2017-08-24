@@ -21,11 +21,11 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="atributos_profesor">
-        <item>Listar todo</item>
-        <item>Nombre</item>
-        <item>Apellidos</item>
-        <item>Nombre de usuario</item>
-        <item>E-mail</item>
+    <string-array name="distribucion">
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 </resources>

@@ -66,14 +66,47 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/textViewListado"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
-            android:text="@string/listado_alumnos" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewListado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/disposicion_alumnos" />
+
+            <TextView
+                android:id="@+id/textViewDistribucion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/distribucion" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/distribucion"/>
+
+            <Button
+                android:id="@+id/btnTutoriaGuardar"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_save_white_24dp"
+                android:backgroundTint="@color/colorPrimary"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"

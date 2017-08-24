@@ -93,9 +93,9 @@ public class ListarGruposFragment extends Fragment {
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                ListarAlumnadoOrdenGrupoFragment fragmentAlumnadoGrupo = new ListarAlumnadoOrdenGrupoFragment();
-                fragmentAlumnadoGrupo.setArguments(intent.getExtras());
-                transaction.replace(R.id.container, fragmentAlumnadoGrupo);
+                TabLayoutGrupoFragment fragmentTabLayoutGrupo = new TabLayoutGrupoFragment();
+                fragmentTabLayoutGrupo.setArguments(intent.getExtras());
+                transaction.replace(R.id.container, fragmentTabLayoutGrupo);
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.addToBackStack(null).commit();
                 getActivity().getSupportFragmentManager().executePendingTransactions();

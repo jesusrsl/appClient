@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().executePendingTransactions();
                         return true;
                     case R.id.navigation_item_tutoria:
-                        ListarAlumnadoTutoriaFragment fragmentAlumadoTutoria = new ListarAlumnadoTutoriaFragment();
-                        transaction.replace(R.id.container, fragmentAlumadoTutoria);
+                        TabLayoutTutoriaFragment fragmentTabLayoutTutoria = new TabLayoutTutoriaFragment();
+                        transaction.replace(R.id.container, fragmentTabLayoutTutoria);
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         transaction.addToBackStack(null).commit();
                         getSupportFragmentManager().executePendingTransactions();

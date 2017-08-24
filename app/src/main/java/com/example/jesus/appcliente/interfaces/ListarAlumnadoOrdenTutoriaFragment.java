@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,8 +15,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +30,13 @@ import android.widget.Toast;
 import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.AlumnadoGrupo;
 import com.example.jesus.appcliente.clases.Alumno;
-import com.example.jesus.appcliente.clases.AlumnoAdapter;
+import com.example.jesus.appcliente.clases.AlumnoFotoOrdenAdapter;
 import com.example.jesus.appcliente.clases.DownloadPDFTask;
 import com.example.jesus.appcliente.clases.ParametrosPDF;
+import com.example.jesus.appcliente.helper.OnStartDragListener;
+import com.example.jesus.appcliente.helper.SimpleItemTouchHelperCallback;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import org.json.JSONArray;
 
@@ -44,18 +51,20 @@ import java.util.ArrayList;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
-public class ListarAlumnadoTutoriaFragment extends Fragment {
+public class ListarAlumnadoOrdenTutoriaFragment extends Fragment implements OnStartDragListener {
 
-    private TextView textViewGrupo;
+    private TextView textViewGrupo, textViewListado;
     private Button botonPDF;
     private int idGrupo;
     private String nombreGrupo;
-    private int distribucionGrupo;
+    private int distribucionGrupo = 6;
     final static int SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE = 1;
     private DownloadManager manager;
     private RecyclerView recyclerViewAlumnadoTutoria;
     private RecyclerView.LayoutManager layoutManager;
-    private AlumnoAdapter adaptador;
+    //private AlumnoAdapter adaptador;
+    private AlumnoFotoOrdenAdapter adaptador;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +75,7 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.listar_alumnado_tutoria, container, false);
+        View view = inflater.inflate(R.layout.listar_alumnado_tutoria_orden, container, false);
         this.recyclerViewAlumnadoTutoria = (RecyclerView) view.findViewById(R.id.recycler_view_alumnado_tutoria);
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
 
@@ -86,11 +95,13 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
         super.onActivityCreated(state);
 
         ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-        adaptador = new AlumnoAdapter(getContext(), alumnos);
+        //adaptador = new AlumnoAdapter(getContext(), alumnos);
+        adaptador = new AlumnoFotoOrdenAdapter(getContext(), alumnos, this);
         recyclerViewAlumnadoTutoria.setAdapter(adaptador);
-        this.layoutManager = new LinearLayoutManager(getContext());
-        recyclerViewAlumnadoTutoria.setLayoutManager(layoutManager);
-        recyclerViewAlumnadoTutoria.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        //this.layoutManager = new LinearLayoutManager(getContext());
+        //recyclerViewAlumnadoTutoria.setLayoutManager(layoutManager);
+        //recyclerViewAlumnadoTutoria.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
 
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override
@@ -111,9 +122,18 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
             }
         });
 
-        new ListarAlumnadoTutoriaFragment.GetAlumnado().execute();
+        new ListarAlumnadoOrdenTutoriaFragment.GetAlumnado().execute();
 
         manager = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adaptador);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerViewAlumnadoTutoria);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 
     public void btn_tutoria_PDF(View view){
@@ -134,7 +154,6 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
                 nombre = "grupos.pdf";
                 descripcion = "Listado de grupos";
             }
-
 
             ParametrosPDF parametros = new ParametrosPDF(url, nombre, descripcion, getContext(), manager);
             AsyncTask<ParametrosPDF, Void, File> task =new DownloadPDFTask();
@@ -184,6 +203,7 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
         }
     }
 
+
     //Get alumnado
     private class GetAlumnado extends AsyncTask<Void, Void, String> {
 
@@ -201,7 +221,7 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
 
                 // Creando la conexión
                 String domain = getResources().getString(R.string.domain);
-                URL url = new URL(domain + "api/tutoria/");
+                URL url = new URL(domain + "api/orden/tutoria/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
@@ -250,7 +270,17 @@ public class ListarAlumnadoTutoriaFragment extends Fragment {
                 distribucionGrupo = alumnado.getDistribucion();
                 textViewGrupo.setText(alumnado.getGrupo());
 
+                layoutManager = new GridLayoutManager(getContext(), distribucionGrupo);
+                recyclerViewAlumnadoTutoria.setLayoutManager(layoutManager);
+                recyclerViewAlumnadoTutoria.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+                recyclerViewAlumnadoTutoria.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+
                 if(!alumnado.getAlumnos().isEmpty()) {
+
                     adaptador.actualizar(alumnado.getAlumnos());
                     recyclerViewAlumnadoTutoria.getAdapter().notifyDataSetChanged();
                 }
