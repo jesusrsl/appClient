@@ -69,7 +69,7 @@ public class TabLayoutGrupoFragment extends Fragment {
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[] { "Disposicion", "Listado"};
+        private String tabTitles[] = new String[] { "Listado", "Disposición"};
         private Context context;
 
         public PagerAdapter(FragmentManager fm, Context context) {
@@ -84,12 +84,12 @@ public class TabLayoutGrupoFragment extends Fragment {
             intent.putExtra("idGrupo", idGrupo);
             switch (position) {
                 case 0:
-                    intent.putExtra("distribucion", distribucionGrupo);
-                    ListarAlumnadoOrdenGrupoFragment tab1 = new ListarAlumnadoOrdenGrupoFragment();
+                    ListarAlumnadoGrupoFragment tab1 = new ListarAlumnadoGrupoFragment();
                     tab1.setArguments(intent.getExtras());
                     return tab1;
                 case 1:
-                    ListarAlumnadoGrupoFragment tab2 = new ListarAlumnadoGrupoFragment();
+                    intent.putExtra("distribucion", distribucionGrupo);
+                    ListarAlumnadoOrdenGrupoFragment tab2 = new ListarAlumnadoOrdenGrupoFragment();
                     tab2.setArguments(intent.getExtras());
                     return tab2;
                 default:

@@ -29,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-
+//Diario de clase: lista de las asignaturas que imparte el usuario
 public class MainFragment extends Fragment {
 
     private RecyclerView recyclerViewAsignaturasProfesor;
@@ -69,7 +69,7 @@ public class MainFragment extends Fragment {
                 Intent intent = getActivity().getIntent();
                 int posicion = (int) recyclerViewAsignaturasProfesor.getChildAdapterPosition(v);
                 intent.putExtra("idAsignatura", adaptador.getItemPk(posicion));
-                intent.putExtra("fecha", System.currentTimeMillis());
+                intent.putExtra("fecha", System.currentTimeMillis());   //fecha actual
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();

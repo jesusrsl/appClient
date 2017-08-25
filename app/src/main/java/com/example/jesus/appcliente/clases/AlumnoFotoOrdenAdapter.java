@@ -157,9 +157,19 @@ public class AlumnoFotoOrdenAdapter extends RecyclerView.Adapter<AlumnoFotoOrden
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(alumnoArrayList, fromPosition, toPosition);
+
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(alumnoArrayList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(alumnoArrayList, i, i - 1);
+            }
+        }
         notifyItemMoved(fromPosition, toPosition);
-        Log.d("UPDATE", Integer.toString(fromPosition) + " " + Integer.toString(toPosition) + " " + alumnoArrayList.toString());
+
+        Log.d("UPDATE", Integer.toString(fromPosition) + " " + Integer.toString(toPosition));
         return true;
     }
 

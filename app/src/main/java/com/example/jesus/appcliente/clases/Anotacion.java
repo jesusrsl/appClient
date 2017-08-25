@@ -15,7 +15,7 @@ public class Anotacion {
     private int alumno;
     private int asignatura;
     private String fecha;
-    private boolean falta;
+    private String falta;
     private boolean trabaja;
     private int positivos;
     private int negativos;
@@ -52,11 +52,11 @@ public class Anotacion {
         this.fecha = fecha;
     }
 
-    public boolean isFalta() {
+    public String getFalta() {
         return falta;
     }
 
-    public void setFalta(boolean falta) {
+    public void setFalta(String falta) {
         this.falta = falta;
     }
 

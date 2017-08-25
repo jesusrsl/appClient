@@ -20,9 +20,6 @@ import com.example.jesus.appcliente.R;
 
 public class TabLayoutTutoriaFragment extends Fragment {
 
-    /*private Bundle parametros;
-    private int idGrupo;
-    private int distribucionGrupo;*/
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static String POSITION = "POSITION";
@@ -38,9 +35,6 @@ public class TabLayoutTutoriaFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View inflatedView = inflater.inflate(R.layout.fragment_grupo_tablayout, container, false);
-        /*parametros = getActivity().getIntent().getExtras();
-        this.idGrupo = parametros.getInt("idGrupo");
-        this.distribucionGrupo = parametros.getInt("distribucion");*/
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
@@ -68,7 +62,7 @@ public class TabLayoutTutoriaFragment extends Fragment {
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[] { "Disposicion", "Listado"};
+        private String tabTitles[] = new String[] { "Listado", "Disposición"};
         private Context context;
 
         public PagerAdapter(FragmentManager fm, Context context) {
@@ -79,18 +73,11 @@ public class TabLayoutTutoriaFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
 
-            //Intent intent = getActivity().getIntent();
-            //intent.putExtra("idGrupo", idGrupo);
             switch (position) {
                 case 0:
-                    //intent.putExtra("distribucion", distribucionGrupo);
-                    ListarAlumnadoOrdenTutoriaFragment tab1 = new ListarAlumnadoOrdenTutoriaFragment();
-                    //tab1.setArguments(intent.getExtras());
-                    return tab1;
+                    return new ListarAlumnadoTutoriaFragment();
                 case 1:
-                    ListarAlumnadoTutoriaFragment tab2 = new ListarAlumnadoTutoriaFragment();
-                    //tab2.setArguments(intent.getExtras());
-                    return tab2;
+                    return new ListarAlumnadoOrdenTutoriaFragment();
                 default:
                     return null;
             }

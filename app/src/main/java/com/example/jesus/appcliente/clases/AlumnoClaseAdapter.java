@@ -75,28 +75,11 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
         this.onClickListener = onClickListener;
     }
 
-    private static class Parametros {
-        String url;
-        String valoracion;
-        int alumnoPk;
-        int posicion;
-        Object object;
-
-        Parametros(String url, String valoracion, int alumnoPk, int posicion, Object object) {
-            this.url = url;
-            this.valoracion = valoracion;
-            this.alumnoPk = alumnoPk;
-            this.posicion = posicion;
-            this.object = object;
-        }
-    }
-
     //Creamos nuestro ViewHolder, con los tipos de elementos a modificar
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         public TextView nombreAlumno;
         public ImageView foto;
-        public Button botonFalta, botonTrabaja, botonPositivo, botonNegativo;
-        public ImageButton botonEditar;
+        public Button botonFalta, botonTrabaja, botonPositivo, botonNegativo, botonEditar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -107,7 +90,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             botonTrabaja = (Button) itemView.findViewById(R.id.buttonTrabaja);
             botonPositivo = (Button) itemView.findViewById(R.id.buttonPositivo);
             botonNegativo = (Button) itemView.findViewById(R.id.buttonNegativo);
-            botonEditar = (ImageButton) itemView.findViewById(R.id.imageButtonEdit);
+            botonEditar = (Button) itemView.findViewById(R.id.buttonEdit);
 
             itemView.setOnClickListener(this);
             botonFalta.setOnClickListener(this);
@@ -135,49 +118,49 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
 
             if (v.getId() == botonFalta.getId()){
                 if (anotacion != null){
-                    Parametros parametros = new Parametros(urlEditar, "falta", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "falta", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    Parametros parametros = new Parametros(urlPoner, "falta", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new PonerAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "falta", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonTrabaja.getId()){
                 if (anotacion != null){
-                    Parametros parametros = new Parametros(urlEditar, "trabaja", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "trabaja", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    Parametros parametros = new Parametros(urlPoner, "trabaja", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new PonerAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "trabaja", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonPositivo.getId()) {
                 if (anotacion != null) {
-                    Parametros parametros = new Parametros(urlEditar, "positivo", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "positivo", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    Parametros parametros = new Parametros(urlPoner, "positivo", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new PonerAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "positivo", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonNegativo.getId()){
                 if (anotacion != null){
-                    Parametros parametros = new Parametros(urlEditar, "negativo", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new EditarAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "negativo", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    Parametros parametros = new Parametros(urlPoner, "negativo", pk, getAdapterPosition(), this);
-                    AsyncTask<Parametros, Void, Boolean> task =new PonerAnotacion();
+                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "negativo", pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
@@ -202,7 +185,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
             EditText negativos = (EditText) dialogView.findViewById(R.id.editTextNegativos);
 
             if(anotacion != null){
-                if (anotacion.isFalta()){falta.setChecked(true);}else{falta.setChecked(false);}
+                if (anotacion.getFalta()!=null){falta.setChecked(true);}else{falta.setChecked(false);}
                 if (anotacion.isTrabaja()){trabaja.setChecked(true);}else{trabaja.setChecked(false);}
                 if (anotacion.getPositivos()>0){
                     positivos.setText(Integer.toString(anotacion.getPositivos()));
@@ -292,8 +275,18 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
 
 
         if(alumnoClase.getAnotacion() != null){
-            if(alumnoClase.getAnotacion().isFalta()){
+            if(alumnoClase.getAnotacion().getFalta()!=null){
+                Log.d("FALTA", alumnoClase.getAnotacion().getFalta()+ " " + alumnoClase.getNombre());
                 holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
+                if(alumnoClase.getAnotacion().getFalta().equals("I")){
+                    holder.botonFalta.setText("I");
+                }
+                else if(alumnoClase.getAnotacion().getFalta().equals("J")){
+                    holder.botonFalta.setText("J");
+                }
+                else{
+                    holder.botonFalta.setText("R");
+                }
             }
             else{
                 holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
@@ -364,17 +357,17 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
 
 
     //Insertar anotacion
-    private class PonerAnotacion extends AsyncTask<Parametros, Void, Boolean> {
+    private class PonerAnotacion extends AsyncTask<ParametrosValoracion, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 
-        public Boolean doInBackground(Parametros... params) {
+        public Boolean doInBackground(ParametrosValoracion... params) {
 
-            String urlString = params[0].url;
-            String valoracion = params[0].valoracion;
-            int alumnoPk = params[0].alumnoPk;
-            int posicion = params[0].posicion;
-            ViewHolder viewHolder= (ViewHolder)params[0].object;
+            String urlString = params[0].getUrl();
+            String valoracion = params[0].getValoracion();
+            int alumnoPk = params[0].getAlumnoPk();
+            int posicion = params[0].getPosicion();
+            ViewHolder viewHolder= (ViewHolder)params[0].getObject();
 
             try {
                 //obtención del token
@@ -398,7 +391,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                 //escritura de la anotacion
                 JSONObject jsonObject = new JSONObject();
                 switch (valoracion){
-                    case "falta": jsonObject.put("falta", true);
+                    case "falta": jsonObject.put("falta", "I"); //la primera vez, la falta es injustificada
                         break;
                     case "trabaja": jsonObject.put("trabaja", true);
                         break;
@@ -442,7 +435,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
 
                     return true;
                 } else {
-                    Log.d("NOTCREATED",urlConnection.getResponseMessage());
+                    Log.d("NOTINSERTED",urlConnection.getResponseMessage());
                     return false;
                 }
 
@@ -477,17 +470,17 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
     }
 
     //Insertar profesor
-    private class EditarAnotacion extends AsyncTask<Parametros, Void, Boolean> {
+    private class EditarAnotacion extends AsyncTask<ParametrosValoracion, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 
-        public Boolean doInBackground(Parametros... params) {
+        public Boolean doInBackground(ParametrosValoracion... params) {
 
-            String urlString = params[0].url;
-            String valoracion = params[0].valoracion;
-            int alumnoPk = params[0].alumnoPk;
-            int posicion = params[0].posicion;
-            ViewHolder viewHolder= (ViewHolder)params[0].object;
+            String urlString = params[0].getUrl();
+            String valoracion = params[0].getValoracion();
+            int alumnoPk = params[0].getAlumnoPk();
+            int posicion = params[0].getPosicion();
+            ViewHolder viewHolder= (ViewHolder)params[0].getObject();
 
             try {
                 //obtención del token
@@ -517,10 +510,18 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                 String fechaString = formato.format(new Date(fecha));
                 jsonObject.put("fecha", fechaString);
                 switch (valoracion){
-                    case "falta": if (anotacion_old.isFalta()){
-                                    jsonObject.put("falta", false);
+                    case "falta": if (anotacion_old.getFalta()!=null){
+                                        if(anotacion_old.getFalta().equals("I")){
+                                            jsonObject.put("falta", "J");
+                                        }
+                                        else if(anotacion_old.getFalta().equals("J")){
+                                            jsonObject.put("falta", "R");
+                                        }
+                                        else {
+                                            jsonObject.put("falta", "");
+                                        }
                                 }else{
-                                    jsonObject.put("falta", true);
+                                    jsonObject.put("falta", "I");
                                 }
                         jsonObject.put("trabaja", anotacion_old.isTrabaja());
                         jsonObject.put("positivos", anotacion_old.getPositivos());
@@ -531,7 +532,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                                     }else{
                                         jsonObject.put("trabaja", true);
                                     }
-                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("falta", anotacion_old.getFalta());
                         jsonObject.put("positivos", anotacion_old.getPositivos());
                         jsonObject.put("negativos", anotacion_old.getNegativos());
                         break;
@@ -540,7 +541,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                                     }else{
                                         jsonObject.put("positivos", 1);
                                     }
-                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("falta", anotacion_old.getFalta());
                         jsonObject.put("trabaja", anotacion_old.isTrabaja());
                         jsonObject.put("negativos", anotacion_old.getNegativos());
                         break;
@@ -549,7 +550,7 @@ public class AlumnoClaseAdapter extends RecyclerView.Adapter<AlumnoClaseAdapter.
                                     }else{
                                         jsonObject.put("negativos", 1);
                                     }
-                        jsonObject.put("falta", anotacion_old.isFalta());
+                        jsonObject.put("falta", anotacion_old.getFalta());
                         jsonObject.put("trabaja", anotacion_old.isTrabaja());
                         jsonObject.put("positivos", anotacion_old.getPositivos());
                         break;

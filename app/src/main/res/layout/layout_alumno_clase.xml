@@ -51,20 +51,19 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageButton
-            android:id="@+id/imageButtonEdit"
+        <Button
+            android:id="@+id/buttonEdit"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:paddingBottom="0dp"
             android:paddingEnd="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
-            android:src="@android:drawable/ic_menu_edit"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
+            android:background="@drawable/ic_mode_edit_white_24dp"
+            android:backgroundTint="@color/colorPrimary"
             android:textStyle="bold" />
 
         <Button

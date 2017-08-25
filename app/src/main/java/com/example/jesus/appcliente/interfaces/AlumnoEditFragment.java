@@ -133,7 +133,7 @@ public class AlumnoEditFragment extends Fragment {
         getActivity().getSupportFragmentManager().executePendingTransactions();
     }*/
 
-    //Get profesores
+    //Get alumno
     private class GetAlumno extends AsyncTask<Void, Void, Alumno> {
 
         HttpURLConnection urlConnection;

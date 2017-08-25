@@ -59,7 +59,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
 
         parametros = getActivity().getIntent().getExtras();
         this.idAsignatura = parametros.getInt("idAsignatura");
-        this.fecha = parametros.getLong("fecha");
+        this.fecha = parametros.getLong("fecha");   //fecha actual
 
         this.textViewFecha = (TextView) view.findViewById(R.id.textViewFecha);
         textViewFecha.setOnClickListener(new View.OnClickListener() {
