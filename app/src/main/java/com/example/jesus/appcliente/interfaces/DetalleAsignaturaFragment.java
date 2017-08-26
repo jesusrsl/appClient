@@ -1,16 +1,24 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -18,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
+import com.example.jesus.appcliente.clases.ClickListener;
 import com.example.jesus.appcliente.clases.DetalleAsignatura;
 import com.example.jesus.appcliente.clases.AlumnoClase;
 import com.example.jesus.appcliente.clases.AlumnoClaseAdapter;
@@ -35,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DetalleAsignaturaFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
+public class DetalleAsignaturaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, ClickListener{
 
     private TextView textViewAsignatura, textViewGrupo, textViewFecha;
     private int idAsignatura;
@@ -45,6 +54,11 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
     private RecyclerView.LayoutManager layoutManager;
     private AlumnoClaseAdapter adaptador;
     private Bundle parametros;
+    private FloatingActionButton fab;
+
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +87,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         this.recyclerViewDetalleAsignatura = (RecyclerView) view.findViewById(R.id.recycler_view_detalle_asignatura);
         this.textViewAsignatura = (TextView) view.findViewById(R.id.textViewAsignatura);
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
+        this.fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
         return view;
     }
@@ -82,7 +97,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         super.onActivityCreated(state);
 
         ArrayList<AlumnoClase> alumnos = new ArrayList<AlumnoClase>();
-        adaptador = new AlumnoClaseAdapter(getContext(), alumnos, idAsignatura, fecha);
+        adaptador = new AlumnoClaseAdapter(getContext(), alumnos, idAsignatura, fecha, this);
         recyclerViewDetalleAsignatura.setAdapter(adaptador);
         this.layoutManager = new LinearLayoutManager(getContext());
         recyclerViewDetalleAsignatura.setLayoutManager(layoutManager);
@@ -95,6 +110,20 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                 Log.d("POSICION", Integer.toString(posicion));
             }
         });*/
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("SELECCIÓN", adaptador.getSelectedItems().toString());
+            }
+        });
+
+
+        //se borran la selección que se haya hecho previamente
+        if (actionMode != null) {
+            actionMode.finish();
+        }
 
         new DetalleAsignaturaFragment.GetAlumnado().execute();
     }
@@ -122,8 +151,140 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         //DateFormat formato =  DateFormat.getDateInstance();
         textViewFecha.setText(formato.format(new Date(fecha)));
         //se actualiza las anotaciones del alumnado en la fecha indicada
-        new DetalleAsignaturaFragment.GetAlumnado().execute();
+        //new DetalleAsignaturaFragment.GetAlumnado().execute();
+        //se recarga el fragment (si se rota la pantalla, se conserva la fecha)
+        Intent intent = getActivity().getIntent();
+        intent.putExtra("idAsignatura", idAsignatura);
+        intent.putExtra("fecha", fecha);   //fecha seleccionada
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        DetalleAsignaturaFragment fragmentDetalleAsignatura = new DetalleAsignaturaFragment();
+        fragmentDetalleAsignatura.setArguments(intent.getExtras());
+        transaction.replace(R.id.container, fragmentDetalleAsignatura);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().executePendingTransactions();
     }
+
+
+    @Override
+    public void onItemClicked(int position) {
+        if (actionMode != null) {
+            toggleSelection(position);
+        }
+    }
+
+    @Override
+    public boolean onItemLongClicked(int position) {
+        if (actionMode == null) {   //se activa la selección múltiple
+            actionMode =
+                    ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+        }
+
+        toggleSelection(position);
+
+        return true;
+    }
+
+    /**
+     * Toggle the selection state of an item.
+     *
+     * If the item was the last one in the selection and is unselected, the selection is stopped.
+     * Note that the selection must already be started (actionMode must not be null).
+     *
+     * @param position Position of the item to toggle the selection state
+     */
+    private void toggleSelection(int position) {
+        adaptador.toggleSelection(position);
+        int count = adaptador.getSelectedItemCount();
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            if(count == 1){actionMode.setTitle(String.valueOf(count) + " alumno/a");}
+            else{actionMode.setTitle(String.valueOf(count) + " alumnos/as");}
+            actionMode.invalidate();
+        }
+    }
+
+    /**
+     * Select all the items
+     *
+     */
+    private void seleccionarTodos() {
+        for(int i=0; i<adaptador.getItemCount(); i++){
+            adaptador.doSelection(i);
+        }
+        actionMode.setTitle("Todos");
+        actionMode.invalidate();
+    }
+
+    /**
+     * Unselect all the items
+     *
+     */
+    private void borrarSeleccion() {
+       adaptador.clearSelection();
+        actionMode.setTitle("Ninguno");
+        actionMode.invalidate();
+    }
+
+
+    /**
+     * Toggle the selection of all the items
+     *
+     */
+    private void invertirSeleccion() {
+        for(int i=0; i<adaptador.getItemCount(); i++){
+            adaptador.toggleSelection(i);
+        }
+        int count = adaptador.getSelectedItemCount();
+
+        if(count == 1){actionMode.setTitle(String.valueOf(count) + " alumno/a");}
+        else{actionMode.setTitle(String.valueOf(count) + " alumnos/as");}
+
+        actionMode.invalidate();
+
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate (R.menu.selected_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_todos:
+                    seleccionarTodos();
+                    return true;
+                case R.id.menu_ninguno:
+                    borrarSeleccion();
+                    return true;
+                case R.id.menu_invertir:
+                    invertirSeleccion();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adaptador.clearSelection();
+            actionMode = null;
+        }
+    }
+
 
 
     //Get alumado

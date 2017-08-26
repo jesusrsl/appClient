@@ -73,9 +73,9 @@ public class MainFragment extends Fragment {
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                DetalleAsignaturaFragment fragmentDetalleAsignatura = new DetalleAsignaturaFragment();
-                fragmentDetalleAsignatura.setArguments(intent.getExtras());
-                transaction.replace(R.id.container, fragmentDetalleAsignatura);
+                TabLayoutAsignaturaFragment fragmentTabLayoutAsignatura = new TabLayoutAsignaturaFragment();
+                fragmentTabLayoutAsignatura.setArguments(intent.getExtras());
+                transaction.replace(R.id.container, fragmentTabLayoutAsignatura);
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.addToBackStack(null).commit();
                 getActivity().getSupportFragmentManager().executePendingTransactions();

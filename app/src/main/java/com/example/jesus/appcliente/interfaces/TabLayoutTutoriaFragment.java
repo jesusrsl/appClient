@@ -1,7 +1,6 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -34,7 +33,7 @@ public class TabLayoutTutoriaFragment extends Fragment {
         MainActivity.isOtherFragmentShown = true;
 
         // Inflate the layout for this fragment
-        View inflatedView = inflater.inflate(R.layout.fragment_grupo_tablayout, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_tablayout, container, false);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);

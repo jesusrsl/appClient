@@ -6,4 +6,6 @@
     <color name="falta">#cd5c5c</color>
     <color name="trabaja">#6b8e23</color>
     <color name="valoracion">#daa520</color>
+    <color name="selected_overlay">#d5dbdb</color>
+    <color name="blanco">#ffffff</color>
 </resources>

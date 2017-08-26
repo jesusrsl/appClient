@@ -1,4 +1,4 @@
-package com.example.jesus.appcliente.interfaces;
+package com.example.jesus.appcliente.old;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.ProfesorUser;
-import com.example.jesus.appcliente.old.ListarProfesores;
+import com.example.jesus.appcliente.interfaces.MainActivity;
 
 
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ import java.net.URL;
 
 public class ProfesorFormulario extends AppCompatActivity {
 
-    private EditText nombre, apellidos, user, correo;
+    /*private EditText nombre, apellidos, user, correo;
     private ProfesorUser profesor;
     private int idProfesor;
     private String operacion;
@@ -109,7 +109,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
                         .getDefaultSharedPreferences(ProfesorFormulario.this);
-                String token = settings.getString("auth_token", ""/*default value*/);
+                String token = settings.getString("auth_token", "");
 
                 URL url = new URL("http://192.168.200.137:8000/api/profesores/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -169,7 +169,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 urlConnection.disconnect();
             }
 
-
+*/
 
 /*
             HttpClient httpClient = new DefaultHttpClient();
@@ -202,7 +202,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 return false;
             }
 */
-        }
+ /*       }
 
         public void onPostExecute(Boolean result) {
 
@@ -227,7 +227,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
                         .getDefaultSharedPreferences(ProfesorFormulario.this);
-                String token = settings.getString("auth_token", ""/*default value*/);
+                String token = settings.getString("auth_token", "");
 
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -314,7 +314,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
                         .getDefaultSharedPreferences(ProfesorFormulario.this);
-                String token = settings.getString("auth_token", ""/*default value*/);
+                String token = settings.getString("auth_token", "");
 
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -384,7 +384,7 @@ public class ProfesorFormulario extends AppCompatActivity {
                 //obtención del token
                 SharedPreferences settings = PreferenceManager
                         .getDefaultSharedPreferences(ProfesorFormulario.this);
-                String token = settings.getString("auth_token", ""/*default value*/);
+                String token = settings.getString("auth_token", "");
 
                 URL url = new URL("http://192.168.200.137:8000/api/profesor/" + Integer.toString(idProfesor) + "/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -428,6 +428,6 @@ public class ProfesorFormulario extends AppCompatActivity {
 
 
     }
-
+*/
 
 }

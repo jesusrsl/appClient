@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.ProfesorUserAdapter;
 import com.example.jesus.appcliente.clases.ProfesorUser;
-import com.example.jesus.appcliente.interfaces.ProfesorFormulario;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

@@ -74,6 +74,13 @@
     <string name="switch_trabaja">Trabaja:</string>
     <string name="positivos_text">Positivos:</string>
     <string name="negativos_text">Negativos:</string>
+    <string name="falta">Falta</string>
+    <string name="trabaja">Trabaja</string>
+    <string name="positivo">Positivo</string>
+    <string name="negativo">Negativo</string>
+    <string name="todos">Seleccionar todos</string>
+    <string name="ninguno">Borrar selección</string>
+    <string name="invertir">Invertir selección</string>
 
 
 

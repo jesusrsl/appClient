@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_todos"
+        android:title="@string/todos"
+        android:icon="@drawable/ic_select_all_white_24dp"
+        android:orderInCategory="10"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_ninguno"
+        android:title="@string/ninguno"
+        android:icon="@drawable/ic_all_out_white_24dp"
+        android:orderInCategory="20"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_invertir"
+        android:title="@string/invertir"
+        android:icon="@drawable/ic_swap_vert_white_24dp"
+        android:orderInCategory="30"
+        app:showAsAction="always"/>
+
+</menu>

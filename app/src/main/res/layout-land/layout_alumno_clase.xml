@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/textViewNombreAlumno"
-            android:layout_width="135dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
@@ -64,6 +64,8 @@
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ic_mode_edit_white_24dp"
             android:backgroundTint="@color/colorPrimary"
             android:textStyle="bold" />
@@ -79,6 +81,8 @@
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:text="F"
             android:textStyle="bold" />
 
@@ -93,6 +97,8 @@
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:text="T"
             android:textStyle="bold"/>
 
@@ -107,6 +113,8 @@
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:text="+"
             android:textStyle="bold" />
 
@@ -121,16 +129,12 @@
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:text="-"
             android:textStyle="bold" />
 
 
-        <!--View
-            android:id="@+id/selected_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/selected_overlay"
-            android:visibility="invisible" /-->
     </LinearLayout>
 
 

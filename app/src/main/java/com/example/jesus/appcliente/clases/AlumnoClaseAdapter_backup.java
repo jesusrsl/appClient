@@ -2,7 +2,6 @@ package com.example.jesus.appcliente.clases;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -17,15 +16,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.interfaces.DetalleAsignaturaFragment;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -38,17 +34,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by jesus on 12/07/17.
  */
 
-public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.ViewHolder>{
+public class AlumnoClaseAdapter_backup extends RecyclerView.Adapter<AlumnoClaseAdapter_backup.ViewHolder> {
 
     protected ArrayList<AlumnoClase> alumnoClaseArrayList;
     protected int idAsignatura;
@@ -56,14 +50,12 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     protected LayoutInflater inflador;
     protected Context contexto;
     protected View.OnClickListener onClickListener;
-    private ClickListener clickListener;
 
-    public AlumnoClaseAdapter(Context contexto, ArrayList<AlumnoClase> alumnoClaseArrayList, int idAsignatura, long fecha, ClickListener clickListener) {
+    public AlumnoClaseAdapter_backup(Context contexto, ArrayList<AlumnoClase> alumnoClaseArrayList, int idAsignatura, long fecha) {
         this.contexto = contexto;
         this.alumnoClaseArrayList = alumnoClaseArrayList;
         this.idAsignatura = idAsignatura;
         this.fecha = fecha;
-        this.clickListener = clickListener;
         inflador = (LayoutInflater) contexto
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -83,13 +75,9 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
         public TextView nombreAlumno;
         public ImageView foto;
         public Button botonFalta, botonTrabaja, botonPositivo, botonNegativo, botonEditar;
-        public RelativeLayout lt;
-        private ClickListener listener;
 
-        public ViewHolder(View itemView, ClickListener listener) {
+        public ViewHolder(View itemView) {
             super(itemView);
-
-            this.listener = listener;
 
             nombreAlumno = (TextView) itemView.findViewById(R.id.textViewNombreAlumno);
             foto = (ImageView) itemView.findViewById(R.id.imageViewAlumno);
@@ -98,16 +86,14 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             botonPositivo = (Button) itemView.findViewById(R.id.buttonPositivo);
             botonNegativo = (Button) itemView.findViewById(R.id.buttonNegativo);
             botonEditar = (Button) itemView.findViewById(R.id.buttonEdit);
-            lt = (RelativeLayout) itemView.findViewById(R.id.layout);
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
             botonFalta.setOnClickListener(this);
             botonTrabaja.setOnClickListener(this);
             botonPositivo.setOnClickListener(this);
             botonNegativo.setOnClickListener(this);
             botonEditar.setOnClickListener(this);
-
+            itemView.setOnLongClickListener(this);
         }
 
         // onClick Listener for view
@@ -179,10 +165,6 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 Toast.makeText(v.getContext(), "EDIT PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
             }
             else {
-                if (listener != null) {
-                    listener.onItemClicked(getAdapterPosition());
-                }
-
                 Toast.makeText(v.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
             }
         }
@@ -251,7 +233,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
         @Override
         public boolean onLongClick(View v) {
 
-           /* final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle ("Hello Dialog")
                     .setMessage ("LONG CLICK DIALOG WINDOW FOR ICON " + String.valueOf(getAdapterPosition()))
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -262,16 +244,8 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                     });
 
             builder.create().show();
-            return true;*/
-
-            if (listener != null) {
-                return listener.onItemLongClicked(getAdapterPosition());
-            }
-
-            return false;
-
+            return true;
         }
-
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -281,19 +255,19 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflamos la vista desde el xml
         View v = inflador.inflate(R.layout.layout_alumno_clase, parent, false);
-        //v.setOnClickListener(onClickListener);
-        return new ViewHolder(v, clickListener);
+        v.setOnClickListener(onClickListener);
+        return new ViewHolder(v);
     }
 
     // Usando como base el ViewHolder y lo personalizamos
     @Override
     public void onBindViewHolder(ViewHolder holder, int posicion) {
         AlumnoClase alumnoClase = this.alumnoClaseArrayList.get(posicion);
-        personalizaVista(holder, alumnoClase, posicion);
+        personalizaVista(holder, alumnoClase);
     }
 
     // Personalizamos un ViewHolder a partir de un lugar
-    private void personalizaVista(ViewHolder holder, AlumnoClase alumnoClase, int posicion) {
+    private void personalizaVista(ViewHolder holder, AlumnoClase alumnoClase) {
         holder.nombreAlumno.setText(alumnoClase.getNombre() + " " + alumnoClase.getApellido1() + " " + alumnoClase.getApellido2());
 
 
@@ -361,18 +335,6 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 .cacheOnDisk(true)
                 .build();
         imageLoader.displayImage(imageUri, holder.foto, options);
-
-
-        // Highlight the item if it's selected
-        if (isSelected(posicion)){
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.selected_overlay), PorterDuff.Mode.MULTIPLY);
-        }
-        else{
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.blanco), PorterDuff.Mode.MULTIPLY);
-
-        }
-
-
     }
 
     @Override

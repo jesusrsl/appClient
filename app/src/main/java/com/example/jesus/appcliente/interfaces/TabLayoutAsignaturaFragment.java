@@ -3,7 +3,7 @@ package com.example.jesus.appcliente.interfaces;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.*;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,11 +18,11 @@ import com.example.jesus.appcliente.R;
  * Created by jesus on 23/08/17.
  */
 
-public class TabLayoutGrupoFragment extends Fragment {
+public class TabLayoutAsignaturaFragment extends Fragment {
 
     private Bundle parametros;
-    private int idGrupo;
-    private int distribucionGrupo;
+    private int idAsignatura;
+    private long fecha;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static String POSITION = "POSITION";
@@ -39,8 +39,8 @@ public class TabLayoutGrupoFragment extends Fragment {
         // Inflate the layout for this fragment
         View inflatedView = inflater.inflate(R.layout.fragment_tablayout, container, false);
         parametros = getActivity().getIntent().getExtras();
-        this.idGrupo = parametros.getInt("idGrupo");
-        this.distribucionGrupo = parametros.getInt("distribucion");
+        this.idAsignatura = parametros.getInt("idAsignatura");
+        this.fecha = parametros.getLong("fecha");   //fecha actual
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
@@ -49,7 +49,6 @@ public class TabLayoutGrupoFragment extends Fragment {
         // Give the TabLayout the ViewPager
         tabLayout = (TabLayout) inflatedView.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-
 
         return inflatedView;
     }
@@ -68,7 +67,7 @@ public class TabLayoutGrupoFragment extends Fragment {
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[] { "Listado", "Disposición"};
+        private String tabTitles[] = new String[] { "Disposición", "Listado"};
         private Context context;
 
         public PagerAdapter(FragmentManager fm, Context context) {
@@ -80,15 +79,15 @@ public class TabLayoutGrupoFragment extends Fragment {
         public Fragment getItem(int position) {
 
             Intent intent = getActivity().getIntent();
-            intent.putExtra("idGrupo", idGrupo);
+            intent.putExtra("idAsignatura", idAsignatura);
+            intent.putExtra("fecha", fecha);
             switch (position) {
                 case 0:
-                    ListarAlumnadoGrupoFragment tab1 = new ListarAlumnadoGrupoFragment();
+                    DetalleAsignaturaFragment tab1 = new DetalleAsignaturaFragment();
                     tab1.setArguments(intent.getExtras());
                     return tab1;
                 case 1:
-                    intent.putExtra("distribucion", distribucionGrupo);
-                    ListarAlumnadoOrdenGrupoFragment tab2 = new ListarAlumnadoOrdenGrupoFragment();
+                    DetalleAsignaturaFragment tab2 = new DetalleAsignaturaFragment();
                     tab2.setArguments(intent.getExtras());
                     return tab2;
                 default:

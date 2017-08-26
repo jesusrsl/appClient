@@ -33,7 +33,6 @@
             android:layout_alignParentTop="true"
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
-            android:text="@string/asignatura_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
@@ -46,7 +45,6 @@
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/textViewAsignatura"
             android:layout_toRightOf="@+id/textViewAsignatura"
-            android:text="@string/grupo_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
@@ -85,6 +83,21 @@
             android:layout_below="@+id/textViewListado"
             android:layout_marginTop="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
+
     </RelativeLayout>
+
 
 </android.support.constraint.ConstraintLayout>
