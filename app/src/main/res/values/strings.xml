@@ -11,6 +11,7 @@
     <string name="action_edit">Editar</string>
     <string name="action_move">Mover</string>
     <string name="action_share">Compartir</string>
+    <string name="action_anotaciones">Ver anotaciones</string>
     <string name="error_invalid_usuario">El nombre de usuario es inválido</string>
     <string name="error_invalid_password">La contraseña es demasiado corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
@@ -67,7 +68,10 @@
     <string name="tutor_text">Tutor/a:</string>
     <string name="distribucion">Distribución:</string>
     <string name="num_alumnos">alumnos/as</string>
-    <string name="num_alumnos_value">"0"</string>
+    <string name="num_alumnos_value">0</string>
+    <string name="anotaciones">Anotaciones</string>
+    <string name="fecha_inicio">Fecha de inicio:</string>
+    <string name="fecha_fin">Fecha de fin:</string>
 
     <string name="fecha">"dd/MM/yyyy"</string>
     <string name="switch_falta">Falta:</string>

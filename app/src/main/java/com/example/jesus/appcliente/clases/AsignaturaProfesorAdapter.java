@@ -88,4 +88,8 @@ public class AsignaturaProfesorAdapter extends RecyclerView.Adapter<AsignaturaPr
 
     public int getItemPk(int posicion){ return this.asignaturaProfesorArrayList.get(posicion).getPk();}
 
+    public String getItemNombre(int posicion){ return this.asignaturaProfesorArrayList.get(posicion).getNombre();}
+
+    public String getItemGrupo(int posicion){ return this.asignaturaProfesorArrayList.get(posicion).getGrupo();}
+
 }

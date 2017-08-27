@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 //Diario de clase: lista de las asignaturas que imparte el usuario
-public class MainFragment extends Fragment {
+public class DiarioClaseMainFragment extends Fragment {
 
     private RecyclerView recyclerViewAsignaturasProfesor;
     private RecyclerView.LayoutManager layoutManager;
@@ -69,6 +69,14 @@ public class MainFragment extends Fragment {
                 Intent intent = getActivity().getIntent();
                 int posicion = (int) recyclerViewAsignaturasProfesor.getChildAdapterPosition(v);
                 intent.putExtra("idAsignatura", adaptador.getItemPk(posicion));
+                intent.putExtra("nombreAsignatura", adaptador.getItemNombre(posicion));
+                intent.putExtra("nombreGrupo", adaptador.getItemGrupo(posicion));
+                //se borra la fecha que estuviera almacenada
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.remove("fecha_seleccionada");
+                editor.apply();
                 intent.putExtra("fecha", System.currentTimeMillis());   //fecha actual
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -82,7 +90,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        new MainFragment.GetAsignaturasProfesor().execute();
+        new DiarioClaseMainFragment.GetAsignaturasProfesor().execute();
 
     }
 

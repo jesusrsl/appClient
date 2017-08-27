@@ -48,12 +48,14 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
 
     private TextView textViewAsignatura, textViewGrupo, textViewFecha;
     private int idAsignatura;
+    private String nombreAsignatura, nombreGrupo;
     private long fecha;
 
     private RecyclerView recyclerViewDetalleAsignatura;
     private RecyclerView.LayoutManager layoutManager;
     private AlumnoClaseAdapter adaptador;
     private Bundle parametros;
+    private ArrayList<Integer> alumnosSeleccionados;
     private FloatingActionButton fab;
 
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
@@ -73,7 +75,20 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
 
         parametros = getActivity().getIntent().getExtras();
         this.idAsignatura = parametros.getInt("idAsignatura");
-        this.fecha = parametros.getLong("fecha");   //fecha actual
+        this.nombreAsignatura = parametros.getString("nombreAsignatura");
+        this.nombreGrupo = parametros.getString("nombreGrupo");
+
+        //obtención del token
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        String fecha_almacenada = settings.getString("fecha_seleccionada", ""/*default value*/);
+        if(fecha_almacenada.isEmpty()){
+            this.fecha = parametros.getLong("fecha");   //se coge la fecha actual
+        }
+        else{
+            this.fecha = Long.parseLong(fecha_almacenada);
+        }
+
 
         this.textViewFecha = (TextView) view.findViewById(R.id.textViewFecha);
         textViewFecha.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +111,9 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
     public void onActivityCreated(Bundle state) {
         super.onActivityCreated(state);
 
+        textViewAsignatura.setText(nombreAsignatura);
+        textViewGrupo.setText(nombreGrupo);
+
         ArrayList<AlumnoClase> alumnos = new ArrayList<AlumnoClase>();
         adaptador = new AlumnoClaseAdapter(getContext(), alumnos, idAsignatura, fecha, this);
         recyclerViewDetalleAsignatura.setAdapter(adaptador);
@@ -115,7 +133,12 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alumnosSeleccionados = new ArrayList<Integer>();
+                for (int i=0; i < adaptador.getSelectedItems().size();i++){
+                    alumnosSeleccionados.add(adaptador.getItemPk(adaptador.getSelectedItems().get(i)));
+                }
                 Log.d("SELECCIÓN", adaptador.getSelectedItems().toString());
+                Log.d("ALUMNADO", alumnosSeleccionados.toString());
             }
         });
 
@@ -151,20 +174,13 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         //DateFormat formato =  DateFormat.getDateInstance();
         textViewFecha.setText(formato.format(new Date(fecha)));
         //se actualiza las anotaciones del alumnado en la fecha indicada
-        //new DetalleAsignaturaFragment.GetAlumnado().execute();
-        //se recarga el fragment (si se rota la pantalla, se conserva la fecha)
-        Intent intent = getActivity().getIntent();
-        intent.putExtra("idAsignatura", idAsignatura);
-        intent.putExtra("fecha", fecha);   //fecha seleccionada
-
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        DetalleAsignaturaFragment fragmentDetalleAsignatura = new DetalleAsignaturaFragment();
-        fragmentDetalleAsignatura.setArguments(intent.getExtras());
-        transaction.replace(R.id.container, fragmentDetalleAsignatura);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null).commit();
-        getActivity().getSupportFragmentManager().executePendingTransactions();
+        new DetalleAsignaturaFragment.GetAlumnado().execute();
+        //se almacena la fecha seleccionada por si se rota la pantalla
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("fecha_seleccionada", Long.toString(fecha));
+        editor.apply();
     }
 
 
@@ -348,9 +364,6 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
             }
             else{
                 DetalleAsignatura alumnado = DetalleAsignatura.obtenerAlumnadoAsignatura(result);
-
-                textViewAsignatura.setText(alumnado.getNombre());
-                textViewGrupo.setText(alumnado.getGrupo());
 
                 if(!alumnado.getAlumnos().isEmpty()) {
                     adaptador.actualizar(alumnado.getAlumnos(), idAsignatura, fecha);

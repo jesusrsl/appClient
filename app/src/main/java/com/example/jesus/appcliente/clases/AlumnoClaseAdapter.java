@@ -182,8 +182,6 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 if (listener != null) {
                     listener.onItemClicked(getAdapterPosition());
                 }
-
-                Toast.makeText(v.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -247,22 +245,9 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                     .show();
         }*/
 
-        //onLongClickListener for view
+        //onLongClickListener for view --> para comenzar la selección múltiple
         @Override
         public boolean onLongClick(View v) {
-
-           /* final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setTitle ("Hello Dialog")
-                    .setMessage ("LONG CLICK DIALOG WINDOW FOR ICON " + String.valueOf(getAdapterPosition()))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-
-            builder.create().show();
-            return true;*/
 
             if (listener != null) {
                 return listener.onItemLongClicked(getAdapterPosition());
@@ -295,19 +280,25 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     // Personalizamos un ViewHolder a partir de un lugar
     private void personalizaVista(ViewHolder holder, AlumnoClase alumnoClase, int posicion) {
         holder.nombreAlumno.setText(alumnoClase.getNombre() + " " + alumnoClase.getApellido1() + " " + alumnoClase.getApellido2());
-
+        holder.nombreAlumno.setTextColor(ContextCompat.getColor(contexto, R.color.negro));
 
         if(alumnoClase.getAnotacion() != null){
             if(alumnoClase.getAnotacion().getFalta()!=null){
-                holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
                 if(alumnoClase.getAnotacion().getFalta().equals("I")){
                     holder.botonFalta.setText("I");
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
                 }
                 else if(alumnoClase.getAnotacion().getFalta().equals("J")){
                     holder.botonFalta.setText("J");
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
+                }
+                else if(alumnoClase.getAnotacion().getFalta().equals("R")){
+                    holder.botonFalta.setText("R");
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
                 }
                 else{
-                    holder.botonFalta.setText("R");
+                    holder.botonFalta.setText("F");
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
                 }
             }
             else{
@@ -335,6 +326,16 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             else{
                 holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
             }
+
+            if(alumnoClase.getAnotacion().getFalta() != null) {
+                //aviso por si tiene falta, y alguna otra valoración. En caso contrario, el fondo será blanco
+                if (alumnoClase.getAnotacion().getFalta().equals("I") || alumnoClase.getAnotacion().getFalta().equals("J")) {
+                    if (alumnoClase.getAnotacion().isTrabaja() || alumnoClase.getAnotacion().getPositivos() > 0 || alumnoClase.getAnotacion().getNegativos() > 0) {
+                        Log.d("AVISO", "en rojo");
+                        holder.nombreAlumno.setTextColor(ContextCompat.getColor(contexto, R.color.aviso_anotacion));
+                    }
+                }
+            }
         }
         else{
             holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
@@ -343,6 +344,14 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         }
 
+
+        //Se determina el color de fondo: si está seleccionado en gris
+        if (isSelected(posicion)){
+            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.selected_overlay), PorterDuff.Mode.MULTIPLY);
+        }
+        else{
+            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.blanco), PorterDuff.Mode.MULTIPLY);
+        }
 
         ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
         String imageUri;
@@ -361,16 +370,6 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 .cacheOnDisk(true)
                 .build();
         imageLoader.displayImage(imageUri, holder.foto, options);
-
-
-        // Highlight the item if it's selected
-        if (isSelected(posicion)){
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.selected_overlay), PorterDuff.Mode.MULTIPLY);
-        }
-        else{
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.blanco), PorterDuff.Mode.MULTIPLY);
-
-        }
 
 
     }
@@ -493,9 +492,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
         public void onPostExecute(Boolean result) {
 
-            if (result) {
-                Toast.makeText(contexto, "Anotación insertada correctamente", Toast.LENGTH_SHORT).show();
-            } else {
+            if (!result) {
                 Toast.makeText(contexto, "Problemas al insertar la anotación", Toast.LENGTH_SHORT).show();
             }
 
@@ -551,8 +548,11 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                                         else if(anotacion_old.getFalta().equals("J")){
                                             jsonObject.put("falta", "R");
                                         }
-                                        else {
+                                        else if(anotacion_old.getFalta().equals("R")){
                                             jsonObject.put("falta", "");
+                                        }
+                                        else{
+                                            jsonObject.put("falta", "I");
                                         }
                                 }else{
                                     jsonObject.put("falta", "I");
@@ -648,9 +648,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
         public void onPostExecute(Boolean result) {
 
-            if (result) {
-                Toast.makeText(contexto, "Anotación actualizada correctamente", Toast.LENGTH_SHORT).show();
-            } else {
+            if (!result) {
                 Toast.makeText(contexto, "Problemas al actualizar la anotación", Toast.LENGTH_SHORT).show();
             }
 

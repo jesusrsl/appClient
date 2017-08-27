@@ -7,5 +7,7 @@
     <color name="trabaja">#6b8e23</color>
     <color name="valoracion">#daa520</color>
     <color name="selected_overlay">#d5dbdb</color>
+    <color name="aviso_anotacion">#C70039</color>
     <color name="blanco">#ffffff</color>
+    <color name="negro">#000000</color>
 </resources>

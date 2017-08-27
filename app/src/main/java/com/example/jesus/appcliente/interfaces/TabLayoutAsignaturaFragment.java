@@ -22,6 +22,7 @@ public class TabLayoutAsignaturaFragment extends Fragment {
 
     private Bundle parametros;
     private int idAsignatura;
+    private String nombreAsignatura, nombreGrupo;
     private long fecha;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -40,6 +41,8 @@ public class TabLayoutAsignaturaFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_tablayout, container, false);
         parametros = getActivity().getIntent().getExtras();
         this.idAsignatura = parametros.getInt("idAsignatura");
+        this.nombreAsignatura = parametros.getString("nombreAsignatura");
+        this.nombreGrupo = parametros.getString("nombreGrupo");
         this.fecha = parametros.getLong("fecha");   //fecha actual
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -66,8 +69,8 @@ public class TabLayoutAsignaturaFragment extends Fragment {
 
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
-        final int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[] { "Disposición", "Listado"};
+        final int PAGE_COUNT = 3;
+        private String tabTitles[] = new String[] { "Disposición", "Listado", "Anotaciones"};
         private Context context;
 
         public PagerAdapter(FragmentManager fm, Context context) {
@@ -80,6 +83,8 @@ public class TabLayoutAsignaturaFragment extends Fragment {
 
             Intent intent = getActivity().getIntent();
             intent.putExtra("idAsignatura", idAsignatura);
+            intent.putExtra("nombreAsignatura", nombreAsignatura);
+            intent.putExtra("nombreGrupo", nombreGrupo);
             intent.putExtra("fecha", fecha);
             switch (position) {
                 case 0:
@@ -90,6 +95,10 @@ public class TabLayoutAsignaturaFragment extends Fragment {
                     DetalleAsignaturaFragment tab2 = new DetalleAsignaturaFragment();
                     tab2.setArguments(intent.getExtras());
                     return tab2;
+                case 2:
+                    VerAnotacionesFragment tab3 = new VerAnotacionesFragment();
+                    tab3.setArguments(intent.getExtras());
+                    return tab3;
                 default:
                     return null;
             }
