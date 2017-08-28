@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +67,12 @@ public class TabLayoutAsignaturaFragment extends Fragment {
                             Intent i = new Intent("TAG_REFRESH_0");
                             lbm.sendBroadcast(i);
                         }
+                        else if (tab.getPosition() == 1) {
+
+                            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+                            Intent i = new Intent("TAG_REFRESH_1");
+                            lbm.sendBroadcast(i);
+                        }
                     }
 
                     @Override
@@ -116,12 +121,12 @@ public class TabLayoutAsignaturaFragment extends Fragment {
             intent.putExtra("fecha", fecha);
             switch (position) {
                 case 0:
-                    DetalleAsignaturaFragment tab1 = new DetalleAsignaturaFragment();
+                    DetalleAsignaturaCuadFragment tab1 = new DetalleAsignaturaCuadFragment();
                     tab1.setArguments(intent.getExtras());
                     return tab1;
                 case 1:
-                    ListarProfesoresFragment tab2 = new ListarProfesoresFragment();
-                    //tab2.setArguments(intent.getExtras());
+                    DetalleAsignaturaListaFragment tab2 = new DetalleAsignaturaListaFragment();
+                    tab2.setArguments(intent.getExtras());
                     return tab2;
                 case 2:
                     VerAnotacionesFragment tab3 = new VerAnotacionesFragment();

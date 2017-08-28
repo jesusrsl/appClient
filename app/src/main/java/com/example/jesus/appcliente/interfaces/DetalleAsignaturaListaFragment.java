@@ -33,7 +33,7 @@ import com.example.jesus.appcliente.clases.Anotacion;
 import com.example.jesus.appcliente.clases.ClickListener;
 import com.example.jesus.appcliente.clases.DetalleAsignatura;
 import com.example.jesus.appcliente.clases.AlumnoClase;
-import com.example.jesus.appcliente.clases.AlumnoClaseAdapter;
+import com.example.jesus.appcliente.clases.AlumnoClaseListaAdapter;
 import com.example.jesus.appcliente.clases.DialogoSelectorFecha;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 
@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DetalleAsignaturaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, ClickListener{
+public class DetalleAsignaturaListaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, ClickListener{
 
     private TextView textViewAsignatura, textViewGrupo, textViewFecha;
     private int idAsignatura;
@@ -63,7 +63,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
 
     private RecyclerView recyclerViewDetalleAsignatura;
     private RecyclerView.LayoutManager layoutManager;
-    private AlumnoClaseAdapter adaptador;
+    private AlumnoClaseListaAdapter adaptador;
     private Bundle parametros;
     private ArrayList<Integer> alumnosSeleccionados;
 
@@ -139,7 +139,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         textViewGrupo.setText(nombreGrupo);
 
         ArrayList<AlumnoClase> alumnos = new ArrayList<AlumnoClase>();
-        adaptador = new AlumnoClaseAdapter(getContext(), alumnos, idAsignatura, fecha, this);
+        adaptador = new AlumnoClaseListaAdapter(getContext(), alumnos, idAsignatura, fecha, this);
         recyclerViewDetalleAsignatura.setAdapter(adaptador);
         this.layoutManager = new LinearLayoutManager(getContext());
         recyclerViewDetalleAsignatura.setLayoutManager(layoutManager);
@@ -153,7 +153,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaFragment.PonerFalta().execute("falta");
+                    new DetalleAsignaturaListaFragment.PonerFalta().execute("falta");
                 }
             }
         });
@@ -166,7 +166,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaFragment.PonerFalta().execute("trabaja");
+                    new DetalleAsignaturaListaFragment.PonerFalta().execute("trabaja");
                 }
             }
         });
@@ -179,7 +179,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaFragment.PonerFalta().execute("positivo");
+                    new DetalleAsignaturaListaFragment.PonerFalta().execute("positivo");
                 }
             }
         });
@@ -192,7 +192,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaFragment.PonerFalta().execute("negativo");
+                    new DetalleAsignaturaListaFragment.PonerFalta().execute("negativo");
                 }
             }
         });
@@ -223,7 +223,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         //se oculta el FAB hasta que no haya una selección múltiple
         //fab.setVisibility(View.GONE);
 
-        new DetalleAsignaturaFragment.GetAlumnado().execute();
+        new DetalleAsignaturaListaFragment.GetAlumnado().execute();
     }
 
     public void seleccionarAlumnado(){
@@ -239,7 +239,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         //your code in refresh.
         Log.i("Refresh", "YES");
         //se recargan las anotaciones que se pudieran haber hecho desde otro fragment
-        new DetalleAsignaturaFragment.GetAlumnado().execute();
+        new DetalleAsignaturaListaFragment.GetAlumnado().execute();
     }
 
     public void onPause() {
@@ -253,14 +253,14 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         Log.d("ONRESUME", "onresume");
         r = new MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r,
-                new IntentFilter("TAG_REFRESH_0"));
+                new IntentFilter("TAG_REFRESH_1"));
     }
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("ONRECEIVE", "onreceive");
-            DetalleAsignaturaFragment.this.refresh();
+            DetalleAsignaturaListaFragment.this.refresh();
         }
     }
 
@@ -287,7 +287,7 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         //DateFormat formato =  DateFormat.getDateInstance();
         textViewFecha.setText(formato.format(new Date(fecha)));
         //se actualiza las anotaciones del alumnado en la fecha indicada
-        new DetalleAsignaturaFragment.GetAlumnado().execute();
+        new DetalleAsignaturaListaFragment.GetAlumnado().execute();
         //se almacena la fecha seleccionada por si se rota la pantalla
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());

@@ -44,7 +44,7 @@ import java.util.Date;
  * Created by jesus on 12/07/17.
  */
 
-public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.ViewHolder>{
+public class AlumnoClaseListaAdapter extends SelectableAdapter<AlumnoClaseListaAdapter.ViewHolder>{
 
     protected ArrayList<AlumnoClase> alumnoClaseArrayList;
     protected int idAsignatura;
@@ -54,7 +54,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     protected View.OnClickListener onClickListener;
     private ClickListener clickListener;
 
-    public AlumnoClaseAdapter(Context contexto, ArrayList<AlumnoClase> alumnoClaseArrayList, int idAsignatura, long fecha, ClickListener clickListener) {
+    public AlumnoClaseListaAdapter(Context contexto, ArrayList<AlumnoClase> alumnoClaseArrayList, int idAsignatura, long fecha, ClickListener clickListener) {
         this.contexto = contexto;
         this.alumnoClaseArrayList = alumnoClaseArrayList;
         this.idAsignatura = idAsignatura;
@@ -308,7 +308,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflamos la vista desde el xml
-        View v = inflador.inflate(R.layout.layout_alumno_clase, parent, false);
+        View v = inflador.inflate(R.layout.layout_alumno_clase_lista, parent, false);
         //v.setOnClickListener(onClickListener);
         return new ViewHolder(v, clickListener);
     }

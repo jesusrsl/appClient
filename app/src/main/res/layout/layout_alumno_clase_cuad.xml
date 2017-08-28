@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/imageViewAlumno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/sinfoto"
+        android:contentDescription="@string/foto_alumno" />
+
+    <TextView
+        android:id="@+id/textViewNombreAlumno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_alumno_text"
+        android:layout_below="@+id/imageViewAlumno"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+
+    <LinearLayout
+        android:id="@+id/primeraFila"
+        android:layout_below="@+id/textViewNombreAlumno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical">
+
+
+        <Button
+            android:id="@+id/buttonFalta"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="F"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonTrabaja"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="T"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/segundaFila"
+        android:layout_below="@+id/primeraFila"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical">
+
+        <Button
+            android:id="@+id/buttonPositivo"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="+"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonNegativo"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="-"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
