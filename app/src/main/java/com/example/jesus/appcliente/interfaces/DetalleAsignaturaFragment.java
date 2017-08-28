@@ -1,15 +1,17 @@
 package com.example.jesus.appcliente.interfaces;
 
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
@@ -33,7 +35,6 @@ import com.example.jesus.appcliente.clases.DetalleAsignatura;
 import com.example.jesus.appcliente.clases.AlumnoClase;
 import com.example.jesus.appcliente.clases.AlumnoClaseAdapter;
 import com.example.jesus.appcliente.clases.DialogoSelectorFecha;
-import com.example.jesus.appcliente.clases.ParametrosValoracion;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 
 import org.json.JSONArray;
@@ -48,7 +49,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,6 +73,8 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
 
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
+
+    MyReceiver r;
 
 
     @Override
@@ -231,6 +233,35 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
         }
         Log.d("SELECCIÓN", adaptador.getSelectedItems().toString());
         Log.d("ALUMNADO", alumnosSeleccionados.toString());
+    }
+
+    public void refresh() {
+        //your code in refresh.
+        Log.i("Refresh", "YES");
+        //se recargan las anotaciones que se pudieran haber hecho desde otro fragment
+        new DetalleAsignaturaFragment.GetAlumnado().execute();
+    }
+
+    public void onPause() {
+        super.onPause();
+        Log.d("ONPAUSE", "onpause");
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        Log.d("ONRESUME", "onresume");
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH_0"));
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("ONRECEIVE", "onreceive");
+            DetalleAsignaturaFragment.this.refresh();
+        }
     }
 
 
@@ -441,7 +472,10 @@ public class DetalleAsignaturaFragment extends Fragment implements DatePickerDia
                 return "";
             }
             finally {
-                urlConnection.disconnect();
+                if(urlConnection!=null){
+                    urlConnection.disconnect();
+                }
+
             }
 
             return result.toString();

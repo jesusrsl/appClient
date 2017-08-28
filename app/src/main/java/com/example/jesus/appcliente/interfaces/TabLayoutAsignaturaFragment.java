@@ -7,7 +7,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ public class TabLayoutAsignaturaFragment extends Fragment {
     private long fecha;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private PagerAdapter adaptador;
     public static String POSITION = "POSITION";
 
 
@@ -47,11 +50,36 @@ public class TabLayoutAsignaturaFragment extends Fragment {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new PagerAdapter(getChildFragmentManager(), getActivity()));
+        adaptador = new PagerAdapter(getChildFragmentManager(), getActivity());
+        viewPager.setAdapter(adaptador);
 
         // Give the TabLayout the ViewPager
         tabLayout = (TabLayout) inflatedView.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        viewPager.setCurrentItem(tab.getPosition());
+                        if (tab.getPosition() == 0) {
+
+                            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+                            Intent i = new Intent("TAG_REFRESH_0");
+                            lbm.sendBroadcast(i);
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
 
         return inflatedView;
     }
@@ -92,8 +120,8 @@ public class TabLayoutAsignaturaFragment extends Fragment {
                     tab1.setArguments(intent.getExtras());
                     return tab1;
                 case 1:
-                    DetalleAsignaturaFragment tab2 = new DetalleAsignaturaFragment();
-                    tab2.setArguments(intent.getExtras());
+                    ListarProfesoresFragment tab2 = new ListarProfesoresFragment();
+                    //tab2.setArguments(intent.getExtras());
                     return tab2;
                 case 2:
                     VerAnotacionesFragment tab3 = new VerAnotacionesFragment();

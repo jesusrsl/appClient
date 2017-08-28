@@ -7,16 +7,16 @@ import android.content.Context;
  * Created by jesus on 21/08/17.
  */
 
-public class ParametrosValoracion {
+public class ParametrosAnotacion {
     private String url;
-    private String valoracion;
+    private Anotacion anotacion;
     private int alumnoPk;
     private int posicion;
     private Object object;
 
-    public ParametrosValoracion(String url, String valoracion, int alumnoPk, int posicion, Object object) {
+    public ParametrosAnotacion(String url, Anotacion anotacion, int alumnoPk, int posicion, Object object) {
         this.url = url;
-        this.valoracion = valoracion;
+        this.anotacion = anotacion;
         this.alumnoPk = alumnoPk;
         this.posicion = posicion;
         this.object = object;
@@ -30,12 +30,12 @@ public class ParametrosValoracion {
         this.url = url;
     }
 
-    public String getValoracion() {
-        return valoracion;
+    public Anotacion getAnotacion() {
+        return anotacion;
     }
 
-    public void setValoracion(String valoracion) {
-        this.valoracion = valoracion;
+    public void setAnotacion(Anotacion anotacion) {
+        this.anotacion = anotacion;
     }
 
     public int getAlumnoPk() {

@@ -2,7 +2,6 @@ package com.example.jesus.appcliente.clases;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -17,15 +16,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
-import com.example.jesus.appcliente.interfaces.DetalleAsignaturaFragment;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -38,10 +36,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -131,56 +127,63 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
             if (v.getId() == botonFalta.getId()){
                 if (anotacion != null){
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "falta", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, anotacionModificada(anotacion,"falta"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "falta", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlPoner, nuevaAnotacion("falta"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonTrabaja.getId()){
                 if (anotacion != null){
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "trabaja", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, anotacionModificada(anotacion,"trabaja"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "trabaja", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlPoner, nuevaAnotacion("trabaja"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonPositivo.getId()) {
                 if (anotacion != null) {
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "positivo", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, anotacionModificada(anotacion,"positivo"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "positivo", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlPoner, nuevaAnotacion("positivo"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonNegativo.getId()){
                 if (anotacion != null){
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlEditar, "negativo", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new EditarAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, anotacionModificada(anotacion,"negativo"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new EditarAnotacion();
                     task.execute(parametros);
                 }
                 else{
-                    ParametrosValoracion parametros = new ParametrosValoracion(urlPoner, "negativo", pk, getAdapterPosition(), this);
-                    AsyncTask<ParametrosValoracion, Void, Boolean> task = new PonerAnotacion();
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlPoner, nuevaAnotacion("negativo"), pk, getAdapterPosition(), this);
+                    AsyncTask<ParametrosAnotacion, Void, Boolean> task = new PonerAnotacion();
                     task.execute(parametros);
                 }
             }
             else if (v.getId() == botonEditar.getId()){
 
-                mostrarDialogAnotaciones(v, anotacion);
-                Toast.makeText(v.getContext(), "EDIT PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+                if(anotacion!=null){
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, null, pk, getAdapterPosition(), this);
+                    mostrarDialogAnotaciones(v, anotacion, parametros);
+                }
+                else{
+                    ParametrosAnotacion parametros = new ParametrosAnotacion(urlPoner, null, pk, getAdapterPosition(), this);
+                    mostrarDialogAnotaciones(v, anotacion, parametros);
+                }
+
             }
             else {
                 if (listener != null) {
@@ -190,17 +193,33 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
         }
 
 
-        public void mostrarDialogAnotaciones(View v, Anotacion anotacion) {
+        public void mostrarDialogAnotaciones(View v, final Anotacion anotacion, final ParametrosAnotacion parametros) {
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
             View dialogView = inflador.inflate(R.layout.dialogo_anotaciones, null);
-            Switch falta = (Switch) dialogView.findViewById(R.id.switchFalta);
-            Switch trabaja = (Switch) dialogView.findViewById(R.id.switchTrabaja);
-            EditText positivos = (EditText) dialogView.findViewById(R.id.editTextPositivos);
-            EditText negativos = (EditText) dialogView.findViewById(R.id.editTextNegativos);
+            final Spinner falta = (Spinner) dialogView.findViewById(R.id.spinnerFalta);
+            final Switch trabaja = (Switch) dialogView.findViewById(R.id.switchTrabaja);
+            final EditText positivos = (EditText) dialogView.findViewById(R.id.editTextPositivos);
+            final EditText negativos = (EditText) dialogView.findViewById(R.id.editTextNegativos);
 
             if(anotacion != null){
-                if (anotacion.getFalta()!=null){falta.setChecked(true);}else{falta.setChecked(false);}
+                if (anotacion.getFalta()!=null){
+                    if (anotacion.getFalta().equals("I")){
+                        falta.setSelection(1);
+                    }
+                    else if (anotacion.getFalta().equals("J")){
+                        falta.setSelection(2);
+                    }
+                    else if (anotacion.getFalta().equals("R")){
+                        falta.setSelection(3);
+                    }
+                    else{
+                        falta.setSelection(0);
+                    }
+                }
+                else{
+                    falta.setSelection(0);
+                }
                 if (anotacion.isTrabaja()){trabaja.setChecked(true);}else{trabaja.setChecked(false);}
                 if (anotacion.getPositivos()>0){
                     positivos.setText(Integer.toString(anotacion.getPositivos()));
@@ -211,9 +230,47 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             }
 
             dialogBuilder.setView(dialogView);
-            dialogBuilder.setPositiveButton("Guadar", new DialogInterface.OnClickListener() {
+            dialogBuilder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    /*if (anotacion != null) {
+                    }
+                    else {
+                    }*/
+                    //se guardan los valores introducidos
+                    Anotacion nuevaAnotacion = new Anotacion();
+                    switch (falta.getSelectedItemPosition()) {
+                        case 0: nuevaAnotacion.setFalta("");
+                            break;
+                        case 1: nuevaAnotacion.setFalta("I");
+                            break;
+                        case 2: nuevaAnotacion.setFalta("J");
+                            break;
+                        case 3: nuevaAnotacion.setFalta("R");
+                            break;
+                    }
+
+                    nuevaAnotacion.setTrabaja(trabaja.isChecked());
+                    if (!positivos.getText().toString().isEmpty()){
+                        nuevaAnotacion.setPositivos(Integer.parseInt(positivos.getText().toString().trim()));
+                    }
+                    if (!negativos.getText().toString().isEmpty()){
+                        nuevaAnotacion.setNegativos(Integer.parseInt(negativos.getText().toString().trim()));
+                    }
+                    //se actualiza la anotacion contenida en los parámetros
+                    parametros.setAnotacion(nuevaAnotacion);
+
+                    Log.d("ANOTACION", nuevaAnotacion.getFalta() + " " + nuevaAnotacion.isTrabaja() + " " + nuevaAnotacion.getPositivos() + " " + nuevaAnotacion.getNegativos());
+
+                    if (anotacion != null){
+                        AsyncTask<ParametrosAnotacion, Void, Boolean> task = new EditarAnotacion();
+                        task.execute(parametros);
+                    }
+                    else{
+                        AsyncTask<ParametrosAnotacion, Void, Boolean> task = new PonerAnotacion();
+                        task.execute(parametros);
+                    }
 
                 }
             });
@@ -230,24 +287,6 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             ///////////////////////////////////////////////////////////////
 
         }
-        /*
-        public void lanzarVistaLugar(View view){
-            final EditText entrada = new EditText(this);
-            entrada.setText("0");
-            new AlertDialog.Builder(this)
-                    .setTitle("Selección de lugar")
-                    .setMessage("Indica su id:")
-                    .setView(entrada)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener(){
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            long id = Long.parseLong(entrada.getText().toString());
-                            Intent i = new Intent(MainActivity.this, VistaLugarActivity.class);
-                            i.putExtra("id", id);
-                            startActivityForResult(i, RESULTADO_VISTA_LUGAR);
-                        }})
-                    .setNegativeButton("Cancelar", null)
-                    .show();
-        }*/
 
         //onLongClickListener for view --> para comenzar la selección múltiple
         @Override
@@ -306,6 +345,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 }
             }
             else{
+                holder.botonFalta.setText("F");
                 holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
             }
 
@@ -321,6 +361,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.MULTIPLY);
             }
             else{
+                holder.botonPositivo.setText("+");
                 holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
             }
             if(alumnoClase.getAnotacion().getNegativos()>0){
@@ -328,6 +369,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.MULTIPLY);
             }
             else{
+                holder.botonNegativo.setText("-");
                 holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
             }
 
@@ -342,9 +384,13 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
             }
         }
         else{
+            holder.botonFalta.setText("F");
             holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonTrabaja.setText("T");
             holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonPositivo.setText("+");
             holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonNegativo.setText("-");
             holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         }
 
@@ -391,17 +437,84 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
     public int getItemPk(int posicion){ return this.alumnoClaseArrayList.get(posicion).getPk();}
 
+    public Anotacion nuevaAnotacion(String valoracion){
+        Anotacion anotacion = new Anotacion();
+        switch (valoracion){
+            case "falta": anotacion.setFalta("I"); //la primera vez, la falta es injustificada
+                break;
+            case "trabaja": anotacion.setTrabaja(true);
+                break;
+            case "positivo": anotacion.setPositivos(1);
+                break;
+            case "negativo": anotacion.setNegativos(1);
+                break;
+        }
+        return anotacion;
+    }
 
+    public Anotacion anotacionModificada(Anotacion anotacionOld, String valoracion){
+        Anotacion anotacion = new Anotacion();
+        switch (valoracion){
+            case "falta": if (anotacionOld.getFalta()!=null){
+                                if(anotacionOld.getFalta().equals("I")){
+                                    anotacion.setFalta("J");
+                                }
+                                else if(anotacionOld.getFalta().equals("J")){
+                                    anotacion.setFalta("R");
+                                }
+                                else if(anotacionOld.getFalta().equals("R")){
+                                    anotacion.setFalta("");
+                                }
+                                else{
+                                    anotacion.setFalta("I");
+                                }
+                        }else{
+                            anotacion.setFalta("I");
+                        }
+                        anotacion.setTrabaja(anotacionOld.isTrabaja());
+                        anotacion.setPositivos(anotacionOld.getPositivos());
+                        anotacion.setNegativos(anotacionOld.getNegativos());
+                        break;
+            case "trabaja": if (anotacionOld.isTrabaja()){
+                                anotacion.setTrabaja(false);
+                            }else{
+                                anotacion.setTrabaja(true);
+                            }
+                        anotacion.setFalta(anotacionOld.getFalta());
+                        anotacion.setPositivos(anotacionOld.getPositivos());
+                        anotacion.setNegativos(anotacionOld.getNegativos());
+                        break;
+            case "positivo": if (anotacionOld.getPositivos() > 0 ){
+                                anotacion.setPositivos(anotacionOld.getPositivos()+1);
+                            }else{
+                                anotacion.setPositivos(1);
+                            }
+                        anotacion.setFalta(anotacionOld.getFalta());
+                        anotacion.setTrabaja(anotacionOld.isTrabaja());
+                        anotacion.setNegativos(anotacionOld.getNegativos());
+                        break;
+            case "negativo": if (anotacionOld.getNegativos() > 0 ){
+                                anotacion.setNegativos(anotacionOld.getNegativos()+1);
+                            }else{
+                                anotacion.setNegativos(1);
+                            }
+                        anotacion.setFalta(anotacionOld.getFalta());
+                        anotacion.setTrabaja(anotacionOld.isTrabaja());
+                        anotacion.setPositivos(anotacionOld.getPositivos());
+                        break;
+            }
+        return anotacion;
+    }
 
     //Insertar anotacion
-    private class PonerAnotacion extends AsyncTask<ParametrosValoracion, Void, Boolean> {
+    private class PonerAnotacion extends AsyncTask<ParametrosAnotacion, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 
-        public Boolean doInBackground(ParametrosValoracion... params) {
+        public Boolean doInBackground(ParametrosAnotacion... params) {
 
             String urlString = params[0].getUrl();
-            String valoracion = params[0].getValoracion();
+            Anotacion anotacion = params[0].getAnotacion();
             int alumnoPk = params[0].getAlumnoPk();
             int posicion = params[0].getPosicion();
             ViewHolder viewHolder= (ViewHolder)params[0].getObject();
@@ -427,16 +540,10 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
                 //escritura de la anotacion
                 JSONObject jsonObject = new JSONObject();
-                switch (valoracion){
-                    case "falta": jsonObject.put("falta", "I"); //la primera vez, la falta es injustificada
-                        break;
-                    case "trabaja": jsonObject.put("trabaja", true);
-                        break;
-                    case "positivo": jsonObject.put("positivos", 1);
-                        break;
-                    case "negativo": jsonObject.put("negativos", 1);
-                        break;
-                }
+                jsonObject.put("falta", anotacion.getFalta());
+                jsonObject.put("trabaja", anotacion.isTrabaja());
+                jsonObject.put("positivos", anotacion.getPositivos());
+                jsonObject.put("negativos", anotacion.getNegativos());
 
                 //urlConnection.setFixedLengthStreamingMode(jsonObject.toString().length());
 
@@ -458,14 +565,14 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                     }
                     br.close();
                     Log.d("CREATED","" + sb.toString());
-                    Anotacion anotacion = Anotacion.obtenerAnotacion(sb.toString());
-                    anotacion.setAsignatura(idAsignatura);
-                    anotacion.setAlumno(alumnoPk);
+                    Anotacion anotacionDevuelta = Anotacion.obtenerAnotacion(sb.toString());
+                    anotacionDevuelta.setAsignatura(idAsignatura);
+                    anotacionDevuelta.setAlumno(alumnoPk);
                     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                     String fechaString = formato.format(new Date(fecha));
-                    anotacion.setFecha(fechaString);
+                    anotacionDevuelta.setFecha(fechaString);
 
-                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacion);
+                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacionDevuelta);
                     onBindViewHolder(viewHolder, posicion);
 
                     Log.d("INSERTADO", Integer.toString(alumnoPk));
@@ -505,14 +612,14 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
     }
 
     //Editar una determinada anotacion
-    private class EditarAnotacion extends AsyncTask<ParametrosValoracion, Void, Boolean> {
+    private class EditarAnotacion extends AsyncTask<ParametrosAnotacion, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 
-        public Boolean doInBackground(ParametrosValoracion... params) {
+        public Boolean doInBackground(ParametrosAnotacion... params) {
 
             String urlString = params[0].getUrl();
-            String valoracion = params[0].getValoracion();
+            Anotacion anotacion = params[0].getAnotacion();
             int alumnoPk = params[0].getAlumnoPk();
             int posicion = params[0].getPosicion();
             ViewHolder viewHolder= (ViewHolder)params[0].getObject();
@@ -537,62 +644,17 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                 urlConnection.setRequestMethod("PUT");
 
                 //escritura de la anotacion
-                Anotacion anotacion_old = alumnoClaseArrayList.get(posicion).getAnotacion();
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("alumno", alumnoPk);
                 jsonObject.put("asignatura", idAsignatura);
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaString = formato.format(new Date(fecha));
                 jsonObject.put("fecha", fechaString);
-                switch (valoracion){
-                    case "falta": if (anotacion_old.getFalta()!=null){
-                                        if(anotacion_old.getFalta().equals("I")){
-                                            jsonObject.put("falta", "J");
-                                        }
-                                        else if(anotacion_old.getFalta().equals("J")){
-                                            jsonObject.put("falta", "R");
-                                        }
-                                        else if(anotacion_old.getFalta().equals("R")){
-                                            jsonObject.put("falta", "");
-                                        }
-                                        else{
-                                            jsonObject.put("falta", "I");
-                                        }
-                                }else{
-                                    jsonObject.put("falta", "I");
-                                }
-                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
-                        jsonObject.put("positivos", anotacion_old.getPositivos());
-                        jsonObject.put("negativos", anotacion_old.getNegativos());
-                        break;
-                    case "trabaja": if (anotacion_old.isTrabaja()){
-                                        jsonObject.put("trabaja", false);
-                                    }else{
-                                        jsonObject.put("trabaja", true);
-                                    }
-                        jsonObject.put("falta", anotacion_old.getFalta());
-                        jsonObject.put("positivos", anotacion_old.getPositivos());
-                        jsonObject.put("negativos", anotacion_old.getNegativos());
-                        break;
-                    case "positivo": if (anotacion_old.getPositivos() > 0 ){
-                                        jsonObject.put("positivos", anotacion_old.getPositivos()+1);
-                                    }else{
-                                        jsonObject.put("positivos", 1);
-                                    }
-                        jsonObject.put("falta", anotacion_old.getFalta());
-                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
-                        jsonObject.put("negativos", anotacion_old.getNegativos());
-                        break;
-                    case "negativo": if (anotacion_old.getNegativos() > 0 ){
-                                        jsonObject.put("negativos", anotacion_old.getNegativos()+1);
-                                    }else{
-                                        jsonObject.put("negativos", 1);
-                                    }
-                        jsonObject.put("falta", anotacion_old.getFalta());
-                        jsonObject.put("trabaja", anotacion_old.isTrabaja());
-                        jsonObject.put("positivos", anotacion_old.getPositivos());
-                        break;
-                }
+                jsonObject.put("falta", anotacion.getFalta());
+                jsonObject.put("trabaja", anotacion.isTrabaja());
+                jsonObject.put("positivos", anotacion.getPositivos());
+                jsonObject.put("negativos", anotacion.getNegativos());
+
 
                 //urlConnection.setFixedLengthStreamingMode(jsonObject.toString().length());
 
@@ -614,14 +676,14 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
                     }
                     br.close();
                     Log.d("UPDATED","" + sb.toString());
-                    Anotacion anotacion_nueva = Anotacion.obtenerAnotacion(sb.toString());
+                    Anotacion anotacionDevuelta = Anotacion.obtenerAnotacion(sb.toString());
                     //anotacion_nueva.setAsignatura(idAsignatura);
                     //anotacion_nueva.setAlumno(alumnoPk);
                     //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                     //String fechaString = formato.format(new Date(fecha));
                     //anotacion.setFecha(fechaString);
 
-                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacion_nueva);
+                    alumnoClaseArrayList.get(posicion).setAnotacion(anotacionDevuelta);
                     onBindViewHolder(viewHolder, posicion);
 
                     Log.d("ACTUALIZADO", Integer.toString(alumnoPk));

@@ -104,6 +104,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 app:fabSize="normal"
+                app:backgroundTint="@color/blue_grey"
                 android:src="@drawable/ic_mode_edit_white_24dp"/>
 
         </RelativeLayout>

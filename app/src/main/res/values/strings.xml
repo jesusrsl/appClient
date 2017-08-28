@@ -74,7 +74,7 @@
     <string name="fecha_fin">Fecha de fin:</string>
 
     <string name="fecha">"dd/MM/yyyy"</string>
-    <string name="switch_falta">Falta:</string>
+    <string name="falta_text">Falta:</string>
     <string name="switch_trabaja">Trabaja:</string>
     <string name="positivos_text">Positivos:</string>
     <string name="negativos_text">Negativos:</string>
@@ -109,17 +109,11 @@
     <string name="acercade">Aplicación móvil para valorar el trabajo de clase del alumnado de un centro educativo.</string>
     <string name="title_activity_preferencias">Preferencias</string>
 
-    <array name="dummy_items">
-        <item>One</item>
-        <item>Two</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
-        <item>Six</item>
-        <item>Seven</item>
-        <item>Eight</item>
-        <item>Nine</item>
-        <item>Ten</item>
+    <array name="tipos_falta">
+        <item>---</item>
+        <item>I</item>
+        <item>J</item>
+        <item>R</item>
     </array>
 
 </resources>
