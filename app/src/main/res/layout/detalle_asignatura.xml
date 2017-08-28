@@ -1,103 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jesus.appcliente.interfaces.DetalleAsignaturaFragment">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp">
+    <com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout
+        android:id="@+id/fabtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:showDuration="600"
+        app:hideDuration="200"
+        app:horizontalMargin="30dp"
+        app:verticalMargin="30dp"
+        app:fadeInFraction="0.2"
+        app:fabId="@+id/fabtoolbar_fab"
+        app:containerId="@+id/fabtoolbar_container"
+        app:fabToolbarId="@+id/fabtoolbar_toolbar">
 
-        <TextView
-            android:id="@+id/textViewAsignatura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="15dp"
-            android:paddingStart="15dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            />
-
-        <TextView
-            android:id="@+id/textViewGrupo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/textViewAsignatura"
-            android:layout_toRightOf="@+id/textViewAsignatura"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            />
-
-        <TextView
-            android:id="@+id/textViewFecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/textViewAsignatura"
-            android:text="@string/fecha"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            />
-
-        <TextView
-            android:id="@+id/textViewListado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:paddingStart="15dp"
-            android:layout_below="@+id/textViewAsignatura"
-            android:text="@string/listado_alumnos" />
-
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/recycler_view_detalle_asignatura"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textViewListado"
-            android:layout_marginTop="5dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewAsignatura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/asignatura_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewGrupo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/textViewAsignatura"
+                    android:layout_toRightOf="@+id/textViewAsignatura"
+                    android:text="@string/grupo_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBaseline="@+id/textViewAsignatura"
+                    android:text="@string/fecha"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewListado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="@string/listado_alumnos" />
+
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/recycler_view_detalle_asignatura"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="0dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/fabtoolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabtoolbar_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                app:fabSize="normal"
+                android:src="@drawable/ic_mode_edit_white_24dp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/fabtoolbar_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            app:srcCompat="@android:drawable/ic_dialog_info" />
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/imageViewFalta"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/falta"
+                android:src="@drawable/ic_watch_later_white_24dp"/>
 
+            <ImageView
+                android:id="@+id/imageViewTrabaja"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/trabaja"
+                android:src="@drawable/ic_stars_white_24dp"/>
 
-</android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageViewPositivo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/positivo"
+                android:src="@drawable/ic_thumb_up_white_24dp"/>
+
+            <ImageView
+                android:id="@+id/imageViewNegativo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/negativo"
+                android:src="@drawable/ic_thumb_down_white_24dp"/>
+
+            <ImageView
+                android:id="@+id/imageViewCancelar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/action_cancel"
+                android:src="@drawable/ic_cancel_white_24dp"/>
+
+        </LinearLayout>
+
+    </com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout>
+
+</RelativeLayout>

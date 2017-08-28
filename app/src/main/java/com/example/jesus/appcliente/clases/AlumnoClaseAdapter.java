@@ -74,6 +74,10 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
         this.fecha = fecha;
     }
 
+    public void actualizarAnotacion(Anotacion anotacion, int position){
+        this.alumnoClaseArrayList.get(position).setAnotacion(anotacion);
+    }
+
     public void setOnItemClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
@@ -500,7 +504,7 @@ public class AlumnoClaseAdapter extends SelectableAdapter<AlumnoClaseAdapter.Vie
 
     }
 
-    //Insertar profesor
+    //Editar una determinada anotacion
     private class EditarAnotacion extends AsyncTask<ParametrosValoracion, Void, Boolean> {
 
         HttpURLConnection urlConnection;

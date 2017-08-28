@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Created by jesus on 3/08/17.
@@ -87,6 +88,12 @@ public class Anotacion {
     public static Anotacion obtenerAnotacion(String json){
         Gson gson = new Gson();
         Type type = new TypeToken<Anotacion>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public static ArrayList<Anotacion> obtenerAnotaciones(String json){
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Anotacion>>(){}.getType();
         return gson.fromJson(json, type);
     }
 }
