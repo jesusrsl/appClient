@@ -180,12 +180,12 @@ public class ListarAsignaturasFragment extends Fragment {
             String nombre;
             String descripcion;
             if (idGrupo == 0){
-                url = "instituto/asignaturas/PDF/";
+                url = "anota/asignaturas/PDF/";
                 nombre = "asignaturas.pdf";
                 descripcion="Listado de asignaturas";
             }
             else{
-                url = "instituto/asignaturas/"+ Integer.toString(idGrupo) + "/PDF/";
+                url = "anota/asignaturas/"+ Integer.toString(idGrupo) + "/PDF/";
                 nombre = "asignaturas-"+ nombreGrupo.replace(" ", "-") +".pdf";
                 descripcion="Listado de asignaturas de " + nombreGrupo;
             }

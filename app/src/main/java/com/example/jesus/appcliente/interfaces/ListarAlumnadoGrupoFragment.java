@@ -103,7 +103,7 @@ public class ListarAlumnadoGrupoFragment extends Fragment {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            String url = "instituto/grupo/" + Integer.toString(idGrupo) + "/PDF/";
+            String url = "anota/grupo/" + Integer.toString(idGrupo) + "/PDF/";
             String nombre = "grupo-" + nombreGrupo.replace(" ","-") +".pdf";
             String descripcion = "Listado del alumnado del grupo " + nombreGrupo;
 

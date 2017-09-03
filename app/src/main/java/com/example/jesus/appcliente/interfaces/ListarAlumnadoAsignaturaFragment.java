@@ -104,7 +104,7 @@ public class ListarAlumnadoAsignaturaFragment extends Fragment {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            String url = "instituto/asignatura/" + Integer.toString(idAsignatura) + "/PDF/";
+            String url = "anota/asignatura/" + Integer.toString(idAsignatura) + "/PDF/";
             String nombre = "asignatura-" + nombreAsignatura +".pdf";
             String descripcion = "Listado del alumnado de la asignatura " + nombreAsignatura;
 

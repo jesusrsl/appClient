@@ -196,11 +196,11 @@ public class ListarAlumnadoOrdenTutoriaFragment extends Fragment implements OnSt
             String nombre;
             String descripcion;
             if (idGrupo > 0 && nombreGrupo != null) {
-                url = "instituto/grupo/" + Integer.toString(idGrupo) + "/PDF/";
+                url = "anota/grupo/" + Integer.toString(idGrupo) + "/PDF/";
                 nombre = "tutoría-" + nombreGrupo.replace(" ", "-") + ".pdf";
                 descripcion = "Listado del alumnado de tutoría de " + nombreGrupo;
             }else{
-                url = "instituto/grupos/PDF/";
+                url = "anota/grupos/PDF/";
                 nombre = "grupos.pdf";
                 descripcion = "Listado de grupos";
             }

@@ -114,7 +114,7 @@ public class ListarGruposFragment extends Fragment {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            ParametrosPDF parametros = new ParametrosPDF("instituto/grupos/PDF/", "grupos.pdf", "Listado de grupos", getContext(), manager);
+            ParametrosPDF parametros = new ParametrosPDF("anota/grupos/PDF/", "grupos.pdf", "Listado de grupos", getContext(), manager);
             AsyncTask<ParametrosPDF, Void, File> task =new DownloadPDFTask();
             task.execute(parametros);
         }

@@ -109,7 +109,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.ViewHolder
             holder.edad.setText(Integer.toString(edad) + " años");
         }
 
-        if (alumno.getEmail().isEmpty()){
+        if (alumno.getEmail() == null){
             holder.email.setText("E-mail: ---");
         }
         else{

@@ -22,9 +22,9 @@
 
 
 
-    <style name="EstiloBoton">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:layout_margin">10dp</item>
+    <style name="EstiloBoton" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_margin">0dp</item>
     </style>
 
     <style name="EstiloBoton.Alternativo">

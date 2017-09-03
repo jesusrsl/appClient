@@ -82,7 +82,7 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         public TextView nombreAlumno;
         public ImageView foto;
-        public Button botonFalta, botonTrabaja, botonPositivo, botonNegativo; //botonEditar;
+        public Button botonFalta, botonTrabaja, botonPositivo, botonNegativo, botonEditar;
         public RelativeLayout lt;
         private ClickListener listener;
 
@@ -97,7 +97,7 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
             botonTrabaja = (Button) itemView.findViewById(R.id.buttonTrabaja);
             botonPositivo = (Button) itemView.findViewById(R.id.buttonPositivo);
             botonNegativo = (Button) itemView.findViewById(R.id.buttonNegativo);
-            //botonEditar = (Button) itemView.findViewById(R.id.buttonEdit);
+            botonEditar = (Button) itemView.findViewById(R.id.buttonEdit);
 
             lt = (RelativeLayout) itemView.findViewById(R.id.layout);
 
@@ -107,7 +107,7 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
             botonTrabaja.setOnClickListener(this);
             botonPositivo.setOnClickListener(this);
             botonNegativo.setOnClickListener(this);
-            foto.setOnClickListener(this);
+            botonEditar.setOnClickListener(this);
 
         }
 
@@ -174,7 +174,7 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
                     task.execute(parametros);
                 }
             }
-            else if (v.getId() == foto.getId()){
+            else if (v.getId() == botonEditar.getId()){
 
                 if(anotacion!=null){
                     ParametrosAnotacion parametros = new ParametrosAnotacion(urlEditar, null, pk, getAdapterPosition(), this);
@@ -330,48 +330,48 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
             if(alumnoClase.getAnotacion().getFalta()!=null){
                 if(alumnoClase.getAnotacion().getFalta().equals("I")){
                     holder.botonFalta.setText("I");
-                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.SRC_IN);
                 }
                 else if(alumnoClase.getAnotacion().getFalta().equals("J")){
                     holder.botonFalta.setText("J");
-                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.SRC_IN);
                 }
                 else if(alumnoClase.getAnotacion().getFalta().equals("R")){
                     holder.botonFalta.setText("R");
-                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.MULTIPLY);
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.falta), PorterDuff.Mode.SRC_IN);
                 }
                 else{
                     holder.botonFalta.setText("F");
-                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+                    holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
                 }
             }
             else{
                 holder.botonFalta.setText("F");
-                holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+                holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             }
 
             if(alumnoClase.getAnotacion().isTrabaja()){
-                holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.trabaja), PorterDuff.Mode.MULTIPLY);
+                holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.trabaja), PorterDuff.Mode.SRC_IN);
             }
             else{
-                holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+                holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             }
 
             if(alumnoClase.getAnotacion().getPositivos()>0){
                 holder.botonPositivo.setText(Integer.toString(alumnoClase.getAnotacion().getPositivos()) + "+");
-                holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.MULTIPLY);
+                holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.SRC_IN);
             }
             else{
                 holder.botonPositivo.setText("+");
-                holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+                holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             }
             if(alumnoClase.getAnotacion().getNegativos()>0){
                 holder.botonNegativo.setText(Integer.toString(alumnoClase.getAnotacion().getNegativos()) + "-");
-                holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.MULTIPLY);
+                holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.valoracion), PorterDuff.Mode.SRC_IN);
             }
             else{
                 holder.botonNegativo.setText("-");
-                holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+                holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             }
 
             if(alumnoClase.getAnotacion().getFalta() != null) {
@@ -386,22 +386,22 @@ public class AlumnoClaseCuadAdapter extends SelectableAdapter<AlumnoClaseCuadAda
         }
         else{
             holder.botonFalta.setText("F");
-            holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonFalta.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             holder.botonTrabaja.setText("T");
-            holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonTrabaja.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             holder.botonPositivo.setText("+");
-            holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonPositivo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             holder.botonNegativo.setText("-");
-            holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            holder.botonNegativo.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         }
 
 
         //Se determina el color de fondo: si está seleccionado en gris
         if (isSelected(posicion)){
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.selected_overlay), PorterDuff.Mode.MULTIPLY);
+            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.selected_overlay), PorterDuff.Mode.SRC_IN);
         }
         else{
-            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.blanco), PorterDuff.Mode.MULTIPLY);
+            holder.lt.getBackground().setColorFilter(ContextCompat.getColor(contexto, R.color.blanco), PorterDuff.Mode.SRC_IN);
         }
 
         ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance

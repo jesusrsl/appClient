@@ -34,9 +34,9 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:paddingStart="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/asignatura_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     />
 
                 <TextView
@@ -46,11 +46,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toEndOf="@+id/textViewAsignatura"
                     android:layout_toRightOf="@+id/textViewAsignatura"
                     android:text="@string/grupo_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     />
 
                 <TextView
@@ -69,14 +69,6 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/textViewListado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="15dp"
-                android:paddingStart="15dp"
-                android:text="@string/listado_alumnos" />
 
             <android.support.v7.widget.RecyclerView
                 xmlns:android="http://schemas.android.com/apk/res/android"

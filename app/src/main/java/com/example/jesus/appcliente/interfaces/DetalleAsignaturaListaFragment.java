@@ -86,14 +86,14 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.detalle_asignatura, container, false);
+        View view = inflater.inflate(R.layout.detalle_asignatura_lista, container, false);
 
         parametros = getActivity().getIntent().getExtras();
         this.idAsignatura = parametros.getInt("idAsignatura");
         this.nombreAsignatura = parametros.getString("nombreAsignatura");
         this.nombreGrupo = parametros.getString("nombreGrupo");
 
-        //obtención del token
+        //obtención de la fecha almacenada (si la hubiera)
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         String fecha_almacenada = settings.getString("fecha_seleccionada", ""/*default value*/);
@@ -153,7 +153,7 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaListaFragment.PonerFalta().execute("falta");
+                    new PonerValoracion().execute("falta");
                 }
             }
         });
@@ -166,7 +166,7 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaListaFragment.PonerFalta().execute("trabaja");
+                    new PonerValoracion().execute("trabaja");
                 }
             }
         });
@@ -179,7 +179,7 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaListaFragment.PonerFalta().execute("positivo");
+                    new PonerValoracion().execute("positivo");
                 }
             }
         });
@@ -192,7 +192,7 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaListaFragment.PonerFalta().execute("negativo");
+                    new PonerValoracion().execute("negativo");
                 }
             }
         });
@@ -237,7 +237,15 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
 
     public void refresh() {
         //your code in refresh.
-        Log.i("Refresh", "YES");
+        Log.i("Refresh", "Lista");
+        //se recarga la fecha por si se ha cambiado
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        String fecha_almacenada = settings.getString("fecha_seleccionada", ""/*default value*/);
+        if(!fecha_almacenada.isEmpty()){
+            this.fecha = Long.parseLong(fecha_almacenada);  //se coge la fecha seleccionada
+            textViewFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(fecha)));
+        }
         //se recargan las anotaciones que se pudieran haber hecho desde otro fragment
         new DetalleAsignaturaListaFragment.GetAlumnado().execute();
     }
@@ -504,7 +512,7 @@ public class DetalleAsignaturaListaFragment extends Fragment implements DatePick
     }
 
     //Insertar anotacion
-    private class PonerFalta extends AsyncTask<String, Void, Boolean> {
+    private class PonerValoracion extends AsyncTask<String, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 

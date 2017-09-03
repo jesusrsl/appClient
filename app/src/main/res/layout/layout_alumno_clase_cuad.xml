@@ -14,25 +14,50 @@
     android:clickable="true"
     android:background="@android:color/white">
 
-    <ImageView
-        android:id="@+id/imageViewAlumno"
+
+    <FrameLayout
+        android:id="@+id/frameFotografia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/sinfoto"
-        android:contentDescription="@string/foto_alumno" />
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/imageViewAlumno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/sinfoto"
+            android:contentDescription="@string/foto_alumno" />
+
+        <Button
+            android:id="@+id/buttonEdit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:background="@drawable/ic_mode_edit_white_24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textStyle="bold" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textViewNombreAlumno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/nombre_alumno_text"
-        android:layout_below="@+id/imageViewAlumno"
+        android:layout_below="@+id/frameFotografia"
         android:layout_marginTop="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:scrollHorizontally="true"
@@ -61,14 +86,15 @@
         <Button
             android:id="@+id/buttonFalta"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:paddingBottom="0dp"
             android:paddingEnd="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
+            android:padding="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:text="F"
@@ -77,8 +103,8 @@
         <Button
             android:id="@+id/buttonTrabaja"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:paddingBottom="0dp"
             android:paddingEnd="0dp"
             android:paddingLeft="0dp"
@@ -110,15 +136,15 @@
         <Button
             android:id="@+id/buttonPositivo"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:paddingBottom="0dp"
             android:paddingEnd="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-5dp"
             android:layout_marginBottom="0dp"
             android:text="+"
             android:textStyle="bold" />
@@ -126,15 +152,15 @@
         <Button
             android:id="@+id/buttonNegativo"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:paddingBottom="0dp"
             android:paddingEnd="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingTop="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-5dp"
             android:layout_marginBottom="0dp"
             android:text="-"
             android:textStyle="bold" />

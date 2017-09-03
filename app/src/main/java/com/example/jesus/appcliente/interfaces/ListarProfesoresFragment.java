@@ -120,7 +120,7 @@ public class ListarProfesoresFragment extends Fragment {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            ParametrosPDF parametros = new ParametrosPDF("instituto/profesores/PDF/", "profesorado.pdf", "Listado del profesorado", getContext(), manager);
+            ParametrosPDF parametros = new ParametrosPDF("anota/profesores/PDF/", "profesorado.pdf", "Listado del profesorado", getContext(), manager);
             AsyncTask<ParametrosPDF, Void, File> task =new DownloadPDFTask();
             task.execute(parametros);
         }

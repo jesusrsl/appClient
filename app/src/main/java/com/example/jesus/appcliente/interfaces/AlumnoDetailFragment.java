@@ -450,10 +450,13 @@ public class AlumnoDetailFragment extends Fragment {
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
                     dos.writeBytes("Content-Disposition: form-data; name=\"email\"" + lineEnd);
                     dos.writeBytes(lineEnd);
-                    byte[] emailAsBytes = alumno.getEmail().getBytes("UTF-8");
-                    for (byte singleByte : emailAsBytes) {
-                        dos.writeByte(singleByte);
+                    if(alumno.getEmail()!=null){
+                        byte[] emailAsBytes = alumno.getEmail().getBytes("UTF-8");
+                        for (byte singleByte : emailAsBytes) {
+                            dos.writeByte(singleByte);
+                        }
                     }
+
                     //dos.writeBytes(alumno.getEmail());
                     dos.writeBytes(lineEnd);
 
@@ -605,7 +608,7 @@ public class AlumnoDetailFragment extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();}
 
-                if(alumno.getEmail().isEmpty()){
+                if(alumno.getEmail()==null){
                     email.setText("---");
                 }else{ email.setText(alumno.getEmail()); }
 

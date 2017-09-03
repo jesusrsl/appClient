@@ -15,9 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,15 +23,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jesus.appcliente.R;
 import com.example.jesus.appcliente.clases.AlumnoClase;
 import com.example.jesus.appcliente.clases.AlumnoClaseCuadAdapter;
-import com.example.jesus.appcliente.clases.AlumnoClaseListaAdapter;
 import com.example.jesus.appcliente.clases.Anotacion;
 import com.example.jesus.appcliente.clases.ClickListener;
 import com.example.jesus.appcliente.clases.DetalleAsignatura;
@@ -59,12 +59,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 public class DetalleAsignaturaCuadFragment extends Fragment implements DatePickerDialog.OnDateSetListener, ClickListener{
 
     private TextView textViewAsignatura, textViewGrupo, textViewFecha;
+    private Spinner spinner;
+    private Button botonGuardar, botonDistribucion;
     private int idAsignatura;
     private String nombreAsignatura, nombreGrupo;
     private long fecha;
+    private int distribucionAsignatura, nuevaDistribucion;
+    private ArrayList<Integer> ordenAlumnos;
 
     private RecyclerView recyclerViewDetalleAsignatura;
     private RecyclerView.LayoutManager layoutManager;
@@ -91,14 +97,14 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
         MainActivity.isOtherFragmentShown=true;
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.detalle_asignatura, container, false);
+        View view = inflater.inflate(R.layout.detalle_asignatura_cuad, container, false);
 
         parametros = getActivity().getIntent().getExtras();
         this.idAsignatura = parametros.getInt("idAsignatura");
         this.nombreAsignatura = parametros.getString("nombreAsignatura");
         this.nombreGrupo = parametros.getString("nombreGrupo");
 
-        //obtención del token
+        //obtención de la fecha almacenada (si la hubiera)
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         String fecha_almacenada = settings.getString("fecha_seleccionada", ""/*default value*/);
@@ -123,6 +129,24 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
         this.textViewAsignatura = (TextView) view.findViewById(R.id.textViewAsignatura);
         this.textViewGrupo = (TextView) view.findViewById(R.id.textViewGrupo);
 
+        this.spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        this.botonGuardar = (Button)view.findViewById(R.id.btnAsignaturaGuardar);
+        this.botonGuardar.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick(View view) {
+                btn_asignatura_guardar(view);
+            }
+        });
+
+        this.botonDistribucion = (Button)view.findViewById(R.id.btnDistribucion);
+        this.botonDistribucion.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick(View view) {
+                btn_distribucion(view);
+            }
+        });
+
 
         this.fabToolbarLayout = (FABToolbarLayout) view.findViewById(R.id.fabtoolbar);
         this.btnFalta = view.findViewById(R.id.imageViewFalta);
@@ -142,6 +166,13 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
 
         textViewAsignatura.setText(nombreAsignatura);
         textViewGrupo.setText(nombreGrupo);
+
+        //simple_spinner_item Specify the spinner TextView
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.distribucion, android.R.layout.simple_spinner_item);
+        //simple_spinner_dropdown_item Specify the dropdown item TextView if not set , and the same as simple_spinner_item
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         ArrayList<AlumnoClase> alumnos = new ArrayList<AlumnoClase>();
         adaptador = new AlumnoClaseCuadAdapter(getContext(), alumnos, idAsignatura, fecha, this);
@@ -165,7 +196,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaCuadFragment.PonerFalta().execute("falta");
+                    new DetalleAsignaturaCuadFragment.PonerValoracion().execute("falta");
                 }
             }
         });
@@ -178,7 +209,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaCuadFragment.PonerFalta().execute("trabaja");
+                    new DetalleAsignaturaCuadFragment.PonerValoracion().execute("trabaja");
                 }
             }
         });
@@ -191,7 +222,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaCuadFragment.PonerFalta().execute("positivo");
+                    new DetalleAsignaturaCuadFragment.PonerValoracion().execute("positivo");
                 }
             }
         });
@@ -204,7 +235,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
                     Toast.makeText(getActivity(), "Debe seleccionar algún alumno", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DetalleAsignaturaCuadFragment.PonerFalta().execute("negativo");
+                    new DetalleAsignaturaCuadFragment.PonerValoracion().execute("negativo");
                 }
             }
         });
@@ -247,9 +278,35 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
         Log.d("ALUMNADO", alumnosSeleccionados.toString());
     }
 
+    public void btn_asignatura_guardar(View view){
+
+        ordenAlumnos = new ArrayList<Integer>();
+        for (int i=0; i <recyclerViewDetalleAsignatura.getAdapter().getItemCount(); i++){
+
+            ordenAlumnos.add(adaptador.getItemPk(i));
+        }
+
+        Log.d("ARRAY", ordenAlumnos.toString());
+        new DetalleAsignaturaCuadFragment.UpdateDisposicion().execute();
+    }
+
+    public void btn_distribucion(View view){
+        nuevaDistribucion = Integer.parseInt(spinner.getSelectedItem().toString());
+        new DetalleAsignaturaCuadFragment.UpdateDistribucion().execute();
+
+    }
+
     public void refresh() {
         //your code in refresh.
-        Log.i("Refresh", "YES");
+        Log.i("Refresh", "Cuad");
+        //se recarga la fecha por si se ha cambiado
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        String fecha_almacenada = settings.getString("fecha_seleccionada", ""/*default value*/);
+        if(!fecha_almacenada.isEmpty()){
+            this.fecha = Long.parseLong(fecha_almacenada);  //se coge la fecha seleccionada
+            textViewFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(fecha)));
+        }
         //se recargan las anotaciones que se pudieran haber hecho desde otro fragment
         new DetalleAsignaturaCuadFragment.GetAlumnado().execute();
     }
@@ -459,7 +516,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
 
                 // Creando la conexión
                 String domain = getResources().getString(R.string.domain);
-                URL url = new URL(domain + "api/asignatura/" + Integer.toString(idAsignatura) + "/" + fechaParameter + "/detalle/");
+                URL url = new URL(domain + "api/asignatura/" + Integer.toString(idAsignatura) + "/" + fechaParameter + "/orden/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Authorization", "JWT " + token);
@@ -503,9 +560,44 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
             else{
                 DetalleAsignatura alumnado = DetalleAsignatura.obtenerAlumnadoAsignatura(result);
 
+                distribucionAsignatura = alumnado.getDistribucion();
+                int position = distribucionAsignatura - 4;
+                if(position < 0){ position = 0;}
+                spinner.setSelection(position);
+
+                int distribucion = 0;
+                if(getActivity().getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT)
+                {
+                    switch (distribucionAsignatura){
+                        case 4: distribucion = 4;
+                            break;
+                        case 5: distribucion = 5;
+                            break;
+                        case 6: distribucion = 3;   //la mitad
+                            break;
+                        case 7: distribucion = 4;
+                            break;
+                        case 8: distribucion = 4;   //la mitad
+                    }
+                }
+                else{
+                    distribucion = distribucionAsignatura;
+                }
+
+                layoutManager = new GridLayoutManager(getContext(), distribucion);
+                recyclerViewDetalleAsignatura.setLayoutManager(layoutManager);
+                recyclerViewDetalleAsignatura.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+                recyclerViewDetalleAsignatura.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+
+
                 if(!alumnado.getAlumnos().isEmpty()) {
                     adaptador.actualizar(alumnado.getAlumnos(), idAsignatura, fecha);
                     recyclerViewDetalleAsignatura.getAdapter().notifyDataSetChanged();
+
                 }
                 else{
                     Toast.makeText(getActivity(),"No se generaron resultados", Toast.LENGTH_LONG).show();
@@ -516,7 +608,7 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
     }
 
     //Insertar anotacion
-    private class PonerFalta extends AsyncTask<String, Void, Boolean> {
+    private class PonerValoracion extends AsyncTask<String, Void, Boolean> {
 
         HttpURLConnection urlConnection;
 
@@ -617,4 +709,205 @@ public class DetalleAsignaturaCuadFragment extends Fragment implements DatePicke
         }
 
     }
+
+    private class UpdateDistribucion extends AsyncTask<Void, Void, Boolean> {
+
+        HttpURLConnection urlConnection;
+
+        public Boolean doInBackground(Void... var1) {
+            try {
+
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                String token = settings.getString("auth_token", ""/*default value*/);
+
+                //Creando la conexión
+                String domain = getResources().getString(R.string.domain);
+                URL url = new URL(domain + "api/asignatura/" + Integer.toString(idAsignatura) + "/distribucion/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setUseCaches(false);
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("distribucion", nuevaDistribucion);
+                //urlConnection.setFixedLengthStreamingMode(jsonObject.toString().length());
+
+                Log.d("JSONUPDATE", jsonObject.toString());
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                StringBuilder sb = new StringBuilder();
+                int HttpResult = urlConnection.getResponseCode();
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(
+                            new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
+                    String line = null;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+                    urlConnection.disconnect();
+                    Log.d("UPDATED","" + sb.toString());
+                    return true;
+                } else {
+                    Log.d("NOTUPDATED",urlConnection.getResponseMessage());
+                    urlConnection.disconnect();
+                    return false;
+                }
+
+            } catch (java.net.MalformedURLException e) {
+                e.printStackTrace();
+                return false;
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+                return false;
+            } catch (org.json.JSONException e) {
+                e.printStackTrace();
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                urlConnection.disconnect();
+            }
+        }
+
+        public void onPostExecute(Boolean result) {
+            String mensaje;
+            if(result){
+                mensaje = "Distribución actualizada correctamente";
+
+                int distribucion = 0;
+                if(getActivity().getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT)
+                {
+                    switch (nuevaDistribucion){
+                        case 4: distribucion = 4;
+                            break;
+                        case 5: distribucion = 5;
+                            break;
+                        case 6: distribucion = 3;   //la mitad
+                            break;
+                        case 7: distribucion = 4;
+                            break;
+                        case 8: distribucion = 4;   //la mitad
+                    }
+                }
+                else{
+                    distribucion = nuevaDistribucion;
+                }
+
+                //se actualiza el layout
+                layoutManager = new GridLayoutManager(getContext(), distribucion);
+                recyclerViewDetalleAsignatura.setLayoutManager(layoutManager);
+                recyclerViewDetalleAsignatura.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+                recyclerViewDetalleAsignatura.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext())
+                        .color(Color.WHITE)
+                        .build());
+
+            }
+            else{
+                mensaje = "Problemas al actualizar la distribución";
+            }
+            Toast.makeText(getActivity(), mensaje, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class UpdateDisposicion extends AsyncTask<Void, Void, Boolean> {
+
+        HttpURLConnection urlConnection;
+
+        public Boolean doInBackground(Void... var1) {
+            try {
+
+                //obtención del token
+                SharedPreferences settings = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                String token = settings.getString("auth_token", "");
+
+                //Creando la conexión
+                String domain = getResources().getString(R.string.domain);
+                URL url = new URL(domain + "api/asignatura/" + Integer.toString(idAsignatura) + "/disposicion/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setUseCaches(false);
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Authorization", "JWT " + token);
+
+                JSONObject jsonObject = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
+                for(int i=0;i<ordenAlumnos.size();i++){
+                    jsonArray.put(ordenAlumnos.get(i));
+                }
+                jsonObject.put("alumnos", jsonArray);
+                //urlConnection.setFixedLengthSt1reamingMode(jsonObject.toString().length());
+
+                Log.d("JSONUPDATE", jsonObject.toString());
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                StringBuilder sb = new StringBuilder();
+                int HttpResult = urlConnection.getResponseCode();
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(
+                            new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
+                    String line = null;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+                    urlConnection.disconnect();
+                    Log.d("UPDATED","" + sb.toString());
+                    return true;
+                } else {
+                    Log.d("NOTUPDATED",urlConnection.getResponseMessage());
+                    urlConnection.disconnect();
+                    return false;
+                }
+
+            } catch (java.net.MalformedURLException e) {
+                e.printStackTrace();
+                return false;
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+                return false;
+            } catch (org.json.JSONException e) {
+                e.printStackTrace();
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                urlConnection.disconnect();
+            }
+        }
+
+        public void onPostExecute(Boolean result) {
+            String mensaje;
+            if(result){
+                mensaje = "Disposición del alumnado actualizada correctamente";
+            }
+            else{
+                mensaje = "Problemas al actualizar la disposición del alumnado";
+            }
+            Toast.makeText(getActivity(), mensaje, Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
